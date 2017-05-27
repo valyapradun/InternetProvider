@@ -26,7 +26,7 @@ public class AuthCommand implements Command{
 			session.setAttribute("user", user);
 			page = "/user_main.jsp";
 			
-			if (user.getRole() == 1) {
+			if (user.getRole().equals("admin")) {
 				page = "/admin_main.jsp";
 			}
 		} else {

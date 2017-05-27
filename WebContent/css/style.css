@@ -1,0 +1,142 @@
+a.spoiler:after {
+	content: " [-]";
+}
+
+
+a.spoiler.collapsed:after {
+	content: " [+]";
+}
+
+header {
+	background: #F8F8F8;
+	text-align: center;
+}
+
+header h2 {
+	margin: 0px;
+}
+
+div.navbar {
+	margin-bottom: 0px;
+}
+.navbar-brand {
+  padding: 0px;
+}
+.navbar-brand>img {
+  height: 100%;
+  padding: 5px;
+  width: auto;
+}
+/* Make the images wide and responsive. */
+.carousel-inner img {
+  height: auto;
+  width: 100%;
+}
+.btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
+.btn-labeled {padding-top: 0;padding-bottom: 0;}
+.input-group { margin-bottom:10px; }
+
+.news, .action {
+  width: 50%;
+  display: inline-block;
+  float: left;
+  padding-bottom: 20px;
+}
+.news {
+  border-right: 1px solid #c6c6c6;
+}
+.title-section {
+  padding:10px 0 20px 0;
+  font-size: 30px;
+  text-align: center;
+  background: #eee;
+}
+.title-section a {
+  color: #0a0a0a;
+  text-decoration:none;
+}
+.title-section a:hover {
+  color: #0b2565;
+}
+.news-block {
+  padding: 2% 0 0 15%;
+}
+.action-block {
+  padding: 2% 15% 0 0;
+}
+.more {
+  display: block;
+  float: right;
+  margin: 5px 50px 5px 0;
+  color: #02488d;
+}
+a.more:hover{
+  color: #0099E0;
+}
+.action-block .date {
+  margin: 13px 14px 14px 50px;
+  color: #02488d;
+}
+.date {
+  margin: 13px 14px;
+  color: #02488d;
+}
+.news-title {
+  color: #0b2565;
+  text-decoration: none;
+  font-size: 18px;
+  margin-left: 13px;
+}
+.action-block .news-title {
+  color: #0b2565;
+  text-decoration: none;
+  font-size: 18px;
+  margin-left: 50px;
+}
+.news-text {
+  margin: 13px 50px 0 13px;
+}
+.action-block .news-text {
+  margin: 13px 13px 0 50px;
+}
+.action-block .more {
+  clear: both;
+  display: block;
+  float: right;
+  margin: 5px 13px 5px 0;
+  color: #02488d;
+}
+div.news-text {
+  text-align: justify;
+}
+footer {
+  min-height: 65px;
+  background: #222;
+  color:#9d9d9d;
+  font-size: 12px;
+}
+footer div.social-link {
+  margin-top: 12px;
+  float: left;
+} 
+.info ul {
+  float: left; 
+  list-style: none;
+}
+footer div p {
+  float: right;
+}
+.info a {
+  text-decoration:none;
+  color:#9d9d9d;
+}
+.info a:hover {
+  color: #fff;
+}
+.footer-container {
+  margin-right: auto;
+  margin-left: auto;
+  width: 85%;
+}
+
+
