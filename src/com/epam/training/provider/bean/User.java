@@ -4,14 +4,16 @@ public class User {
 	private String login;
 	private String password;
 	private String role;
+	private String name;
+	private String email;
 
 	public User() {
-
 	}
 
-	public User(String login, String password, String role) {
+	public User(String login, String password, String name, String role) {
 		this.login = login;
 		this.password = password;
+		this.name = name;
 		this.role = role;
 	}
 
@@ -38,12 +40,30 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		return result;
@@ -58,10 +78,20 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
 		if (login == null) {
 			if (other.login != null)
 				return false;
 		} else if (!login.equals(other.login))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
 			return false;
 		if (password == null) {
 			if (other.password != null)
@@ -78,6 +108,9 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [login=" + login + ", password=" + password + ", role=" + role + "]";
+		return "User [login=" + login + ", password=" + password + ", role=" + role + ", name=" + name + ", email="
+				+ email + "]";
 	}
+
+
 }

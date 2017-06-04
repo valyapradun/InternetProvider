@@ -13,6 +13,8 @@
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="http://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css" />
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -65,97 +67,72 @@
 			</div>
 		</div>
 	</div>
+	<div class="container">
+	  <div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<form data-toggle="validator" role="form" action="Controller" method="POST">
+				<h3>Регистрация</h3>
+				<hr>
+				<input type="hidden" name="action" value="reg" />
+				<div class="form-group">
+					<label for="inputLogin" class="control-label">Введите Ваш логин</label>
+					<div class="input-group">
+						<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span> 
+						<input type="text" class="form-control" id="inputLogin" name="login" placeholder="Ваш логин" required  />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword" class="control-label">Введите Ваш пароль <br>(минимум 6 значений)</label>
+					<div class="form-inline row">  
+					  <div class="form-group col-sm-6">  
+					  <div class="input-group">
+									<span class="input-group-addon"><span
+										class="glyphicon glyphicon-lock"></span></span>
+					    <input type="password" data-toggle="validator" data-minlength="6" class="form-control" id="inputPassword"
+									 name="password" placeholder="Ваш пароль" required> </div>
+					 </div>    
+					  <div class="form-group col-sm-6">
+					   <div class="input-group">
+									<span class="input-group-addon"><span
+										class="glyphicon glyphicon-lock"></span></span>
+						<input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword"
+									data-match-error="Ошибка! Пароли не совпадают!"
+									placeholder="Повторите пароль" required>
+										</div>
+						<div class="help-block with-errors"></div>
+					
+				  </div>
+				   </div>
+			    </div>
+					<div class="form-group">
+						<label for="inputName" class="control-label">Введите Ваше
+							имя</label> 
+							<div class="input-group">
+						<span class="input-group-addon"><span class="glyphicon glyphicon-sunglasses"></span></span> 
+							<input type="text" class="form-control" id="inputName"
+							name="name" placeholder="Ваше имя" required></div>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail" class="control-label">Ваш e-mail</label> 
+						<div class="input-group">
+						<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+						<input
+							type="email" class="form-control" id="inputEmail" name="email"
+							placeholder="Email" data-error="Вы ввели некорректный e-mail!"
+							required>
+						
+					</div>
+					<div class="help-block with-errors"></div>
+					</div>
+					<hr>
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary new-user">Отправить</button>
+					</div>
+				</form>
 
-
-	<div id="carousel" class="carousel slide" data-ride="carousel">
-		<!-- Индикаторы слайдов-->
-		<ol class="carousel-indicators">
-			<li class="active" data-target="#carousel" data-slide-to="0"></li>
-			<li data-target="#carousel" data-slide-to="1"></li>
-			<li data-target="#carousel" data-slide-to="2"></li>
-			<li data-target="#carousel" data-slide-to="3"></li>
-		</ol>
-		<!-- Слайды-->
-		<div class="carousel-inner">
-			<div class="item active">
-				<a href="#"><img src="images/cover1.png" alt="Тариф 'Ночной'"></a>
-			</div>
-			<div class="item">
-				<a href="#"><img src="images/cover2.png" alt="Тариф 'Подарок'"></a>
-			</div>
-			<div class="item">
-				<a href="#"><img src="images/cover3.png" alt="Тариф 'Для тебя'"></a>
-			</div>
-			<div class="item">
-				<a href="#"><img src="images/cover4.png" alt="Тариф 'Семейный'"></a>
 			</div>
 		</div>
-		<!-- Стрелки переключения слайдов-->
-		<a href="#carousel" class="left carousel-control" data-slide="prev">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-		</a> <a href="#carousel" class="right carousel-control" data-slide="next">
-			<span class="glyphicon glyphicon-chevron-right"></span>
-		</a>
 	</div>
-	
-		<div class="row">
-			<div class="col-md-6">
-				<div class="news">
-					<div class="title-section">
-						<a href="#">Новости &#9658;</a>
-					</div>
-					<div class="news-block">
-						<div class="date">
-							<h4>26.05.2017</h4>
-						</div>
-						<a href="#" class="news-title">Оплата услуг через ЕРИП</a>
-						<div class="news-text">Уважаемые клиенты! Спешим обрадовать
-							Вас приятной новостью - вскоре оплатить наши услуги Вы сможете
-							через ЕРИП!</div>
-						<a class="more" href="#">Подробнее...</a>
-					</div>
-					<div class="news-block">
-						<div class="date">
-							<h4>25.05.2017</h4>
-						</div>
-						<a href="#" class="news-title">Профилактические работы 27 мая</a>
-						<div class="news-text">В субботу 27 мая 2017 года с 09:00 до
-							13:00 на оборудовании оператора будут проводиться
-							профилактические работы. Во время работ возможны перебои с
-							доступом в интернет.</div>
-						<a class="more" href="#">Подробнее...</a>
-					</div>
-				</div>
-
-			</div>
-			<div class="col-md-6">
-				<div class="action">
-					<div class="title-section">
-						<a href="#">Акции &#9658;</a>
-					</div>
-					<div class="action-block">
-						<div class="date">
-							<h4>25.05.2017</h4>
-						</div>
-						<a href="#" class="news-title">Удивительно низкие цены!</a>
-						<div class="news-text">Подключись до конца июля — и получи
-							скидку 50% на 3 месяца на безлимитный Интернет! Только до конца
-							июля! Таких цен в Минске еще не было!</div>
-						<a class="more" href="#">Подробнее...</a>
-					</div>
-					<div class="action-block">
-						<div class="date">
-							<h4>25.04.2017</h4>
-						</div>
-						<a href="#" class="news-title">Сделай подарок себе и близким!</a>
-						<div class="news-text">Акция для новых абонентов.</div>
-						<a class="more" href="#">Подробнее...</a>
-					</div>
-				</div>
-
-
-			</div>
-		</div>
 
 	<footer>
 		<div class="container footer">
@@ -200,13 +177,12 @@
 						<div class="row">
 							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3"></div>
 							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-6 login-box">
-
 								<input type="hidden" name="action" value="auth" />
 								<div class="input-group">
 									<span class="input-group-addon"><span
 										class="glyphicon glyphicon-user"></span></span> <input type="text"
-										name="login" class="form-control"
-										placeholder="Ваш логин" required autofocus />
+										name="login" class="form-control" placeholder="Ваш логин"
+										required autofocus />
 								</div>
 								<div class="input-group">
 									<span class="input-group-addon"><span
@@ -237,5 +213,13 @@
 	<script src="js/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="js/bootstrap.js"></script>
+
+	<script
+		src="http://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+	<script
+		src="http://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.js"></script>
+	<script
+		src="http://bootstraptema.ru/plugins/2016/validator/validator.min.js"></script>
+
 </body>
 </html>

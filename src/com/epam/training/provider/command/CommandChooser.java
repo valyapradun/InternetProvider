@@ -7,6 +7,12 @@ public class CommandChooser {
 		case "auth":
 			currCommand = new AuthCommand();
 			break;
+		case "allTariff":
+			currCommand = new AllTariffCommand();
+			break;
+		case "reg":
+			currCommand = new RegCommand();
+			break;
 		default:
 			
 		}

@@ -2,7 +2,6 @@ a.spoiler:after {
 	content: " [-]";
 }
 
-
 a.spoiler.collapsed:after {
 	content: " [+]";
 }
@@ -19,124 +18,177 @@ header h2 {
 div.navbar {
 	margin-bottom: 0px;
 }
+
 .navbar-brand {
-  padding: 0px;
+	padding: 0px!important;
 }
+
 .navbar-brand>img {
-  height: 100%;
-  padding: 5px;
-  width: auto;
+	height: 100%;
+	padding: 5px;
+	width: auto;
 }
 /* Make the images wide and responsive. */
 .carousel-inner img {
-  height: auto;
-  width: 100%;
+	height: auto;
+	width: 100%;
 }
-.btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
-.btn-labeled {padding-top: 0;padding-bottom: 0;}
-.input-group { margin-bottom:10px; }
+
+.btn-label {
+	position: relative;
+	left: -12px;
+	display: inline-block;
+	padding: 6px 12px;
+	background: rgba(0, 0, 0, 0.15);
+	border-radius: 3px 0 0 3px;
+}
+
+.btn-labeled {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.input-group {
+	margin-bottom: 10px;
+}
+
+#responsive-menu form h5 {
+	color: #fff;
+	float: left;
+	padding-right: 10px;
+}
 
 .news, .action {
-  width: 50%;
-  display: inline-block;
-  float: left;
-  padding-bottom: 20px;
+	display: inline-block;
+	float: left;
+	padding-bottom: 20px;
 }
+
 .news {
-  border-right: 1px solid #c6c6c6;
+	border-right: 1px solid #c6c6c6;
 }
+
 .title-section {
-  padding:10px 0 20px 0;
-  font-size: 30px;
-  text-align: center;
-  background: #eee;
+	padding: 10px 0 20px 0;
+	font-size: 30px;
+	text-align: center;
+/*	background: #eee; */
 }
+
 .title-section a {
-  color: #0a0a0a;
-  text-decoration:none;
+	color: #0a0a0a;
+	text-decoration: none;
 }
+
 .title-section a:hover {
-  color: #0b2565;
+	color: #0b2565;
 }
+
 .news-block {
-  padding: 2% 0 0 15%;
+	padding: 2% 0 0 15%;
 }
+
 .action-block {
-  padding: 2% 15% 0 0;
+	padding: 2% 15% 0 0;
 }
+
 .more {
-  display: block;
-  float: right;
-  margin: 5px 50px 5px 0;
-  color: #02488d;
+	display: block;
+	float: right;
+	margin: 5px 50px 5px 0;
+	color: #02488d;
 }
-a.more:hover{
-  color: #0099E0;
+
+a.more:hover {
+	color: #0099E0;
 }
+
 .action-block .date {
-  margin: 13px 14px 14px 50px;
-  color: #02488d;
+	margin: 13px 14px 14px 30px;
+	color: #02488d;
 }
+
 .date {
-  margin: 13px 14px;
-  color: #02488d;
+	margin: 13px 14px;
+	color: #02488d;
 }
+
 .news-title {
-  color: #0b2565;
-  text-decoration: none;
-  font-size: 18px;
-  margin-left: 13px;
+	color: #0b2565;
+	font-size: 18px;
+	margin-left: 13px;
 }
+
 .action-block .news-title {
-  color: #0b2565;
-  text-decoration: none;
-  font-size: 18px;
-  margin-left: 50px;
+	color: #0b2565;
+	font-size: 18px;
+	margin-left: 30px;
 }
+
 .news-text {
-  margin: 13px 50px 0 13px;
+	margin: 13px 50px 0 13px;
 }
+
 .action-block .news-text {
-  margin: 13px 13px 0 50px;
+	margin: 13px 13px 0 30px;
 }
+
 .action-block .more {
-  clear: both;
-  display: block;
-  float: right;
-  margin: 5px 13px 5px 0;
-  color: #02488d;
+	clear: both;
+	display: block;
+	float: right;
+	margin: 5px 13px 5px 0;
+	color: #02488d;
 }
+
 div.news-text {
-  text-align: justify;
+	text-align: justify;
 }
+
 footer {
-  min-height: 65px;
-  background: #222;
-  color:#9d9d9d;
-  font-size: 12px;
-}
-footer div.social-link {
-  margin-top: 12px;
-  float: left;
-} 
-.info ul {
-  float: left; 
-  list-style: none;
-}
-footer div p {
-  float: right;
+	min-height: 50px;
+	background: #222;
+	color: #fff;
+	font-size: 12px;
 }
 .info a {
-  text-decoration:none;
-  color:#9d9d9d;
+	text-decoration: none;
+	color: #9d9d9d;
 }
 .info a:hover {
-  color: #fff;
+	color: #fff;
 }
-.footer-container {
-  margin-right: auto;
-  margin-left: auto;
-  width: 85%;
+.list-unstyled {
+	margin-bottom: 0;
+	margin-top: 9px;
 }
-
-
+.list-unstyled a {
+	float: right;
+	margin-bottom: 0;
+	padding-left: 10px;
+}
+.footer p {
+	float: right;
+	margin-bottom: 0;
+}
+.social-link a {
+	padding-right: 5px;
+	padding-left: 0;
+	float: left;
+}
+.control-label {
+	margin-top: 10px;
+}
+.new-user{
+	float: right;
+	margin-bottom: 20px !important;
+}
+@media screen and (max-width: 991px) {
+  .news, .action {clear: both; width: 100%;}
+  .news {border-right: none;}
+  .news-block, .action-block{padding: 2% 2% 0 10%;}
+  .action-block .date {margin: 13px 14px;}
+  .action-block .news-title {margin-left: 13px;}
+  .action-block .news-text {margin: 13px 50px 0 13px;}
+  .action-block .more {margin: 5px 50px 5px 0;}
+}

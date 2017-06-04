@@ -1,4 +1,4 @@
-package com.epam.training.provider.dao;
+package com.epam.training.provider.dao.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 public class ConnectorDB {
 	public static Connection getConnection() throws SQLException, ClassNotFoundException {
-		ResourceBundle resource = ResourceBundle.getBundle("db");
+		ResourceBundle resource = ResourceBundle.getBundle("config");
 		String driver = resource.getString("db.driver");
 		String url = resource.getString("db.url");
 		String user = resource.getString("db.user");
