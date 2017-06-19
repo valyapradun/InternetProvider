@@ -1,22 +1,28 @@
 package com.epam.training.provider.bean;
 
-public class Tariff {
+import java.io.Serializable;
+
+public class Tariff implements Serializable {
+
+	private static final long serialVersionUID = 1509353325974972944L;
 	private String name;
 	private TariffType type;
 	private double price;
 	private double size;
 	private int speed;
-	
+	private String picture;
+
 	public Tariff() {
 	}
-	
-	public Tariff(String name, TariffType type, double price, double size, int speed) {
+
+	public Tariff(String name, TariffType type, double price, double size, int speed, String picture) {
 		super();
 		this.name = name;
 		this.type = type;
 		this.price = price;
 		this.size = size;
 		this.speed = speed;
+		this.picture = picture;
 	}
 
 	public String getName() {
@@ -59,11 +65,20 @@ public class Tariff {
 		this.speed = speed;
 	}
 
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(price);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -88,6 +103,11 @@ public class Tariff {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (picture == null) {
+			if (other.picture != null)
+				return false;
+		} else if (!picture.equals(other.picture))
+			return false;
 		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
 			return false;
 		if (Double.doubleToLongBits(size) != Double.doubleToLongBits(other.size))
@@ -102,9 +122,7 @@ public class Tariff {
 	@Override
 	public String toString() {
 		return "Tariff [name=" + name + ", type=" + type + ", price=" + price + ", size=" + size + ", speed=" + speed
-				+ "]";
+				+ ", picture=" + picture + "]";
 	}
-	
-	
-	
+
 }

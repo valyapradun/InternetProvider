@@ -1,13 +1,13 @@
 package com.epam.training.provider.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.epam.training.provider.bean.Tariff;
+import com.epam.training.provider.dao.exception.DAOException;
 
-public interface TariffDao {
+public interface TariffDAO {
 	
-	// create
-	public List<Tariff> viewAll() throws TariffDaoException;
-	// update
-	// delete
+	public List<Tariff> searchWithParameters(HashMap<String, String> parameters) throws DAOException;
+	
 }

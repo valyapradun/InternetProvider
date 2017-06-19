@@ -6,14 +6,16 @@ import javax.servlet.http.HttpSession;
 
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.service.UserService;
-import com.epam.training.provider.service.UserServiceException;
-import com.epam.training.provider.service.impl.UserServiceImpl;
+import com.epam.training.provider.service.exception.ServiceException;
+import com.epam.training.provider.service.factory.ServiceFactory;
+
 
 public class AuthCommand implements Command{
 	private UserService service;
 	
 	{
-		service = new UserServiceImpl();
+		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
+		service = serviceObjectFactory.getUserService();
 	}
 	
 	@Override
@@ -37,7 +39,7 @@ public class AuthCommand implements Command{
 		} else {
 			page = "/error.jsp";
 		}
-		} catch (UserServiceException e) {
+		} catch (ServiceException e) {
 			page = "/error.jsp";
 		}
 		return page;

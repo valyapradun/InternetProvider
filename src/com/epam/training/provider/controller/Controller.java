@@ -14,6 +14,7 @@ import com.epam.training.provider.command.CommandChooser;
 
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String ACTION = "action";
 
     public Controller() {
         super();
@@ -40,17 +41,11 @@ public class Controller extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("servlet doPost method");
-//		response.setContentType("text/html");
-//		String login = request.getParameter("login");
-//		String password = request.getParameter("password");
-//		PrintWriter out = response.getWriter();
-//		out.println("Your login: " + login);
-//		out.println("<br />Your password: " + password);
 		processRequest(request, response);
 	}
 	
 	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		String action = request.getParameter("action");
+		String action = request.getParameter(ACTION);
 		Command command = CommandChooser.chooseCommand(action);
 		String page = command.execute(request, response);
 		forward(request, response, page);

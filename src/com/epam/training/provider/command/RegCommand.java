@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.service.UserService;
-import com.epam.training.provider.service.UserServiceException;
+import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.impl.UserServiceImpl;
 
 public class RegCommand implements Command{
@@ -41,7 +41,7 @@ public class RegCommand implements Command{
 		} else {
 			page = "/error.jsp";
 		}
-		} catch (UserServiceException e) {
+		} catch (ServiceException e) {
 			page = "/error.jsp";
 		}
 		return page;

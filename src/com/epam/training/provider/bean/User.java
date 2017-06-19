@@ -1,6 +1,10 @@
 package com.epam.training.provider.bean;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 7401903692889847932L;
 	private String login;
 	private String password;
 	private String role;

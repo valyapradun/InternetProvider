@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html lang="ru">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>Домашний Интернет</title>
+<title>Домашний Интернет - Тарифы</title>
 
 <!-- Bootstrap -->
 <link href="css/bootstrap.css" rel="stylesheet">
@@ -43,9 +44,11 @@
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">ТАРИФЫ <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="Controller?action=allTariff&type=1">Безлимитные</a></li>
-							<li><a href="Controller?action=allTariff&type=2">По трафику</a></li>
-							<li><a href="Controller?action=allTariff">Все тарифы</a></li>
+							<li><a href="#">Безлимитные</a></li>
+							<li><a href="#">По трафику</a></li>
+							<li><a href="#">Все тарифы <input type="hidden"
+									name="action" value="allTariff" />
+							</a></li>
 							<li class="divider"></li>
 							<li><a href="#">Пункт 4</a></li>
 						</ul></li>
@@ -64,98 +67,50 @@
 			</div>
 		</div>
 	</div>
-
-  <main>
-	<div id="carousel" class="carousel slide" data-ride="carousel">
-		<!-- Индикаторы слайдов-->
-		<ol class="carousel-indicators">
-			<li class="active" data-target="#carousel" data-slide-to="0"></li>
-			<li data-target="#carousel" data-slide-to="1"></li>
-			<li data-target="#carousel" data-slide-to="2"></li>
-			<li data-target="#carousel" data-slide-to="3"></li>
-		</ol>
-		<!-- Слайды-->
-		<div class="carousel-inner">
-			<div class="item active">
-				<a href="#"><img src="images/cover1.png" alt="Тариф 'Ночной'"></a>
-			</div>
-			<div class="item">
-				<a href="#"><img src="images/cover2.png" alt="Тариф 'Подарок'"></a>
-			</div>
-			<div class="item">
-				<a href="#"><img src="images/cover3.png" alt="Тариф 'Для тебя'"></a>
-			</div>
-			<div class="item">
-				<a href="#"><img src="images/cover4.png" alt="Тариф 'Семейный'"></a>
-			</div>
-		</div>
-		<!-- Стрелки переключения слайдов-->
-		<a href="#carousel" class="left carousel-control" data-slide="prev">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-		</a> <a href="#carousel" class="right carousel-control" data-slide="next">
-			<span class="glyphicon glyphicon-chevron-right"></span>
-		</a>
-	</div>
-	
-		<div class="row">
-			<div class="col-md-6">
-				<div class="news">
-					<div class="title-section">
-						<a href="#">Новости &#9658;</a>
-					</div>
-					<div class="news-block">
-						<div class="date">
-							<h4>26.05.2017</h4>
-						</div>
-						<a href="#" class="news-title">Оплата услуг через ЕРИП</a>
-						<div class="news-text">Уважаемые клиенты! Спешим обрадовать
-							Вас приятной новостью - вскоре оплатить наши услуги Вы сможете
-							через ЕРИП!</div>
-						<a class="more" href="#">Подробнее...</a>
-					</div>
-					<div class="news-block">
-						<div class="date">
-							<h4>25.05.2017</h4>
-						</div>
-						<a href="#" class="news-title">Профилактические работы 27 мая</a>
-						<div class="news-text">В субботу 27 мая 2017 года с 09:00 до
-							13:00 на оборудовании оператора будут проводиться
-							профилактические работы. Во время работ возможны перебои с
-							доступом в интернет.</div>
-						<a class="more" href="#">Подробнее...</a>
-					</div>
-				</div>
-
-			</div>
-			<div class="col-md-6">
-				<div class="action">
-					<div class="title-section">
-						<a href="#">Акции &#9658;</a>
-					</div>
-					<div class="action-block">
-						<div class="date">
-							<h4>25.05.2017</h4>
-						</div>
-						<a href="#" class="news-title">Удивительно низкие цены!</a>
-						<div class="news-text">Подключись до конца июля — и получи
-							скидку 50% на 3 месяца на безлимитный Интернет! Только до конца
-							июля! Таких цен в Минске еще не было!</div>
-						<a class="more" href="#">Подробнее...</a>
-					</div>
-					<div class="action-block">
-						<div class="date">
-							<h4>25.04.2017</h4>
-						</div>
-						<a href="#" class="news-title">Сделай подарок себе и близким!</a>
-						<div class="news-text">Акция для новых абонентов.</div>
-						<a class="more" href="#">Подробнее...</a>
-					</div>
-				</div>
-
-
-			</div>
-		</div>
-</main>
+   <main>
+   <div class="container">
+     <div class="row">
+       <div class="container">
+        <ul class="nav nav-tabs">
+         <li class="active">
+           <a href="#">Все тарифы <span class="badge"><c:out value="${tariffs.size()}" /></span></a>
+         </li>
+         <li>
+           <a href="#">Элемент 2 <span class="badge">12</span></a>
+         </li>
+         <li>
+           <a href="#">Элемент 3 <span class="badge">28</span></a>
+         </li>
+         <li>
+           <a href="#">Элемент 4 <span class="badge">15</span></a>
+         </li>
+       </ul>
+       </div>
+     </div>
+     <div class="row">
+       <c:forEach items="${tariffs}" var="i">
+         <div class="col-xs-6 col-sm-4">
+           <div class="thumbnail">
+             <img src=<c:out value="${i.getPicture()}" /> alt="">
+             <div class="caption">
+                <h3><c:out value="${i.getName()}" /></h3>
+                <p>Тип тарифа: <c:out value="${i.getType()}" /><br>
+                   Цена: <c:out value="${i.getPrice()}" /> BYN<br>
+                   <c:if test="${i.getSize() != 0}">
+                     Размер: <c:out value="${i.getSize()}" /> Гб<br>
+                   </c:if>
+                   <c:if test="${i.getSpeed() != 0}">
+                     Скорость: <c:out value="${i.getSpeed()}" /> Мбит/с<br>
+                   </c:if>
+                </p>
+                <a href="#" class="btn btn-success">Купить <i class="fa fa-arrow-right"></i></a>
+              </div>
+           </div>
+         </div>
+       </c:forEach>
+     </div>
+   </div>
+   </main>
 	<footer>
 		<div class="container footer">
 			<div class="row">

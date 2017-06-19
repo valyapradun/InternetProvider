@@ -150,6 +150,12 @@ footer {
 	background: #222;
 	color: #fff;
 	font-size: 12px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 65px;
+  min-height: 65px;	
 }
 .info a {
 	text-decoration: none;
@@ -182,6 +188,25 @@ footer {
 .new-user{
 	float: right;
 	margin-bottom: 20px !important;
+}
+html {
+  height: 100%;
+}
+body {
+	height: 100%;
+}
+.wrapper {
+  position: relative;
+  min-height: 100%;
+}
+main {
+  padding-bottom: 90px;
+}	
+ul.nav.nav-tabs {
+  margin-top: 14px;
+}
+.nav-tabs {
+  margin-bottom: 15px;
 }
 @media screen and (max-width: 991px) {
   .news, .action {clear: both; width: 100%;}

@@ -8,10 +8,10 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import com.epam.training.provider.bean.User;
-import com.epam.training.provider.dao.UserDao;
-import com.epam.training.provider.dao.UserDaoException;
+import com.epam.training.provider.dao.UserDAO;
+import com.epam.training.provider.dao.exception.DAOException;
 
-public class UserDaoImpl implements UserDao {
+public class UserDAOImpl implements UserDAO {
 	private static ConnectionPool connectionPool;
 	private static String salt;
 	
@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
 	
 
 	@Override
-	public User signIn(String login, String password) throws UserDaoException {
+	public User signIn(String login, String password) throws DAOException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -60,9 +60,9 @@ public class UserDaoImpl implements UserDao {
 			}
 
 		} catch (SQLException e) {
-			throw new UserDaoException("Cannot read user. ", e);
+			throw new DAOException("Cannot read user. ", e);
 		} catch (ConnectionPoolException e) {
-			throw new UserDaoException("ConnectionPoolException: ", e);
+			throw new DAOException("ConnectionPoolException: ", e);
 		} finally {
 			if (statement != null) {
 				try {
@@ -80,7 +80,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean registration(User newUser) throws UserDaoException {
+	public boolean registration(User newUser) throws DAOException {
 		boolean result = false;
 		Connection connection = null;
 		Statement statement = null;
@@ -94,9 +94,9 @@ public class UserDaoImpl implements UserDao {
 				result = true;
 			}	
 		} catch (SQLException e) {
-			throw new UserDaoException("Cannot add new user. ", e);
+			throw new DAOException("Cannot add new user. ", e);
 		}catch (ConnectionPoolException e) {
-			throw new UserDaoException("ConnectionPoolException: ", e);
+			throw new DAOException("ConnectionPoolException: ", e);
 		}finally {
 			if (statement != null) {
 				try {

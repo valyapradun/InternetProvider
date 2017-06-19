@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
+﻿<%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="ru">
@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>Домашний Интернет</title>
+<title>Домашний Интернет - Регистрация</title>
 
 <!-- Bootstrap -->
 <link href="css/bootstrap.css" rel="stylesheet">
@@ -34,7 +34,7 @@
 						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="index.jsp" rel="home"> <img
-					src="images/logo.png" alt="Домашний интернет">
+					src="images/logo.png" alt="Домашний Интернет">
 				</a>
 			</div>
 			<div class="collapse navbar-collapse" id="responsive-menu">
@@ -46,7 +46,7 @@
 						<ul class="dropdown-menu">
 							<li><a href="#">Безлимитные</a></li>
 							<li><a href="#">По трафику</a></li>
-							<li><a href="#">Все тарифы <input type="hidden"
+							<li><a href="#">Все тарифы<input type="hidden"
 									name="action" value="allTariff" />
 							</a></li>
 							<li class="divider"></li>
@@ -75,14 +75,14 @@
 				<hr>
 				<input type="hidden" name="action" value="reg" />
 				<div class="form-group">
-					<label for="inputLogin" class="control-label">Введите Ваш логин</label>
+					<label for="inputLogin" class="control-label">Введите логин</label>
 					<div class="input-group">
 						<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span> 
 						<input type="text" class="form-control" id="inputLogin" name="login" placeholder="Ваш логин" required  />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="inputPassword" class="control-label">Введите Ваш пароль <br>(минимум 6 значений)</label>
+					<label for="inputPassword" class="control-label">Введите пароль <br>(минимум 6 символов)</label>
 					<div class="form-inline row">  
 					  <div class="form-group col-sm-6">  
 					  <div class="input-group">
@@ -96,7 +96,7 @@
 									<span class="input-group-addon"><span
 										class="glyphicon glyphicon-lock"></span></span>
 						<input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword"
-									data-match-error="Ошибка! Пароли не совпадают!"
+									data-match-error="Пароли не совпадают!"
 									placeholder="Повторите пароль" required>
 										</div>
 						<div class="help-block with-errors"></div>
@@ -105,20 +105,19 @@
 				   </div>
 			    </div>
 					<div class="form-group">
-						<label for="inputName" class="control-label">Введите Ваше
-							имя</label> 
+						<label for="inputName" class="control-label">Введите имя</label> 
 							<div class="input-group">
 						<span class="input-group-addon"><span class="glyphicon glyphicon-sunglasses"></span></span> 
 							<input type="text" class="form-control" id="inputName"
 							name="name" placeholder="Ваше имя" required></div>
 					</div>
 					<div class="form-group">
-						<label for="inputEmail" class="control-label">Ваш e-mail</label> 
+						<label for="inputEmail" class="control-label">Введите e-mail</label> 
 						<div class="input-group">
 						<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
 						<input
 							type="email" class="form-control" id="inputEmail" name="email"
-							placeholder="Email" data-error="Вы ввели некорректный e-mail!"
+							placeholder="Email" data-error="Некорректный e-mail!"
 							required>
 						
 					</div>
@@ -126,7 +125,7 @@
 					</div>
 					<hr>
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary new-user">Отправить</button>
+						<button type="submit" class="btn btn-primary new-user">Зарегистрировать</button>
 					</div>
 				</form>
 
