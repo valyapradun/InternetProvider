@@ -39,11 +39,8 @@ public class ConnectionPool {
 	public Connection takeConnection() throws ConnectionPoolException {
 		Connection connection = null;
 		try {
-			System.out.println("Size freePool before: " + freePool.size());
 			connection = freePool.take();
-			System.out.println("Size freePool after: " + freePool.size());
 			usedPool.add(connection);
-			System.out.println("Size usedPool before: " + usedPool.size());
 		} catch (InterruptedException e) {
 			throw new ConnectionPoolException("Error connecting to the data source! ", e);
 		}
@@ -55,5 +52,6 @@ public class ConnectionPool {
 			freePool.add(connection);
 			usedPool.remove(connection);
 		}
-	}	
+	}
+
 }

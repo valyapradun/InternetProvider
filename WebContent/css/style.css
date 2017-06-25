@@ -208,6 +208,22 @@ ul.nav.nav-tabs {
 .nav-tabs {
   margin-bottom: 15px;
 }
+.main {
+  padding-bottom: 90px;
+}
+.as {
+	border: border: 4px double black; 
+	background: #fc3;
+}
+.bs {
+	border: border: 4px double black; 
+	background: #aaa;
+}
+.cs {
+	border: border: 4px double black; 
+	background: #bbb;
+}
+
 @media screen and (max-width: 991px) {
   .news, .action {clear: both; width: 100%;}
   .news {border-right: none;}

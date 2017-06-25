@@ -9,5 +9,6 @@ import com.epam.training.provider.dao.exception.DAOException;
 public interface TariffDAO {
 	
 	public List<Tariff> searchWithParameters(HashMap<String, String> parameters) throws DAOException;
+	public Tariff searchById(int id) throws DAOException;
 	
 }

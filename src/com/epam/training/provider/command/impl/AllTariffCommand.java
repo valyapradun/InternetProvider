@@ -1,4 +1,4 @@
-package com.epam.training.provider.command;
+package com.epam.training.provider.command.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,16 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.epam.training.provider.bean.Tariff;
+import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.TariffService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.factory.ServiceFactory;
+import static com.epam.training.provider.util.Permanent.*;
 
 public class AllTariffCommand implements Command {
 	private static final String TYPE = "type";
 	private static final String KEY = "type";
 	private static final String RESULT = "tariffs";
-	private static final String CATALOG = "catalog.jsp";
-	private static final String ERROR = "/error.jsp";
+
 	
 	private TariffService service;
 
@@ -35,6 +36,7 @@ public class AllTariffCommand implements Command {
 		try {
 			tariffs = service.listTariffsWithParameters(parameters);
 			request.setAttribute(RESULT, tariffs);
+			request.setAttribute(TYPE, typeTariff);
 			page = CATALOG;
 		} catch (ServiceException e) {
 			page = ERROR;

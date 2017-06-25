@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html lang="ru">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -22,81 +23,41 @@
     <![endif]-->
 </head>
 <body>
- <div class="wrapper">
-	<div class="navbar navbar-inverse navbar-static-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#responsive-menu">
-					<span class="sr-only">Открыть навигацию</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="index.jsp" rel="home"> <img
-					src="images/logo.png" alt="Домашний интернет">
-				</a>
+	<div class="wrapper">
+		
+<%@ include file="menu.jsp"%>
+		<main>
+		<div id="carousel" class="carousel slide" data-ride="carousel">
+			<!-- Индикаторы слайдов-->
+			<ol class="carousel-indicators">
+				<li class="active" data-target="#carousel" data-slide-to="0"></li>
+				<li data-target="#carousel" data-slide-to="1"></li>
+				<li data-target="#carousel" data-slide-to="2"></li>
+				<li data-target="#carousel" data-slide-to="3"></li>
+			</ol>
+			<!-- Слайды-->
+			<div class="carousel-inner">
+				<div class="item active">
+					<a href="admin_tariff.jsp"><img src="images/cover1.png" alt="Тариф 'Ночной'"></a>
+				</div>
+				<div class="item">
+					<a href="admin_tariff.jsp"><img src="images/cover2.png" alt="Тариф 'Подарок'"></a>
+				</div>
+				<div class="item">
+					<a href="tariff.jsp"><img src="images/cover3.png" alt="Тариф 'Для тебя'"></a>
+				</div>
+				<div class="item">
+					<a href="tariff.jsp"><img src="images/cover4.png" alt="Тариф 'Семейный'"></a>
+				</div>
 			</div>
-			<div class="collapse navbar-collapse" id="responsive-menu">
-				<ul class="nav navbar-nav">
-					<li><a href="#">НОВОСТИ</a></li>
-					<li><a href="#">АКЦИИ</a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">ТАРИФЫ <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a href="Controller?action=allTariff&type=1">Безлимитные</a></li>
-							<li><a href="Controller?action=allTariff&type=2">По трафику</a></li>
-							<li><a href="Controller?action=allTariff">Все тарифы</a></li>
-							<li class="divider"></li>
-							<li><a href="#">Пункт 4</a></li>
-						</ul></li>
-
-					<li><a href="#">КОНТАКТЫ</a></li>
-				</ul>
-
-				<form action="" class="navbar-form navbar-right">
-
-					<button data-target="#signin" type="button"
-						class="btn btn-secondary" data-toggle="modal">
-						<span class="glyphicon glyphicon-log-in"></span> ВХОД
-					</button>
-				</form>
-
-			</div>
+			<!-- Стрелки переключения слайдов-->
+			<a href="#carousel" class="left carousel-control" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+			</a> <a href="#carousel" class="right carousel-control" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+			</a>
 		</div>
-	</div>
 
-  <main>
-	<div id="carousel" class="carousel slide" data-ride="carousel">
-		<!-- Индикаторы слайдов-->
-		<ol class="carousel-indicators">
-			<li class="active" data-target="#carousel" data-slide-to="0"></li>
-			<li data-target="#carousel" data-slide-to="1"></li>
-			<li data-target="#carousel" data-slide-to="2"></li>
-			<li data-target="#carousel" data-slide-to="3"></li>
-		</ol>
-		<!-- Слайды-->
-		<div class="carousel-inner">
-			<div class="item active">
-				<a href="#"><img src="images/cover1.png" alt="Тариф 'Ночной'"></a>
-			</div>
-			<div class="item">
-				<a href="#"><img src="images/cover2.png" alt="Тариф 'Подарок'"></a>
-			</div>
-			<div class="item">
-				<a href="#"><img src="images/cover3.png" alt="Тариф 'Для тебя'"></a>
-			</div>
-			<div class="item">
-				<a href="#"><img src="images/cover4.png" alt="Тариф 'Семейный'"></a>
-			</div>
-		</div>
-		<!-- Стрелки переключения слайдов-->
-		<a href="#carousel" class="left carousel-control" data-slide="prev">
-			<span class="glyphicon glyphicon-chevron-left"></span>
-		</a> <a href="#carousel" class="right carousel-control" data-slide="next">
-			<span class="glyphicon glyphicon-chevron-right"></span>
-		</a>
-	</div>
-	
 		<div class="row">
 			<div class="col-md-6">
 				<div class="news">
@@ -155,83 +116,83 @@
 
 			</div>
 		</div>
-</main>
-	<footer>
-		<div class="container footer">
-			<div class="row">
-				<div class="col-md-6 col-lg-6 col-sm-6">
-					<ul class="list-unstyled social-link">
-						<li><a href="http://vk.com/" target="_blank"><img
-								src="images/vk.png" title="ВКонтакте" alt="ВКонтакте"></a></li>
-						<li><a href="http://twitter.com/" target="_blank"><img
-								src="images/twitter.png" title="Twitter" alt="Twitter"></a></li>
-						<li><a href="http://www.facebook.com/" target="_blank"><img
-								src="images/facebook.png" title="Facebook" alt="Facebook"></a></li>
-						<li><a href="http://odnoklassniki.ru/" target="_blank"><img
-								src="images/odnokl.png" title="Одноклассники"
-								alt="Одноклассники"></a></li>
-						<li><a href="http://instagram.com/" target="_blank"><img
-								src="images/instagram.png" title="Instagram" alt="Instagram"></a></li>
-					</ul>
-				</div>
-				<div class="col-md-6 col-lg-6 col-sm-6">
-					<ul class="list-unstyled info">
-						<li><a href="#">Контакты</a></li>
-						<li><a href="#">Карта сайта</a></li>
-						<li><a href="#">Полезная информация</a></li>
-					</ul>
-					<br>
-					<p class="footer-p">&copy; 2017 «Домашний Интернет»</p>
+		</main>
+		<footer>
+			<div class="container footer">
+				<div class="row">
+					<div class="col-md-6 col-lg-6 col-sm-6">
+						<ul class="list-unstyled social-link">
+							<li><a href="http://vk.com/" target="_blank"><img
+									src="images/vk.png" title="ВКонтакте" alt="ВКонтакте"></a></li>
+							<li><a href="http://twitter.com/" target="_blank"><img
+									src="images/twitter.png" title="Twitter" alt="Twitter"></a></li>
+							<li><a href="http://www.facebook.com/" target="_blank"><img
+									src="images/facebook.png" title="Facebook" alt="Facebook"></a></li>
+							<li><a href="http://odnoklassniki.ru/" target="_blank"><img
+									src="images/odnokl.png" title="Одноклассники"
+									alt="Одноклассники"></a></li>
+							<li><a href="http://instagram.com/" target="_blank"><img
+									src="images/instagram.png" title="Instagram" alt="Instagram"></a></li>
+						</ul>
+					</div>
+					<div class="col-md-6 col-lg-6 col-sm-6">
+						<ul class="list-unstyled info">
+							<li><a href="#">Контакты</a></li>
+							<li><a href="#">Карта сайта</a></li>
+							<li><a href="#">Полезная информация</a></li>
+						</ul>
+						<br>
+						<p class="footer-p">&copy; 2017 «Домашний Интернет»</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	</footer>
+		</footer>
 
-	<div class="modal fade" id="signin" data-backdrop="static">
-		<div class="modal-dialog ">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button class="close" type="button" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Авторизация</h4>
-				</div>
-				<form role="form" action="Controller" method="POST">
-					<div class="modal-body">
-						<div class="row">
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3"></div>
-							<div class="col-xs-8 col-sm-8 col-md-8 col-lg-6 login-box">
+		<div class="modal fade" id="signin" data-backdrop="static">
+			<div class="modal-dialog ">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" type="button" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Авторизация</h4>
+					</div>
+					<form role="form" action="Controller" method="POST">
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3"></div>
+								<div class="col-xs-8 col-sm-8 col-md-8 col-lg-6 login-box">
 
-								<input type="hidden" name="action" value="auth" />
-								<div class="input-group">
-									<span class="input-group-addon"><span
-										class="glyphicon glyphicon-user"></span></span> <input type="text"
-										name="login" class="form-control"
-										placeholder="Ваш логин" required autofocus />
+									<input type="hidden" name="action" value="sign_in" />
+									<div class="input-group">
+										<span class="input-group-addon"><span
+											class="glyphicon glyphicon-user"></span></span> <input type="text"
+											name="login" class="form-control" placeholder="Ваш логин"
+											required autofocus />
+									</div>
+									<div class="input-group">
+										<span class="input-group-addon"><span
+											class="glyphicon glyphicon-lock"></span></span> <input
+											type="password" name="password" class="form-control"
+											placeholder="Ваш пароль" required />
+									</div>
+									Нет аккаунта? <a href="register.jsp">Регистрация</a>
 								</div>
-								<div class="input-group">
-									<span class="input-group-addon"><span
-										class="glyphicon glyphicon-lock"></span></span> <input
-										type="password" name="password" class="form-control"
-										placeholder="Ваш пароль" required />
-								</div>
-								Нет аккаунта? <a href="register.jsp">Регистрация</a>
+								<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3"></div>
 							</div>
-							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3"></div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-labeled btn-success">
-							<span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Вход
-						</button>
-						<button type="button" class="btn btn-labeled btn-danger"
-							data-dismiss="modal">
-							<span class="btn-label"><i
-								class="glyphicon glyphicon-remove"></i></span>Отмена
-						</button>
-					</div>
-				</form>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-labeled btn-success">
+								<span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Вход
+							</button>
+							<button type="button" class="btn btn-labeled btn-danger"
+								data-dismiss="modal">
+								<span class="btn-label"><i
+									class="glyphicon glyphicon-remove"></i></span>Отмена
+							</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="js/jquery.min.js"></script>

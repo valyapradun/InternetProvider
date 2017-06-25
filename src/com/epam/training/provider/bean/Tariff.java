@@ -11,18 +11,27 @@ public class Tariff implements Serializable {
 	private double size;
 	private int speed;
 	private String picture;
+	private int id;
 
 	public Tariff() {
 	}
 
-	public Tariff(String name, TariffType type, double price, double size, int speed, String picture) {
-		super();
+	public Tariff(int id, String name, TariffType type, double price, double size, int speed, String picture) {
+		this.id = id;
 		this.name = name;
 		this.type = type;
 		this.price = price;
 		this.size = size;
 		this.speed = speed;
 		this.picture = picture;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -77,6 +86,7 @@ public class Tariff implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
 		long temp;
@@ -98,6 +108,8 @@ public class Tariff implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Tariff other = (Tariff) obj;
+		if (id != other.id)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -122,7 +134,9 @@ public class Tariff implements Serializable {
 	@Override
 	public String toString() {
 		return "Tariff [name=" + name + ", type=" + type + ", price=" + price + ", size=" + size + ", speed=" + speed
-				+ ", picture=" + picture + "]";
+				+ ", picture=" + picture + ", id=" + id + "]";
 	}
+
+
 
 }

@@ -49,14 +49,13 @@ public class UserDAOImpl implements UserDAO {
 			statement.setString(2, password + salt);
 			statement.setString(3, login);
 			statement.setString(4, password + salt);
-			System.out.println(statement);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				String lg = resultSet.getString("login");
-				String pw = resultSet.getString("password");
+				String log = resultSet.getString("login");
+				String pass = resultSet.getString("password");
 				String name = resultSet.getString("name");
 				String role = resultSet.getString("role");
-				user = new User(lg, pw, name, role);
+				user = new User(log, pass, name, role);
 			}
 
 		} catch (SQLException e) {
@@ -64,16 +63,18 @@ public class UserDAOImpl implements UserDAO {
 		} catch (ConnectionPoolException e) {
 			throw new DAOException("ConnectionPoolException: ", e);
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-					if (connection != null) {
-						connection.close();
-					}
-				} catch (SQLException e) {
-					//сообщение для логера
-				}
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				// logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
+			
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+			
 			connectionPool.freeConnection(connection);
 		}
 		return user;
@@ -88,7 +89,7 @@ public class UserDAOImpl implements UserDAO {
 			connection = connectionPool.takeConnection();
 			statement = connection.createStatement();
 			String sql = SQL_NEW_USER + newUser.getLogin() + "', MD5('" + newUser.getPassword() + salt + "'), '" + newUser.getName() + "', '" + newUser.getEmail() + "');";
-			System.out.println(sql);
+			System.out.println("Здесь" + sql);
 			int resultAdd = statement.executeUpdate(sql);
 			if (resultAdd != 0) {
 				result = true;

@@ -1,22 +1,11 @@
 package com.epam.training.provider.command;
 
-public class CommandChooser {
-	public static Command chooseCommand(String name) {
-		Command currCommand = null;
-		switch (name) {
-		case "auth":
-			currCommand = new AuthCommand();
-			break;
-		case "allTariff":
-			currCommand = new AllTariffCommand();
-			break;
-		case "reg":
-			currCommand = new RegCommand();
-			break;
-		default:
-			
-		}
-		return currCommand;
-	}
+public final class CommandChooser {
+	private final static CommandProvider PROVIDER = new CommandProvider();
 
+	public static Command chooseCommand(String command) {
+		Command currentCommand = PROVIDER.getCommand(command);
+		return currentCommand;
+	}
+	
 }

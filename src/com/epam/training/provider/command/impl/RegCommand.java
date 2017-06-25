@@ -1,41 +1,44 @@
-package com.epam.training.provider.command;
+package com.epam.training.provider.command.impl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.epam.training.provider.bean.User;
+import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.UserService;
 import com.epam.training.provider.service.exception.ServiceException;
-import com.epam.training.provider.service.factory.ServiceFactory;
+import com.epam.training.provider.service.impl.UserServiceImpl;
 
-
-public class AuthCommand implements Command{
+public class RegCommand implements Command{
 	private UserService service;
 	
 	{
-		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
-		service = serviceObjectFactory.getUserService();
+		service = new UserServiceImpl();
 	}
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
+		User user = new User();
 		String login = request.getParameter("login");
+		user.setLogin(login);
 		String password = request.getParameter("password");
-		User user;
-		try {
-			user = service.authorize(login, password);
+		user.setPassword(password);
+		String name = request.getParameter("name");
+		user.setName(name);
+		String email = request.getParameter("email");
+		user.setEmail(email);
 		
-		if (user != null) {
-			System.out.println(user);
+		boolean resultReg;
+		try {
+			resultReg = service.registration(user);
+		
+		if (resultReg) {
+			System.out.println("registrationCommand:" + user);
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user);
 			page = "/user_main.jsp";
-			
-			if (user.getRole().equals("admin")) {
-				page = "/admin_main.jsp";
-			}
 		} else {
 			page = "/error.jsp";
 		}
