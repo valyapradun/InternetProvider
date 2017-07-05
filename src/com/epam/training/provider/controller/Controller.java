@@ -13,58 +13,65 @@ import javax.servlet.http.HttpSession;
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.command.CommandChooser;
+
 import static com.epam.training.provider.util.Permanent.*;
 
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String INDEX = "index";
+	private static final String SIGN_IN = "sign_in";
 
 	public Controller() {
 		super();
-		System.out.println("servlet constructor");  		// for me
+		System.out.println("servlet constructor"); // for me
 	}
 
 	public void init(ServletConfig config) throws ServletException {
-		System.out.println("servlet init method");    		// for me
+		System.out.println("servlet init method"); // for me
 	}
 
 	public void destroy() {
-		System.out.println("servlet destroy method"); 		// for me
+		System.out.println("servlet destroy method"); // for me
 	}
 
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("servlet service method");   	// for me
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("servlet service method"); // for me
 		checkAuthorization(request);
 		super.service(request, response);
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("servlet doGet method"); 	   // for me
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("servlet doGet method"); // for me
 		processRequest(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("servlet doPost method");    	// for me
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("servlet doPost method"); // for me
 		processRequest(request, response);
 	}
 
-	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void processRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String action = request.getParameter(ACTION);
-		System.out.println("action: " + action);           // for me
+		System.out.println("action: " + action); // for me
 		if (action == null) {
 			action = INDEX;
 		}
-		
+
 		Command command = CommandChooser.chooseCommand(action);
 		String page = command.execute(request, response);
-
-		if (action.equals(SIGN_IN)) {
-			response.sendRedirect(request.getContextPath() + page);
-		} else {
+		if (request.getAttribute(REDIRECT_PARAMETER) == null) {
 			forward(request, response, page);
+		} else {
+			response.sendRedirect(request.getContextPath() + page);
 		}
 	}
 
-	public void forward(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
+	public void forward(HttpServletRequest request, HttpServletResponse response, String page)
+			throws ServletException, IOException {
 		RequestDispatcher disp = request.getRequestDispatcher(page);
 		disp.forward(request, response);
 	}
@@ -72,8 +79,7 @@ public class Controller extends HttpServlet {
 	public void checkAuthorization(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute("user");
-		
-		
-		System.out.println("for future check access");     // for me
+
+		System.out.println("for future check access"); // for me
 	}
 }

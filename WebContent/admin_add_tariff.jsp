@@ -30,46 +30,45 @@
 			</div>
             <div class="container">
 				<div class="row">
-					<h2>Администрирование тарифов</h2>
-					<table class="table table-hover">
-						<thead class="thead-inverse">
-							<tr>
-								<th>#</th>
-								<th>Название</th>
-								<th>Цена (BYN)</th>
-								<th>Размер (Гб)</th>
-								<th>Скорость (Мбит/с)</th>
-								<th>Тип</th>
-								<th>Изображение</th>
-								<th></th>
+				<form role="form" action="Controller" method="POST">
+					<input type="hidden" name="action" value="add_tariff" />
+					<h2>Заполните поля</h2>
+					<table class="table table-tariff">
+							<tr> 
+								<th scope="row">Название тарифа</th>
+								<td><input type="text" id="inputName" name="name" size="30" value="" required /> </td>
 							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${tariffs}" var="i">
-								<tr>
-									<th scope="row"><c:out value="${i.getId()}" /></th>
-									<td><c:out value="${i.getName()}" /></td>
-									<td><c:out value="${i.getPrice()}" /></td>
-									<td><c:out value="${i.getSize()}" /></td>
-									<td><c:out value="${i.getSpeed()}" /></td>
-									<td><c:out value="${i.getType()}" /></td>
-									<td><c:out value="${i.getPicture()}" /></td>
-									<td>
-										<div class="row">
-											<div class="btn-toolbar">
-												<div class="btn-group">
-													<a href="Controller?action=card_tariff&id=${i.getId()}" class="btn btn-info" title="Просмотреть тариф"><i class="fa fa-eye"></i></a> 
-													<a href="Controller?action=card_tariff&id=${i.getId()}" class="btn btn-success" title="Редактировать"><i class="fa fa-pencil"></i></a> 
-													<a href="Controller?action=delete_tariff&id=${i.getId()}" class="btn btn-danger" title="Удалить"><i class="fa fa-trash"></i></a>
-												</div>
-											</div>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
+							<tr>
+								<th scope="row">Цена (BYN)</th>
+								<td><input type="text" id="inputPrice" name="price" size="30" value="" required pattern="\d+(\.\d{1})?" /></td>
+							</tr>
+							<tr>
+								<th scope="row">Размер (Гб)</th>
+								<td><input type="text" id="inputSize" name="size" size="30" value="" pattern="\d+(\.\d{1})?" /></td>
+							</tr>
+							<tr>
+								<th scope="row">Скорость (Мбит/с)</th>
+								<td><input type="text" id="inputSpeed" name="speed" size="30" value="" pattern="^[ 0-9]+$" /></td>
+							</tr>	
+							<tr>
+								<th scope="row">Тип</th>
+								<td><select name="type" id="inputType">
+    								<option selected value="TRAFFIC">TRAFFIC</option>
+    								<option value="UNLIM">UNLIM</option></select>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">Изображение</th>
+								<td><input type="text" id="inputPicture" name="picture" size="30" value="" /></td>
+							</tr>
 					</table>
-					<a href="admin_add_tariff.jsp" class="btn btn-primary" title="Добавить">Добавить тариф</a>
+					
+					<div class="button-tariff">
+						<button type="submit" class="btn btn-labeled btn-success"><span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Добавить тариф</button>
+						<a href="Controller?action=tariffs" class="btn btn-labeled btn-danger" title="Вернуться обратно"><span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Вернуться обратно</a>					
+				 
+				    </div>
+					</form>
 				</div>
 			</div>
 		</div>

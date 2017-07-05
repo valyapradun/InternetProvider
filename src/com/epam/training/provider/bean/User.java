@@ -20,6 +20,7 @@ public class User implements Serializable {
 		this.name = name;
 		this.role = role;
 	}
+	
 
 	public String getLogin() {
 		return login;

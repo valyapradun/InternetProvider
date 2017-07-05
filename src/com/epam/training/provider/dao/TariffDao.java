@@ -10,5 +10,8 @@ public interface TariffDAO {
 	
 	public List<Tariff> searchWithParameters(HashMap<String, String> parameters) throws DAOException;
 	public Tariff searchById(int id) throws DAOException;
+	public void edit(Tariff tariff) throws DAOException;
+	public void addNew(Tariff tariff) throws DAOException;
+	public void delete(int id) throws DAOException;
 	
 }

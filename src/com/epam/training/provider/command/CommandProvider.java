@@ -14,9 +14,12 @@ public final class CommandProvider {
 		repository.put(CommandName.SIGN_OUT, new SignOutCommand());
 		repository.put(CommandName.INDEX, new IndexPageCommand());
 		repository.put(CommandName.ALL_TARIFFS, new AllTariffCommand());
-		repository.put(CommandName.CURRENT_TARIFF, new CurrentTariffCommand());
 		repository.put(CommandName.WRONG_REQUEST, new WrongRequestCommand());
 		repository.put(CommandName.TARIFFS, new TariffsCommand());
+		repository.put(CommandName.CARD_TARIFF, new CardTariffCommand());
+		repository.put(CommandName.EDIT_TARIFF, new EditTariffCommand());
+		repository.put(CommandName.ADD_TARIFF, new AddTariffCommand());
+		repository.put(CommandName.DELETE_TARIFF, new DeleteTariffCommand());
 	}
 
 	Command getCommand(String name) {

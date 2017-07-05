@@ -44,7 +44,7 @@
 											<c:when test="${user.getRole()=='admin'}">admin_index.jsp</c:when>
 											<c:otherwise>user_main.jsp</c:otherwise>
 										</c:choose>
-							    	"> 
+							    	" class="a-user"> 
 							    		<c:out value="${user.getName()}" />
 							    	</a>
 							    !</h5>

@@ -25,6 +25,15 @@ public class Tariff implements Serializable {
 		this.speed = speed;
 		this.picture = picture;
 	}
+	
+	public Tariff(String name, TariffType type, double price, double size, int speed, String picture) {
+		this.name = name;
+		this.type = type;
+		this.price = price;
+		this.size = size;
+		this.speed = speed;
+		this.picture = picture;
+	}
 
 	public int getId() {
 		return id;

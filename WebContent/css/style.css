@@ -211,19 +211,28 @@ ul.nav.nav-tabs {
 .main {
   padding-bottom: 90px;
 }
-.as {
-	border: border: 4px double black; 
-	background: #fc3;
+.a-user {
+	text-decoration: underline;
+	color: white;
 }
-.bs {
-	border: border: 4px double black; 
-	background: #aaa;
+a.a-user:hover { 
+    text-decoration: underline; 
+    color: #9d9d9d; 
+   }
+   
+   x-clock {
+color: rgb(255, 255, 255);
+font-size:64px;
+text-shadow: rgb(204, 204, 204) 0px 1px 0px, rgb(201, 201, 201) 0px 2px 0px, rgb(187, 187, 187) 0px 3px 0px, rgb(185, 185, 185) 0px 4px 0px, rgb(170, 170, 170) 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 6px 1px, rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.3) 0px 1px 3px, rgba(0, 0, 0, 0.15) 0px 3px 5px, rgba(0, 0, 0, 0.2) 0px 5px 10px, rgba(0, 0, 0, 0.2) 0px 10px 10px, rgba(0, 0, 0, 0.1) 0px 20px 20px;
 }
-.cs {
-	border: border: 4px double black; 
-	background: #bbb;
-}
+   .table-tariff {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 20px;
+   }
 
+   
+   
 @media screen and (max-width: 991px) {
   .news, .action {clear: both; width: 100%;}
   .news {border-right: none;}

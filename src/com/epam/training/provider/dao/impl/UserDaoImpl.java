@@ -14,7 +14,22 @@ import com.epam.training.provider.dao.exception.DAOException;
 public class UserDAOImpl implements UserDAO {
 	private static ConnectionPool connectionPool;
 	private static String salt;
+
+	private final static String SQL_LOGIN = "SELECT user.login, user.password, user.name, 'user' AS role FROM provider.user WHERE (login =? AND password=MD5(?)) UNION ALL SELECT administrator.login, administrator.password, 'Administrator' AS name, 'admin' AS role FROM provider.administrator WHERE (login =? AND password=MD5(?))";
+	private final static String SQL_UNIQUE_LOGIN = "SELECT count(user.login) AS count FROM provider.user WHERE user.login = ?";
 	
+	
+	private final static String SQL_NEW_USER = "INSERT INTO user (`login`, `password`, `name`, `email`) VALUES ('";
+
+	
+	
+	
+	
+	private final static String USER_LOGIN = "login";
+	private final static String USER_PASSWORD = "password";
+	private final static String USER_NAME = "name";
+	private final static String USER_ROLE = "role";
+
 	static {
 		try {
 			connectionPool = ConnectionPool.getInstance();
@@ -24,19 +39,13 @@ public class UserDAOImpl implements UserDAO {
 		ResourceBundle resource = ResourceBundle.getBundle("config");
 		salt = resource.getString("salt");
 	}
-	
-	private final static String SQL_LOGIN = "SELECT user.login, user.password, user.name, 'user' AS role "
-			+ "FROM provider.user " + "WHERE (login =? AND password=MD5(?)) " + "UNION ALL "
-			+ "SELECT administrator.login, administrator.password, 'Administrator' AS name, 'admin' AS role "
-			+ "FROM provider.administrator " + "WHERE (login =? AND password=MD5(?));";
-	private final static String SQL_NEW_USER = "INSERT INTO user (`login`, `password`, `name`, `email`) VALUES ('";
-	
-
-	
-	
 
 	@Override
 	public User signIn(String login, String password) throws DAOException {
+		if ((login == null) || (password == null)) {
+			throw new DAOException("The login or password is equal to null!");
+		}
+
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -49,12 +58,13 @@ public class UserDAOImpl implements UserDAO {
 			statement.setString(2, password + salt);
 			statement.setString(3, login);
 			statement.setString(4, password + salt);
+
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				String log = resultSet.getString("login");
-				String pass = resultSet.getString("password");
-				String name = resultSet.getString("name");
-				String role = resultSet.getString("role");
+				String log = resultSet.getString(USER_LOGIN);
+				String pass = resultSet.getString(USER_PASSWORD);
+				String name = resultSet.getString(USER_NAME);
+				String role = resultSet.getString(USER_ROLE);
 				user = new User(log, pass, name, role);
 			}
 
@@ -68,37 +78,38 @@ public class UserDAOImpl implements UserDAO {
 			} catch (SQLException e) {
 				// logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
-			
+
 			try {
 				statement.close();
 			} catch (SQLException e) {
 				// logger.log(Level.ERROR, "Statement isn't closed.");
 			}
-			
+
 			connectionPool.freeConnection(connection);
 		}
 		return user;
 	}
 
 	@Override
-	public boolean registration(User newUser) throws DAOException {
-		boolean result = false;
+	public void registration(User newUser) throws DAOException {
+
 		Connection connection = null;
 		Statement statement = null;
 		try {
 			connection = connectionPool.takeConnection();
 			statement = connection.createStatement();
-			String sql = SQL_NEW_USER + newUser.getLogin() + "', MD5('" + newUser.getPassword() + salt + "'), '" + newUser.getName() + "', '" + newUser.getEmail() + "');";
-			System.out.println("Здесь" + sql);
+			String sql = SQL_NEW_USER + newUser.getLogin() + "', MD5('" + newUser.getPassword() + salt + "'), '"
+					+ newUser.getName() + "', '" + newUser.getEmail() + "');";
+			System.out.println("пїЅпїЅпїЅпїЅпїЅ" + sql);
 			int resultAdd = statement.executeUpdate(sql);
 			if (resultAdd != 0) {
-				result = true;
-			}	
+				
+			}
 		} catch (SQLException e) {
 			throw new DAOException("Cannot add new user. ", e);
-		}catch (ConnectionPoolException e) {
+		} catch (ConnectionPoolException e) {
 			throw new DAOException("ConnectionPoolException: ", e);
-		}finally {
+		} finally {
 			if (statement != null) {
 				try {
 					statement.close();
@@ -106,14 +117,41 @@ public class UserDAOImpl implements UserDAO {
 						connection.close();
 					}
 				} catch (SQLException e) {
-					//сообщение для логера
+					// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 				}
 			}
 			connectionPool.freeConnection(connection);
 		}
-		
-		return result;
+
 	}
 
+	@Override
+	public int uniqueLogin(String login) throws DAOException {
+		if (login == null) {
+			throw new DAOException("The login is equal to null!");
+		}
+
+		int count = 0;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.prepareStatement(SQL_UNIQUE_LOGIN);
+			statement.setString(1, login);
+			
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				count = resultSet.getInt("count");	
+			}
+			
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException: ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Cannot check uniqueness of login! ", e);
+		}
+		return count;
+	}
 
 }

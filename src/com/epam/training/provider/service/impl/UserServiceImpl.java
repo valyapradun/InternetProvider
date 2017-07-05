@@ -10,21 +10,16 @@ import com.epam.training.provider.service.exception.ServiceException;
 
 public class UserServiceImpl implements UserService {
 
-
 	@Override
 	public User authorize(String login, String password) throws ServiceException {
-		if ((login == null) && (password == null)) {
-			throw new ServiceException("The login or the password are null!");
+		if ((login == null) || (password == null)) {
+			throw new ServiceException("The login or password is equal to null!");
 		}
 
 		User user = null;
 		try {
 			DAOFactory daoObjectFactory = DAOFactory.getInstance();
 			UserDAO dao = daoObjectFactory.getUserDAO();
-			
-		//	UserDAO dao = new UserDAOImpl();
-				
-			
 			user = dao.signIn(login, password);
 		} catch (DAOException e) {
 			throw new ServiceException("Authorization wasn't executed! ", e);
@@ -34,18 +29,45 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean registration(User newUser) throws ServiceException {
-		boolean result = false;
-		if (newUser != null) {
-			try {
-				DAOFactory daoObjectFactory = DAOFactory.getInstance();
-				UserDAO dao = daoObjectFactory.getUserDAO();
-				result = dao.registration(newUser);
-			} catch (DAOException e) {
-				throw new ServiceException("Registration wasn't executed! ", e);
-			}
+	public void registration(User newUser) throws ServiceException {
+		validate(newUser);
+
+		try {
+			DAOFactory daoObjectFactory = DAOFactory.getInstance();
+			UserDAO dao = daoObjectFactory.getUserDAO();
+			dao.registration(newUser);
+		} catch (DAOException e) {
+			throw new ServiceException("Registration wasn't executed! ", e);
 		}
-		return result;
+
+	}
+
+	public void validate(User newUser) throws ServiceException {
+		if (newUser == null) {
+			throw new ServiceException("The user is equal to null! ");
+		}
+
+		if (uniqueLogin(newUser.getLogin()) > 0) {
+			throw new ServiceException("Such login already exists! ");
+		}
+
+	}
+
+	@Override
+	public int uniqueLogin(String login) throws ServiceException {
+		int count = 0;
+		if (login == null) {
+			throw new ServiceException("The login is equal to null!");
+		}
+
+		try {
+			DAOFactory daoObjectFactory = DAOFactory.getInstance();
+			UserDAO dao = daoObjectFactory.getUserDAO();
+			count = dao.uniqueLogin(login);
+		} catch (DAOException e) {
+			throw new ServiceException("Uniqueness of login wasn't executed! ", e);
+		}
+		return count;
 	}
 
 }

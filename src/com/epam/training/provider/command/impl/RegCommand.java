@@ -8,42 +8,47 @@ import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.UserService;
 import com.epam.training.provider.service.exception.ServiceException;
-import com.epam.training.provider.service.impl.UserServiceImpl;
+import com.epam.training.provider.service.factory.ServiceFactory;
+import static com.epam.training.provider.util.Permanent.*;
 
-public class RegCommand implements Command{
+import java.nio.charset.StandardCharsets;
+
+public class RegCommand implements Command {
 	private UserService service;
-	
+
 	{
-		service = new UserServiceImpl();
+		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
+		service = serviceObjectFactory.getUserService();
 	}
-	
+
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
+
+		String login = request.getParameter(USER_LOGIN);
+		String password = request.getParameter(USER_PASSWORD);
+		
+		String name = request.getParameter(USER_NAME);
+		byte[] bytes = name.getBytes(StandardCharsets.ISO_8859_1);
+		name = new String(bytes, StandardCharsets.UTF_8);
+	
+		String email = request.getParameter(USER_EMAIL);
+
 		User user = new User();
-		String login = request.getParameter("login");
 		user.setLogin(login);
-		String password = request.getParameter("password");
 		user.setPassword(password);
-		String name = request.getParameter("name");
 		user.setName(name);
-		String email = request.getParameter("email");
 		user.setEmail(email);
-		
-		boolean resultReg;
+
 		try {
-			resultReg = service.registration(user);
-		
-		if (resultReg) {
-			System.out.println("registrationCommand:" + user);
+			service.registration(user);
 			HttpSession session = request.getSession();
-			session.setAttribute("user", user);
-			page = "/user_main.jsp";
-		} else {
-			page = "/error.jsp";
-		}
+			session.setAttribute(USER, user);
+			page = USER_PAGE;
+
 		} catch (ServiceException e) {
-			page = "/error.jsp";
+			request.setAttribute(ERROR, "It is impossible to registrate! " + e.getMessage());
+			page = ERROR_PAGE;
 		}
 		return page;
 	}

@@ -26,9 +26,71 @@ public class TariffServiceImpl implements TariffService {
 		} catch (DAOException e) {
 			throw new ServiceException("Search of tariffs with parameters wasn't executed!", e);
 		}
-		
+
 		return tariffs;
 	}
-	
-	
+
+	@Override
+	public Tariff tariffById(int id) throws ServiceException {
+		if (id <= 0) {
+			throw new ServiceException("ID of tariff is less or is equal to 0!");
+		}
+
+		Tariff tariff = null;
+		try {
+			DAOFactory daoObjectFactory = DAOFactory.getInstance();
+			TariffDAO dao = daoObjectFactory.getTariffDAO();
+			tariff = dao.searchById(id);
+		} catch (DAOException e) {
+			throw new ServiceException("Search of tariff by id wasn't executed!", e);
+		}
+
+		return tariff;
+	}
+
+	@Override
+	public void editTariff(Tariff tariff) throws ServiceException {
+		if (tariff == null) {
+			throw new ServiceException("The tariff for editing is equal to null!");
+		}
+
+		try {
+			DAOFactory daoObjectFactory = DAOFactory.getInstance();
+			TariffDAO dao = daoObjectFactory.getTariffDAO();
+			dao.edit(tariff);
+		} catch (DAOException e) {
+			throw new ServiceException("Editing a tariff wasn't executed!", e);
+		}
+	}
+
+	@Override
+	public void addTariff(Tariff tariff) throws ServiceException {
+		if (tariff == null) {
+			throw new ServiceException("The tariff for adding is equal to null!");
+		}
+
+		try {
+			DAOFactory daoObjectFactory = DAOFactory.getInstance();
+			TariffDAO dao = daoObjectFactory.getTariffDAO();
+			dao.addNew(tariff);
+		} catch (DAOException e) {
+			throw new ServiceException("Adding a tariff wasn't executed!", e);
+		}
+	}
+
+	@Override
+	public void deleteTariff(int id) throws ServiceException {
+		if (id <= 0) {
+			throw new ServiceException("ID of tariff is less or is equal to 0!");
+		}
+
+		try {
+			DAOFactory daoObjectFactory = DAOFactory.getInstance();
+			TariffDAO dao = daoObjectFactory.getTariffDAO();
+
+			dao.delete(id);
+		} catch (DAOException e) {
+			throw new ServiceException("Deleting a tariff wasn't executed!", e);
+		}
+	}
 }

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
+import static com.epam.training.provider.util.Permanent.*;
 
 public class SignOutCommand implements Command {
 
@@ -13,22 +14,14 @@ public class SignOutCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
 		HttpSession session = request.getSession(false);
-		System.out.println("SignOut session: " + session);
-		User loggedUser = (User) session.getAttribute("user");
-		System.out.println("SignOut user: " + loggedUser);
-		
+		User loggedUser = (User) session.getAttribute(USER);
+
 		if (loggedUser == null) {
-			page = "user_main.jsp";
-			
-			session = request.getSession(false);
-			System.out.println("old session: " + session);
+			page = INDEX;
 		} 
 		else {
-			page = "index.jsp";
+			page = INDEX;
 			session.invalidate();
-			
-			session = request.getSession(false);
-			System.out.println("new session: " + session);
 		}
 		return page;
 	}
