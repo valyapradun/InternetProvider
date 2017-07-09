@@ -14,8 +14,8 @@ import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
 
 public class SignInCommand implements Command {
-	private HashMap<String, String> pageUser = new HashMap<>();
-
+	private HashMap<String, String> actionUser = new HashMap<>();
+	
 	private UserService service;
 
 	{
@@ -24,8 +24,9 @@ public class SignInCommand implements Command {
 	}
 
 	public SignInCommand() {
-		pageUser.put("admin", ADMIN_PAGE);
-		pageUser.put("user", USER_PAGE);
+		actionUser.put("admin", ACTION_ADMIN_MAIN);
+		actionUser.put("user", ACTION_USER_MAIN);
+		
 	}
 
 	@Override
@@ -41,16 +42,16 @@ public class SignInCommand implements Command {
 				page = ERROR_PAGE;
 			} else {
 
-			HttpSession session = request.getSession(true);
-			session.setAttribute(USER, user);
+				HttpSession session = request.getSession(true);
+				session.setAttribute(USER, user);
 
-			String role = user.getRole();
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
-			page = pageUser.get(role);
+				String role = user.getRole();
+				request.setAttribute(REDIRECT_PARAMETER, "Yes");
+				page = request.getServletPath() + actionUser.get(role);
 			}
 
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "It is impossible to sign in!");
+			request.setAttribute(ERROR, "It is impossible to sign in!" + e.getMessage());
 			page = ERROR_PAGE;
 		}
 		return page;

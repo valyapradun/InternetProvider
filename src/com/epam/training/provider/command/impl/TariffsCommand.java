@@ -39,7 +39,7 @@ public class TariffsCommand implements Command {
 			request.setAttribute(ACTION, action);
 			page = ADMIN_TARIFFS;
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "It is impossible to display tariffs!");
+			request.setAttribute(ERROR, "It is impossible to display tariffs!" + e.getMessage());
 			page = ERROR_PAGE;
 		}
 		return page;

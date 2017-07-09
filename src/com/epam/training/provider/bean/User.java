@@ -5,11 +5,15 @@ import java.io.Serializable;
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 7401903692889847932L;
+	private int id;
 	private String login;
 	private String password;
 	private String role;
 	private String name;
 	private String email;
+	private double balance;
+	private double traffic;
+
 
 	public User() {
 	}
@@ -21,6 +25,47 @@ public class User implements Serializable {
 		this.role = role;
 	}
 	
+	public User(int id, String login, String password, String name, String role) {
+		this.login = login;
+		this.password = password;
+		this.name = name;
+		this.role = role;
+		this.id = id;
+	}
+	
+	public User(int id, String login, String name, String email, double balance, double traffic) {
+		this.id = id;
+		this.login = login;
+		this.name = name;
+		this.email = email;
+		this.balance = balance;
+		this.traffic = traffic;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	public double getTraffic() {
+		return traffic;
+	}
+
+	public void setTraffic(double traffic) {
+		this.traffic = traffic;
+	}
 
 	public String getLogin() {
 		return login;
@@ -66,11 +111,17 @@ public class User implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(balance);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + id;
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		temp = Double.doubleToLongBits(traffic);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -83,10 +134,14 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (Double.doubleToLongBits(balance) != Double.doubleToLongBits(other.balance))
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
+			return false;
+		if (id != other.id)
 			return false;
 		if (login == null) {
 			if (other.login != null)
@@ -108,14 +163,19 @@ public class User implements Serializable {
 				return false;
 		} else if (!role.equals(other.role))
 			return false;
+		if (Double.doubleToLongBits(traffic) != Double.doubleToLongBits(other.traffic))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "User [login=" + login + ", password=" + password + ", role=" + role + ", name=" + name + ", email="
-				+ email + "]";
+		return "User [id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + ", name=" + name
+				+ ", email=" + email + ", balance=" + balance + ", traffic=" + traffic + "]";
 	}
 
+
+
+	
 
 }

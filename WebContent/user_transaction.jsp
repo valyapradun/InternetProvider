@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>Домашний Интернет</title>
+<title>Домашний Интернет - Транзакции</title>
 
 <!-- Bootstrap -->
 <link href="css/bootstrap.css" rel="stylesheet">
@@ -48,41 +48,40 @@
 					
 					<div class="col-md-2 col-lg-2 col-sm-1"></div>
 					<div class="col-md-8 col-lg-8 col-sm-10">
-					<h2>Состояние счета </h2>
+					<h2>Транзакции </h2>
 					<table class="table table-hover">
+						<thead class="thead-inverse">
+							<tr>
+								<th>#</th>
+								<th>Тип</th>
+								<th>Сумма (BYN)</th>
+								<th>Дата</th>
+							</tr>
+						</thead>
 						<tbody>
+						<c:forEach items="${transactions}" var="i">
 							<tr>
-								<th>Абонент</th>
-								<td><c:out value="${user.getName()}" /></td>
+							<th scope="row"><c:out value="${i.getId()}" /></th>
+							<td><c:out value="${i.getType()}" /></td>
+							<td><c:out value="${i.getAmmount()}" /></td>
+							<td><c:out value="${i.getDate()}" /></td>
 							</tr>
-							<tr>
-								<th>Логин</th>
-								<td><c:out value="${user.getLogin()}" /></td>
-							<tr>
-								<th>Email</th>
-								<td><c:out value="${user.getEmail()}" /></td>
-							</tr>
-							<tr>
-								<th>Статус блокировки</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th>Актуальный баланс</th>
-								<td><c:out value="${user.getBalance()}" /></td>
-							</tr>
-							<tr>
-								<th>Тарифный план</th>
-								<td></td>
-							</tr>
+							</c:forEach>
 						</tbody>
 					</table>
+					<br>
+					<hr>
+					<form role="form" action="Controller" method="POST">
+						<h4>Пополнение счета </h4>
+						<input type="hidden" name="action" value="refill" />
+						<!--  <input type="hidden" name="userId" value="${user.getId()}"/> -->
+						<input type="text" class="user-pay" id="inputAmmount" name="ammount" placeholder="Введите сумму" required pattern="^[ 0-9]+$" title="Ввести можно только целое положительное число"/>						
+						<button type="submit" class="btn btn-labeled btn-primary"><span class="btn-label"><i class="glyphicon glyphicon-thumbs-up"></i></span>Зачислить</button>
+					</form>
 					</div>
 					<div class="col-md-2 col-lg-2 col-sm-1"></div>
 				</div>
 			</div>
-			
-
-
 		</div>
 		
 		<footer>

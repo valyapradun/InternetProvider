@@ -29,7 +29,7 @@ public class DeleteTariffCommand implements Command {
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
 			page = request.getServletPath() + ACTION_TARIFFS;
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "It is impossible to delete the tariff!");
+			request.setAttribute(ERROR, "It is impossible to delete the tariff!" + e.getMessage());
 			page = ERROR_PAGE;
 		}
 		return page;

@@ -20,6 +20,11 @@ public final class CommandProvider {
 		repository.put(CommandName.EDIT_TARIFF, new EditTariffCommand());
 		repository.put(CommandName.ADD_TARIFF, new AddTariffCommand());
 		repository.put(CommandName.DELETE_TARIFF, new DeleteTariffCommand());
+		repository.put(CommandName.USERS, new UsersCommand());
+		repository.put(CommandName.PAY_ACT, new PayActCommand());
+		repository.put(CommandName.REFILL, new RefillCommand());
+		repository.put(CommandName.USER_MAIN, new UserMainCommand());
+		repository.put(CommandName.ADMIN_MAIN, new AdminMainCommand());
 	}
 
 	Command getCommand(String name) {

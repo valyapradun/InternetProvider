@@ -190,6 +190,7 @@ public class TariffDAOImpl implements TariffDAO {
 
 		try {
 			connection = connectionPool.takeConnection();
+			
 			statement = connection.prepareStatement(SQL_NEW_TARIFF);
 			statement.setString(1, tariff.getName());
 			statement.setDouble(2, tariff.getPrice());

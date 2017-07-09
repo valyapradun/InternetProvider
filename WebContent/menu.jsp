@@ -41,8 +41,8 @@
 							    <h5>Добро пожаловать,
 							    	<a href="	
 										<c:choose>
-											<c:when test="${user.getRole()=='admin'}">admin_index.jsp</c:when>
-											<c:otherwise>user_main.jsp</c:otherwise>
+											<c:when test="${user.getRole()=='admin'}">Controller?action=admin_main</c:when>
+											<c:otherwise>Controller?action=user_main</c:otherwise>
 										</c:choose>
 							    	" class="a-user"> 
 							    		<c:out value="${user.getName()}" />

@@ -33,7 +33,7 @@ public class CardTariffCommand implements Command{
 			request.setAttribute(RESULT, tariff);
 			page = ADMIN_CARD_TARIFF;
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "It is impossible to show a tariff card");
+			request.setAttribute(ERROR, "It is impossible to show a tariff card" + e.getMessage());
 			page = ERROR_PAGE;
 		}
 		return page;

@@ -31,8 +31,8 @@ public class AddTariffCommand implements Command {
 		name = new String(bytes, StandardCharsets.UTF_8);
 
 		double price = Double.parseDouble(request.getParameter(TARIFF_PRICE));
-		double size = Double.parseDouble(notEmpty(request.getParameter(TARIFF_SIZE)));
-		int speed = Integer.parseInt(notEmpty(request.getParameter(TARIFF_SPEED)));
+		double size = Double.parseDouble(normalize(request.getParameter(TARIFF_SIZE)));
+		int speed = Integer.parseInt(normalize(request.getParameter(TARIFF_SPEED)));
 		TariffType type = TariffType.valueOf(request.getParameter(TARIFF_TYPE).toUpperCase());
 
 		String picture = request.getParameter(TARIFF_PICTURE);
@@ -47,13 +47,13 @@ public class AddTariffCommand implements Command {
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
 			page = request.getServletPath() + ACTION_TARIFFS;
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "Adding a tariff wasn't executed!");
+			request.setAttribute(ERROR, "Adding a tariff wasn't executed!" + e.getMessage());
 			page = ERROR_PAGE;
 		}
 		return page;
 	}
 
-	public String notEmpty(String parameter) {
+	public String normalize(String parameter) {
 		if (parameter.equals("")) {
 			parameter = "0";
 		}

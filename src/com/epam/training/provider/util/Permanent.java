@@ -6,6 +6,9 @@ public final class Permanent {
 	public static final String REDIRECT_PARAMETER = "redirectTo";
 	public static final String ACTION = "action";
 	public static final String ACTION_TARIFFS = "?action=tariffs";
+	public static final String ACTION_PROFILE_USER = "?action=profile_user";
+	public static final String ACTION_ADMIN_MAIN = "?action=admin_main";
+	public static final String ACTION_USER_MAIN = "?action=user_main";
 	public final static String ERROR = "error";
 	public final static String USER = "user";
 
@@ -30,7 +33,10 @@ public final class Permanent {
 	public static final String ADMIN_PAGE = "/admin_index.jsp";
 	public static final String ADMIN_TARIFFS = "/admin_tariff.jsp";
 	public static final String ADMIN_CARD_TARIFF = "/admin_card_tariff.jsp";
+	public static final String ADMIN_USERS = "/admin_user.jsp";
 	public static final String USER_PAGE = "/user_main.jsp";
+	public static final String USER_TRANSACTION = "/user_transaction.jsp";
+	public static final String REGISTRATION_PAGE = "/register.jsp";
 	public static final String CATALOG = "/catalog.jsp";
 	public static final String ERROR_PAGE = "/error.jsp";
 

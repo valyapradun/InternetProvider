@@ -9,7 +9,7 @@
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
-<link rel="stylesheet"	href="css/bootstrap.min.css" />
+<!--  <link rel="stylesheet"	href="css/bootstrap.min.css" /> -->
 
 </head>
 <body>
@@ -20,15 +20,15 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 col-md-offset-3">
-						<form data-toggle="validator" role="form" action="Controller" method="POST">
+						<form data-toggle="validator" role="form" action="Controller?action=registration" method="POST">
 							<h3>Регистрация</h3>
 							<hr>
-							<input type="hidden" name="action" value="registration" />
 							<div class="form-group">
 								<label for="inputLogin" class="control-label">Введите логин</label>
 								<div class="input-group">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span> 
-									<input type="text" class="form-control" id="inputLogin" name="login" placeholder="Ваш логин" required title="Латинские символы, цифры, дефисы и подчеркивания" pattern="^[A-Za-z0-9_-]{3,16}"/>
+									<input type="text" class="form-control" id="inputLogin" name="login" placeholder="Ваш логин" required title="Латинские символы, цифры, дефисы и подчеркивания" pattern="^[A-Za-z0-9_-]{3,15}"
+									value="<c:if test="${user!=null}"><c:out value="${user.getLogin()}" /></c:if>"/>          
 								</div>
 							</div>
 							<div class="form-group">
@@ -53,18 +53,28 @@
 								<label for="inputName" class="control-label">Введите имя</label>
 								<div class="input-group">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-sunglasses"></span></span> 
-									<input type="text" class="form-control" id="inputName" name="name" placeholder="Ваше имя" required>
+									<input type="text" class="form-control" id="inputName" name="name" placeholder="Ваше имя" required
+									value="<c:if test="${user!=null}"><c:out value="${user.getName()}" /></c:if>"/>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="inputEmail" class="control-label">Введите e-mail</label>
 								<div class="input-group">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span> 
-									<input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" data-error="Некорректный e-mail!" required>
+									<input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" data-error="Некорректный e-mail!" required
+									value="<c:if test="${user!=null}"><c:out value="${user.getEmail()}" /></c:if>"/>
 								</div>
 								<div class="help-block with-errors"></div>
 							</div>
 							<hr>
+							
+							<h6 class="reg-error">
+								<c:forEach items="${error}" var="i">
+									<c:out value="${i}" />
+									<br>
+								</c:forEach>
+							</h6>
+							
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary new-user">Зарегистрировать</button>
 							</div>
@@ -120,7 +130,7 @@
 										<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span> 
 										<input type="password" name="password" class="form-control" placeholder="Ваш пароль" required />
 									</div>
-									Нет аккаунта? <a href="register.jsp">Регистрация</a>
+									Нет аккаунта? <a href="Controller?action=registration">Регистрация</a>
 								</div>
 								<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3"></div>
 							</div>
@@ -142,7 +152,7 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/jquery-1.11.3.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+<!-- 	<script src="js/bootstrap.min.js"></script>   -->
 	<script src="js/validator.min.js"></script>
 </body>
 </html>

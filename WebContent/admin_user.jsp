@@ -17,32 +17,59 @@
 	<div class="wrapper">
 		<%@ include file="menu.jsp"%>
 		<div class="main">
+
 			<div class="container">
 				<div class="row">
 					<div class="container">
 						<ul class="nav nav-tabs">
-							<li><a href="Controller?action=tariffs">Тарифы</a></li>
-							<li><a href="Controller?action=users">Пользователи</a></li>
+							<li <c:if test="${action=='tariffs'}"> class="active"</c:if>><a href="Controller?action=tariffs">Тарифы</a></li>
+							<li <c:if test="${action=='users'}"> class="active"</c:if>><a href="Controller?action=users">Пользователи</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="container">
+            <div class="container">
 				<div class="row">
-					<h4>Страница администратора. 
-						<br>Здесь Вы можете выполнять действия добавления, удаления, редактирования. 
-						<br>Для выбора раздела перейдите на одну из ссылок в меню выше.
-					</h4>
-				</div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<br>
-					<div ><x-clock></x-clock></div>
+					<h2>Администрирование пользователей</h2>
+					<table class="table table-hover">
+						<thead class="thead-inverse">
+							<tr>
+								<th>#</th>
+								<th>Login</th>
+								<th>Имя</th>
+								<th>Email</th>
+								<th>Баланс</th>
+								<th>Использованный трафик</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${users}" var="i">
+								<tr>
+									<th scope="row"><c:out value="${i.getId()}" /></th>
+									<td><c:out value="${i.getLogin()}" /></td>
+									<td><c:out value="${i.getName()}" /></td>
+									<td><c:out value="${i.getEmail()}" /></td>
+									<td><c:out value="${i.getBalance()}" /></td>
+									<td><c:out value="${i.getTraffic()}" /></td>
+									<td>
+										<div class="row">
+											<div class="btn-toolbar">
+												<div class="btn-group">
+													<a href="Controller?action=card_tariff&id=${i.getId()}" class="btn btn-info" title="Просмотреть"><i class="fa fa-eye"></i></a> 
+													<a href="Controller?action=card_tariff&id=${i.getId()}" class="btn btn-success" title="Редактировать"><i class="fa fa-pencil"></i></a> 
+													<a href="Controller?action=delete_tariff&id=${i.getId()}" class="btn btn-danger" title="Удалить"><i class="fa fa-trash"></i></a>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
-	
+
 	<footer>
 		<div class="container footer">
 			<div class="row">
@@ -68,7 +95,6 @@
 		</div>
 	</footer>
 	</div>
-	<script type="text/javascript" src="js/x-tag-core.min.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/jasny-bootstrap.min.js"></script>

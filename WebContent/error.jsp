@@ -93,7 +93,7 @@
 											type="password" name="password" class="form-control"
 											placeholder="Ваш пароль" required />
 									</div>
-									Нет аккаунта? <a href="register.jsp">Регистрация</a>
+									Нет аккаунта? <a href="Controller?action=registration">Регистрация</a>
 								</div>
 								<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3"></div>
 							</div>

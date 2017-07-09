@@ -230,9 +230,43 @@ text-shadow: rgb(204, 204, 204) 0px 1px 0px, rgb(201, 201, 201) 0px 2px 0px, rgb
       max-width: 100%;
       margin-bottom: 20px;
    }
-
-   
-   
+.reg-error {
+	color: red;
+}
+  
+.user-pay {
+	 height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	
+}
+.user-pay:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+.user-pay::-moz-placeholder {
+  color: #999;
+  opacity: 1;
+}
+.user-pay:-ms-input-placeholder {
+  color: #999;
+}
+.user-pay::-webkit-input-placeholder {
+  color: #999;
+}   
 @media screen and (max-width: 991px) {
   .news, .action {clear: both; width: 100%;}
   .news {border-right: none;}
