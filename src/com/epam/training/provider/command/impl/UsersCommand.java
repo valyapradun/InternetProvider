@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.UserService;
@@ -28,11 +27,9 @@ public class UsersCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
 		List<User> users = null;
-	//	String action = request.getParameter(ACTION);
 		try {
 			users = service.listUsersWithParameters();
 			request.setAttribute(RESULT, users);
-	//		request.setAttribute(ACTION, action);
 			page = ADMIN_USERS;
 		} catch (ServiceException e) {
 			request.setAttribute(ERROR, "It is impossible to display users! " + e.getMessage());

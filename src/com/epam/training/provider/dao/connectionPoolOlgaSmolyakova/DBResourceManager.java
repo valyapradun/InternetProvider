@@ -1,4 +1,4 @@
-package com.epam.training.provider.dao.connectionPool;
+package com.epam.training.provider.dao.connectionPoolOlgaSmolyakova;
 
 import java.util.ResourceBundle;
 

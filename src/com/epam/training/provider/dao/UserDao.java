@@ -13,7 +13,6 @@ public interface UserDAO {
 	public List<User> searchWithParameters() throws DAOException;
 	public User searchByLogin(String login) throws DAOException;
 	// update
-		// delete
-
+	// delete
 
 }

@@ -14,17 +14,9 @@ public class User implements Serializable {
 	private double balance;
 	private double traffic;
 
-
 	public User() {
 	}
 
-	public User(String login, String password, String name, String role) {
-		this.login = login;
-		this.password = password;
-		this.name = name;
-		this.role = role;
-	}
-	
 	public User(int id, String login, String password, String name, String role) {
 		this.login = login;
 		this.password = password;
@@ -32,7 +24,7 @@ public class User implements Serializable {
 		this.role = role;
 		this.id = id;
 	}
-	
+
 	public User(int id, String login, String name, String email, double balance, double traffic) {
 		this.id = id;
 		this.login = login;
@@ -41,8 +33,7 @@ public class User implements Serializable {
 		this.balance = balance;
 		this.traffic = traffic;
 	}
-	
-	
+
 	public int getId() {
 		return id;
 	}
@@ -90,7 +81,7 @@ public class User implements Serializable {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -173,9 +164,5 @@ public class User implements Serializable {
 		return "User [id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + ", name=" + name
 				+ ", email=" + email + ", balance=" + balance + ", traffic=" + traffic + "]";
 	}
-
-
-
-	
 
 }

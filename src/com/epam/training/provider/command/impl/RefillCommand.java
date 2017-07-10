@@ -1,10 +1,6 @@
 package com.epam.training.provider.command.impl;
 
-import static com.epam.training.provider.util.Permanent.ACTION_TARIFFS;
-import static com.epam.training.provider.util.Permanent.ERROR;
-import static com.epam.training.provider.util.Permanent.ERROR_PAGE;
-import static com.epam.training.provider.util.Permanent.REDIRECT_PARAMETER;
-import static com.epam.training.provider.util.Permanent.TARIFF_PRICE;
+import static com.epam.training.provider.util.Permanent.*;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -32,26 +28,23 @@ public class RefillCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
-		
-		double ammount = Double.parseDouble(request.getParameter("ammount"));
+
+		double ammount = Double.parseDouble(request.getParameter(TRANSACTION_AMMOUNT));
 		TransactionType type = TransactionType.REFILL;
- 
+
 		Calendar currentDate = Calendar.getInstance();
 		Date date = currentDate.getTime();
-		
-		
-		HttpSession session = request.getSession(false);
-		Object user = session.getAttribute("user");
 
-		int userId = ((User)user).getId();
-		
-		
+		HttpSession session = request.getSession(false);
+		Object user = session.getAttribute(USER);
+		int userId = ((User) user).getId();
+
 		Transaction transaction = new Transaction(type, ammount, date, userId);
-		System.out.println("transaction: " + transaction);
+
 		try {
 			service.addTransaction(transaction);
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
-			page = request.getServletPath() + "?action=user_main";
+			page = request.getServletPath() + ACTION_USER_MAIN;
 		} catch (ServiceException e) {
 			request.setAttribute(ERROR, "Adding a transaction wasn't executed! " + e.getMessage());
 			page = ERROR_PAGE;

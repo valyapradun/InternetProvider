@@ -15,7 +15,7 @@ import static com.epam.training.provider.util.Permanent.*;
 
 public class SignInCommand implements Command {
 	private HashMap<String, String> actionUser = new HashMap<>();
-	
+
 	private UserService service;
 
 	{
@@ -26,7 +26,6 @@ public class SignInCommand implements Command {
 	public SignInCommand() {
 		actionUser.put("admin", ACTION_ADMIN_MAIN);
 		actionUser.put("user", ACTION_USER_MAIN);
-		
 	}
 
 	@Override

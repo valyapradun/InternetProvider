@@ -23,13 +23,6 @@ public class TransactionDAOImpl implements TransactionDAO {
 	private final static String SQL_NEW_TRANSACTION = "INSERT INTO provider.transaction (type, ammount, date, user_id) VALUES (?, ?, ?, ?)";
 	private final static String SQL_UPDATE_BALANCE = "UPDATE provider.user SET user.balance = user.balance + ? WHERE user.id = ?";
 	
-	//UPDATE provider.user SET user.balance = user.balance + 20 WHERE user.id = 6
-	
-	//"INSERT INTO provider.transaction (type, ammount, date, user_id) VALUES ('refill', '25', '2017-07-01', '6')"
-	
-	
-	
-	
 	
 	private final static String TRANSACTION_ID = "id";
 	private final static String TRANSACTION_TYPE = "type";
@@ -67,8 +60,8 @@ public class TransactionDAOImpl implements TransactionDAO {
 				TransactionType type = TransactionType.valueOf(resultSet.getString(TRANSACTION_TYPE).toUpperCase());
 				double ammount = resultSet.getDouble(TRANSACTION_AMMOUNT);
 				Date date = resultSet.getDate(TRANSACTION_DATE);
-				Transaction transaction = new Transaction(id, type, ammount, date,
-						Integer.parseInt(parameters.get(TRANSACTION_USER_ID)));
+				
+				Transaction transaction = new Transaction(id, type, ammount, date, Integer.parseInt(parameters.get(TRANSACTION_USER_ID)));
 				transactions.add(transaction);
 			}
 
@@ -109,26 +102,14 @@ public class TransactionDAOImpl implements TransactionDAO {
 
 		try {
 			connection = connectionPool.takeConnection();
+			
 			connection.setAutoCommit(false);
-			
-			
 			
 			statementAdd = connection.prepareStatement(SQL_NEW_TRANSACTION);
 			statementAdd.setString(1, transaction.getType().toString().toLowerCase());
-			System.out.println("type transaction: " + transaction.getType().toString().toLowerCase());
-			
 			statementAdd.setDouble(2, transaction.getAmmount());
-			System.out.println("ammount transaction: " + transaction.getAmmount());
-			
 			statementAdd.setDate(3, new java.sql.Date(transaction.getDate().getTime()));
-			System.out.println("date transaction: " + new java.sql.Date(transaction.getDate().getTime()));
-			
 			statementAdd.setInt(4, transaction.getUserId());
-			System.out.println("user id in transaction: " + transaction.getUserId());
-	
-			
-		//	ps.setDate(2, new java.sql.Date(System.currentTimeMillis()));
-	
 			statementAdd.executeUpdate();
 			
 
@@ -138,9 +119,6 @@ public class TransactionDAOImpl implements TransactionDAO {
 			statementUpdate.executeUpdate();
 
 			connection.commit();
-			
-			
-			
 			connection.setAutoCommit(true);
 		} catch (ConnectionPoolException e) {
 			throw new DAOException("ConnectionPoolException. ", e);

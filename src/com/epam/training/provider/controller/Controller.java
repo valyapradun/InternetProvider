@@ -8,9 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.command.CommandChooser;
 
@@ -19,7 +17,6 @@ import static com.epam.training.provider.util.Permanent.*;
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String INDEX = "index";
-	private static final String SIGN_IN = "sign_in";
 
 	public Controller() {
 		super();
@@ -34,27 +31,23 @@ public class Controller extends HttpServlet {
 		System.out.println("servlet destroy method"); // for me
 	}
 
-	protected void service(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("servlet service method"); // for me
-		checkAuthorization(request);
+		checkAuthorization(request);  // for future check access
 		super.service(request, response);
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("servlet doGet method"); // for me
 		processRequest(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("servlet doPost method"); // for me
 		processRequest(request, response);
 	}
 
-	public void processRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter(ACTION);
 		System.out.println("action: " + action); // for me
 		if (action == null) {
@@ -70,16 +63,14 @@ public class Controller extends HttpServlet {
 		}
 	}
 
-	public void forward(HttpServletRequest request, HttpServletResponse response, String page)
-			throws ServletException, IOException {
+	public void forward(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
 		RequestDispatcher disp = request.getRequestDispatcher(page);
 		disp.forward(request, response);
 	}
 
-	public void checkAuthorization(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
-		User user = (User) session.getAttribute("user");
-
-		System.out.println("for future check access"); // for me
+	public void checkAuthorization(HttpServletRequest request) {  // for future check access
+		// HttpSession session = request.getSession(true);
+		// User user = (User) session.getAttribute("user");
+		// System.out.println("for future check access"); // for me
 	}
 }

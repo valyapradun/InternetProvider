@@ -18,8 +18,7 @@ public class SignOutCommand implements Command {
 
 		if (loggedUser == null) {
 			page = INDEX;
-		} 
-		else {
+		} else {
 			page = INDEX;
 			session.invalidate();
 		}

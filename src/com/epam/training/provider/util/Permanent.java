@@ -27,7 +27,11 @@ public final class Permanent {
 	public final static String TARIFF_SPEED = "speed";
 	public final static String TARIFF_TYPE = "type";
 	public final static String TARIFF_PICTURE = "picture";
-
+	
+	/* for transaction */
+	public final static String TRANSACTION_AMMOUNT = "ammount";
+	
+	
 	/* pages */
 	public static final String INDEX = "/index.jsp";
 	public static final String ADMIN_PAGE = "/admin_index.jsp";

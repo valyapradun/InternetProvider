@@ -102,7 +102,6 @@ public class UserDAOImpl implements UserDAO {
 		Connection connection = null;
 		PreparedStatement statement = null;
 
-		// Statement statement = null;
 		try {
 			connection = connectionPool.takeConnection();
 

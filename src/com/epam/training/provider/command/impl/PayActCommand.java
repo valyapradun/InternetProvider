@@ -19,6 +19,7 @@ import com.epam.training.provider.service.factory.ServiceFactory;
 public class PayActCommand implements Command {
 	private TransactionService service;
 
+	private static final String KEY = "userId";
 	private static final String RESULT = "transactions";
 
 	{
@@ -30,15 +31,13 @@ public class PayActCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
 		List<Transaction> transactions = null;
+
 		String action = request.getParameter(ACTION);
 		HttpSession session = request.getSession(false);
-		Object user = session.getAttribute("user");
-		System.out.println("User: " + user);
-		
-		String userID = Integer.toString(((User)user).getId());
-	System.out.println("userID: " + userID);
+		Object user = session.getAttribute(USER);
+		String userID = Integer.toString(((User) user).getId());
 		HashMap<String, String> parameters = new HashMap<String, String>();
-		parameters.put("userId", userID);
+		parameters.put(KEY, userID);
 
 		try {
 			transactions = service.listTransactionWithParameters(parameters);
