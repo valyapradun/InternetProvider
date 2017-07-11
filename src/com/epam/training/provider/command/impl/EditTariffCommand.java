@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 
 public class EditTariffCommand implements Command {
 
-	private TariffService service;
+	private final TariffService service;
 
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
@@ -46,9 +46,9 @@ public class EditTariffCommand implements Command {
 		try {
 			service.editTariff(tariff);
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
-			page = request.getServletPath() + ACTION_TARIFFS;
+			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "It is impossible to edit tariff's card!" + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to edit tariff's card!" + e.getMessage());
 			page = ERROR_PAGE;
 		}
 		return page;

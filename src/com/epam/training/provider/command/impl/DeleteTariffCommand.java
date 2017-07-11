@@ -12,7 +12,7 @@ import com.epam.training.provider.service.factory.ServiceFactory;
 
 public class DeleteTariffCommand implements Command {
 
-	private TariffService service;
+	private final TariffService service;
 
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
@@ -21,16 +21,21 @@ public class DeleteTariffCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		int id = Integer.parseInt(request.getParameter(TARIFF_ID));
 		String page = null;
-
+		
+		int id = Integer.parseInt(request.getParameter(TARIFF_ID));
+		
 		try {
+			
 			service.deleteTariff(id);
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
-			page = request.getServletPath() + ACTION_TARIFFS;
+			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
+			
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "It is impossible to delete the tariff!" + e.getMessage());
+			
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to delete the tariff!" + e.getMessage());
 			page = ERROR_PAGE;
+			
 		}
 		return page;
 	}

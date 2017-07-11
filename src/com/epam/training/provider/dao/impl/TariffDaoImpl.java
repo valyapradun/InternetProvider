@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.bean.TariffType;
@@ -42,7 +42,7 @@ public class TariffDAOImpl implements TariffDAO {
 	}
 
 	@Override
-	public List<Tariff> searchWithParameters(HashMap<String, String> parameters) throws DAOException {
+	public List<Tariff> searchWithParameters(Map<String, String> parameters) throws DAOException {
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;

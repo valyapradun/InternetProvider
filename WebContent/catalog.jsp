@@ -34,7 +34,7 @@
        <div class="container">
         <ul class="nav nav-tabs">
          <li <c:if test="${type==null}">class="active"</c:if>>
-           <a href="Controller?action=all_tariffs">Все тарифы 
+           <a href="Controller?action=search_tariffs">Все тарифы 
           <c:if test="${type==null}">
            <span class="badge">
            
@@ -43,7 +43,7 @@
            </span></c:if></a>
          </li>
          <li <c:if test="${type=='1'}">class="active"</c:if>>
-           <a href="Controller?action=all_tariffs&type=1">Безлимитные 
+           <a href="Controller?action=search_tariffs&type=1">Безлимитные 
            <c:if test="${type=='1'}">
            <span class="badge">
            
@@ -53,7 +53,7 @@
            </c:if></a>
          </li>
          <li <c:if test="${type=='2'}">class="active"</c:if>>
-           <a href="Controller?action=all_tariffs&type=2">По трафику 
+           <a href="Controller?action=search_tariffs&type=2">По трафику 
             <c:if test="${type=='2'}">
            <span class="badge">
           

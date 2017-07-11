@@ -1,6 +1,6 @@
 package com.epam.training.provider.bean;
 
-public enum TransactionType {
+public enum PaymentType {
 	REFILL, WITHDRAW;
 
 }

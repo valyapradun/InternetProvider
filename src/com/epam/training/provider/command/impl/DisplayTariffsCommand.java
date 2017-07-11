@@ -2,6 +2,7 @@ package com.epam.training.provider.command.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,11 +14,10 @@ import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
 
-public class TariffsCommand implements Command {
-	private static final String KEY = "type";
-	private static final String RESULT = "tariffs";
+public class DisplayTariffsCommand implements Command {
+	private static final String LIST_TARIFFS = "tariffs";
 
-	private TariffService service;
+	private final TariffService service;
 
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
@@ -28,19 +28,27 @@ public class TariffsCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
 		List<Tariff> tariffs = null;
+		
 		String typeTariff = request.getParameter(TARIFF_TYPE);
+		
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put(TARIFF_TYPE, typeTariff);
+		
 		String action = request.getParameter(ACTION);
-		HashMap<String, String> parameters = new HashMap<String, String>();
-		parameters.put(KEY, typeTariff);
+		
 		try {
+			
 			tariffs = service.listTariffsWithParameters(parameters);
-			request.setAttribute(RESULT, tariffs);
+			request.setAttribute(LIST_TARIFFS, tariffs);
 			request.setAttribute(TARIFF_TYPE, typeTariff);
 			request.setAttribute(ACTION, action);
-			page = ADMIN_TARIFFS;
+			page = LIST_TARIFFS_PAGE;
+			
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "It is impossible to display tariffs!" + e.getMessage());
+			
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to display tariffs!" + e.getMessage());
 			page = ERROR_PAGE;
+			
 		}
 		return page;
 	}

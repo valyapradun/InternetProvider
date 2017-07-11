@@ -9,28 +9,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.epam.training.provider.bean.Transaction;
+import com.epam.training.provider.bean.Payment;
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
-import com.epam.training.provider.service.TransactionService;
+import com.epam.training.provider.service.PaymentService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
-public class PayActCommand implements Command {
-	private TransactionService service;
+public class SearchUserPaymentCommand implements Command {
+	private final PaymentService service;
 
 	private static final String KEY = "userId";
 	private static final String RESULT = "transactions";
 
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
-		service = serviceObjectFactory.getTransactionService();
+		service = serviceObjectFactory.getPaymentService();
+
 	}
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
-		List<Transaction> transactions = null;
+		List<Payment> transactions = null;
 
 		String action = request.getParameter(ACTION);
 		HttpSession session = request.getSession(false);
@@ -45,7 +46,7 @@ public class PayActCommand implements Command {
 			request.setAttribute(RESULT, transactions);
 			page = USER_TRANSACTION;
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "It is impossible to display transactions!" + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to display transactions!" + e.getMessage());
 			page = ERROR_PAGE;
 		}
 

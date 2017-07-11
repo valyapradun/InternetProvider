@@ -17,9 +17,9 @@ public class SignOutCommand implements Command {
 		User loggedUser = (User) session.getAttribute(USER);
 
 		if (loggedUser == null) {
-			page = INDEX;
+			page = INDEX_PAGE;
 		} else {
-			page = INDEX;
+			page = INDEX_PAGE;
 			session.invalidate();
 		}
 		return page;

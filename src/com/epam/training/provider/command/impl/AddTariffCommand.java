@@ -16,7 +16,7 @@ import com.epam.training.provider.service.factory.ServiceFactory;
 
 public class AddTariffCommand implements Command {
 
-	private TariffService service;
+	private final TariffService service;
 
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
@@ -25,7 +25,8 @@ public class AddTariffCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-
+		String page = null;
+		
 		String name = request.getParameter(TARIFF_NAME);
 		byte[] bytes = name.getBytes(StandardCharsets.ISO_8859_1);
 		name = new String(bytes, StandardCharsets.UTF_8);
@@ -33,6 +34,7 @@ public class AddTariffCommand implements Command {
 		double price = Double.parseDouble(request.getParameter(TARIFF_PRICE));
 		double size = Double.parseDouble(normalize(request.getParameter(TARIFF_SIZE)));
 		int speed = Integer.parseInt(normalize(request.getParameter(TARIFF_SPEED)));
+
 		TariffType type = TariffType.valueOf(request.getParameter(TARIFF_TYPE).toUpperCase());
 
 		String picture = request.getParameter(TARIFF_PICTURE);
@@ -40,15 +42,18 @@ public class AddTariffCommand implements Command {
 		picture = new String(bytes, StandardCharsets.UTF_8);
 
 		Tariff tariff = new Tariff(name, type, price, size, speed, picture);
-		String page = null;
 
 		try {
+			
 			service.addTariff(tariff);
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
-			page = request.getServletPath() + ACTION_TARIFFS;
+			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
+			
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "Adding a tariff wasn't executed!" + e.getMessage());
+			
+			request.setAttribute(ERROR_MESSAGE, "Adding a tariff wasn't executed!" + e.getMessage());
 			page = ERROR_PAGE;
+			
 		}
 		return page;
 	}

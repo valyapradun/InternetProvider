@@ -31,9 +31,9 @@
 				<div class="row">
 					<div class="container">
 						<ul class="nav nav-tabs">
-							<li <c:if test="${action=='user_main'}"> class="active"</c:if>><a href="Controller?action=user_main">Состояние счета</a></li>
+							<li <c:if test="${action=='show_user_page'}"> class="active"</c:if>><a href="Controller?action=show_user_page">Состояние счета</a></li>
 							<li <c:if test="${action=='users'}"> class="active"</c:if>><a href="Controller?action=users">Тарифы и услуги</a></li>
-							<li <c:if test="${action=='pay_act'}"> class="active"</c:if>><a href="Controller?action=pay_act">Платежи</a></li>
+							<li <c:if test="${action=='search_user_payments'}"> class="active"</c:if>><a href="Controller?action=search_user_payments">Платежи</a></li>
 							<li <c:if test="${action=='users'}"> class="active"</c:if>><a href="Controller?action=users">Настройки профиля</a></li>
 						</ul>
 					</div>
@@ -73,7 +73,7 @@
 					<hr>
 					<form role="form" action="Controller" method="POST">
 						<h4>Пополнение счета </h4>
-						<input type="hidden" name="action" value="refill" />
+						<input type="hidden" name="action" value="add_payment" />
 						<!--  <input type="hidden" name="userId" value="${user.getId()}"/> -->
 						<input type="text" class="user-pay" id="inputAmmount" name="ammount" placeholder="Введите сумму" required pattern="^[ 0-9]+$" title="Ввести можно только целое положительное число"/>						
 						<button type="submit" class="btn btn-labeled btn-primary"><span class="btn-label"><i class="glyphicon glyphicon-thumbs-up"></i></span>Зачислить</button>

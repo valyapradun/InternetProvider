@@ -10,8 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.epam.training.provider.bean.Transaction;
-import com.epam.training.provider.bean.TransactionType;
+import com.epam.training.provider.bean.Payment;
+import com.epam.training.provider.bean.PaymentType;
 import com.epam.training.provider.dao.TransactionDAO;
 import com.epam.training.provider.dao.exception.DAOException;
 import com.epam.training.provider.dao.exception.DAORuntimeException;
@@ -39,11 +39,11 @@ public class TransactionDAOImpl implements TransactionDAO {
 	}
 
 	@Override
-	public List<Transaction> searchWithParameters(HashMap<String, String> parameters) throws DAOException {
+	public List<Payment> searchWithParameters(HashMap<String, String> parameters) throws DAOException {
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
-		List<Transaction> transactions = new ArrayList<Transaction>();
+		List<Payment> transactions = new ArrayList<Payment>();
 
 		try {
 			connection = connectionPool.takeConnection();
@@ -57,11 +57,11 @@ public class TransactionDAOImpl implements TransactionDAO {
 			resultSet = statement.executeQuery(SQL_ALL_TRANSACTIONS + where);
 			while (resultSet.next()) {
 				int id = resultSet.getInt(TRANSACTION_ID);
-				TransactionType type = TransactionType.valueOf(resultSet.getString(TRANSACTION_TYPE).toUpperCase());
+				PaymentType type = PaymentType.valueOf(resultSet.getString(TRANSACTION_TYPE).toUpperCase());
 				double ammount = resultSet.getDouble(TRANSACTION_AMMOUNT);
 				Date date = resultSet.getDate(TRANSACTION_DATE);
 				
-				Transaction transaction = new Transaction(id, type, ammount, date, Integer.parseInt(parameters.get(TRANSACTION_USER_ID)));
+				Payment transaction = new Payment(id, type, ammount, date, Integer.parseInt(parameters.get(TRANSACTION_USER_ID)));
 				transactions.add(transaction);
 			}
 
@@ -91,7 +91,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
 
 	@Override
-	public void addNew(Transaction transaction) throws DAOException {
+	public void addNew(Payment transaction) throws DAOException {
 		if (transaction == null) {
 			throw new DAOException("The transaction for adding is equal to null!");
 		}

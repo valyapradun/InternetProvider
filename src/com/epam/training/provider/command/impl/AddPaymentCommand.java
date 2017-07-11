@@ -9,28 +9,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.epam.training.provider.bean.Transaction;
-import com.epam.training.provider.bean.TransactionType;
+import com.epam.training.provider.bean.Payment;
+import com.epam.training.provider.bean.PaymentType;
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
-import com.epam.training.provider.service.TransactionService;
+import com.epam.training.provider.service.PaymentService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
-public class RefillCommand implements Command {
-	private TransactionService service;
+public class AddPaymentCommand implements Command {
+	private final PaymentService service;
 
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
-		service = serviceObjectFactory.getTransactionService();
+		service = serviceObjectFactory.getPaymentService();
+
 	}
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
 
-		double ammount = Double.parseDouble(request.getParameter(TRANSACTION_AMMOUNT));
-		TransactionType type = TransactionType.REFILL;
+		double ammount = Double.parseDouble(request.getParameter(PAYMENT_AMMOUNT));
+		
+		PaymentType type = PaymentType.REFILL;
 
 		Calendar currentDate = Calendar.getInstance();
 		Date date = currentDate.getTime();
@@ -39,15 +41,19 @@ public class RefillCommand implements Command {
 		Object user = session.getAttribute(USER);
 		int userId = ((User) user).getId();
 
-		Transaction transaction = new Transaction(type, ammount, date, userId);
+		Payment payment = new Payment(type, ammount, date, userId);
 
 		try {
-			service.addTransaction(transaction);
+			
+			service.addPayment(payment);
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
-			page = request.getServletPath() + ACTION_USER_MAIN;
+			page = request.getServletPath() + ACTION_SHOW_USER_PAGE;
+			
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "Adding a transaction wasn't executed! " + e.getMessage());
+			
+			request.setAttribute(ERROR_MESSAGE, "Adding a transaction wasn't executed! " + e.getMessage());
 			page = ERROR_PAGE;
+			
 		}
 		return page;
 

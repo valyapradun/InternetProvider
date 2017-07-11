@@ -16,7 +16,7 @@ import static com.epam.training.provider.util.Permanent.*;
 public class SignInCommand implements Command {
 	private HashMap<String, String> actionUser = new HashMap<>();
 
-	private UserService service;
+	private final UserService service;
 
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
@@ -24,8 +24,8 @@ public class SignInCommand implements Command {
 	}
 
 	public SignInCommand() {
-		actionUser.put("admin", ACTION_ADMIN_MAIN);
-		actionUser.put("user", ACTION_USER_MAIN);
+		actionUser.put("admin", ACTION_SHOW_ADMIN_PAGE);
+		actionUser.put("user", ACTION_SHOW_USER_PAGE);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class SignInCommand implements Command {
 		try {
 			user = service.authorize(login, password);
 			if (user == null) {
-				request.setAttribute(ERROR, "Such user or password doesn't exist! Try again!");
+				request.setAttribute(ERROR_MESSAGE, "Such user or password doesn't exist! Try again!");
 				page = ERROR_PAGE;
 			} else {
 
@@ -50,7 +50,7 @@ public class SignInCommand implements Command {
 			}
 
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "It is impossible to sign in!" + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to sign in!" + e.getMessage());
 			page = ERROR_PAGE;
 		}
 		return page;

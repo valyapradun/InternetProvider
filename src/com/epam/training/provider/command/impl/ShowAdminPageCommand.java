@@ -6,7 +6,7 @@ import static com.epam.training.provider.util.Permanent.*;
 
 import com.epam.training.provider.command.Command;
 
-public class AdminMainCommand implements Command{
+public class ShowAdminPageCommand implements Command{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {

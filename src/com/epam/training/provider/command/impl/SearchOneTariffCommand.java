@@ -13,10 +13,10 @@ import com.epam.training.provider.service.TariffService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
-public class CardTariffCommand implements Command{
+public class SearchOneTariffCommand implements Command{
 	private final static String RESULT = "tariff";
 	
-	private TariffService service;
+	private final TariffService service;
 
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
@@ -33,7 +33,7 @@ public class CardTariffCommand implements Command{
 			request.setAttribute(RESULT, tariff);
 			page = ADMIN_CARD_TARIFF;
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR, "It is impossible to show a tariff card" + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to show a tariff card" + e.getMessage());
 			page = ERROR_PAGE;
 		}
 		return page;

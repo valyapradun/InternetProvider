@@ -21,8 +21,8 @@
 				<div class="row">
 					<div class="container">
 						<ul class="nav nav-tabs">
-							<li><a href="Controller?action=tariffs">Тарифы</a></li>
-							<li><a href="Controller?action=users">Пользователи</a></li>
+							<li><a href="Controller?action=display_tariffs">Тарифы</a></li>
+							<li><a href="Controller?action=display_users">Пользователи</a></li>
 						</ul>
 					</div>
 				</div>

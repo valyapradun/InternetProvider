@@ -8,26 +8,26 @@ import com.epam.training.provider.command.impl.*;
 public final class CommandProvider {
 	private final Map<CommandName, Command> repository = new HashMap<>();
 
-	CommandProvider() {
-		repository.put(CommandName.SIGN_IN, new SignInCommand());
-		repository.put(CommandName.REGISTRATION, new RegCommand());
-		repository.put(CommandName.SIGN_OUT, new SignOutCommand());
-		repository.put(CommandName.INDEX, new IndexPageCommand());
-		repository.put(CommandName.ALL_TARIFFS, new AllTariffCommand());
-		repository.put(CommandName.WRONG_REQUEST, new WrongRequestCommand());
-		repository.put(CommandName.TARIFFS, new TariffsCommand());
-		repository.put(CommandName.CARD_TARIFF, new CardTariffCommand());
-		repository.put(CommandName.EDIT_TARIFF, new EditTariffCommand());
+	public CommandProvider() {
+		repository.put(CommandName.ADD_PAYMENT, new AddPaymentCommand());
 		repository.put(CommandName.ADD_TARIFF, new AddTariffCommand());
 		repository.put(CommandName.DELETE_TARIFF, new DeleteTariffCommand());
-		repository.put(CommandName.USERS, new UsersCommand());
-		repository.put(CommandName.PAY_ACT, new PayActCommand());
-		repository.put(CommandName.REFILL, new RefillCommand());
-		repository.put(CommandName.USER_MAIN, new UserMainCommand());
-		repository.put(CommandName.ADMIN_MAIN, new AdminMainCommand());
+		repository.put(CommandName.DISPLAY_TARIFFS, new DisplayTariffsCommand());
+		repository.put(CommandName.DISPLAY_USERS, new DisplayUsersCommand());
+		repository.put(CommandName.EDIT_TARIFF, new EditTariffCommand());
+		repository.put(CommandName.REGISTRATION, new RegistrationCommand());
+		repository.put(CommandName.SEARCH_ONE_TARIFF, new SearchOneTariffCommand());
+		repository.put(CommandName.SEARCH_TARIFFS, new SearchTariffsCommand());
+		repository.put(CommandName.SEARCH_USER_PAYMENTS, new SearchUserPaymentCommand());
+		repository.put(CommandName.SHOW_ADMIN_PAGE, new ShowAdminPageCommand());
+		repository.put(CommandName.SHOW_INDEX_PAGE, new ShowIndexPageCommand());
+		repository.put(CommandName.SHOW_USER_PAGE, new ShowUserPageCommand());
+		repository.put(CommandName.SIGN_IN, new SignInCommand());
+		repository.put(CommandName.SIGN_OUT, new SignOutCommand());
+		repository.put(CommandName.WRONG_REQUEST, new WrongRequestCommand());
 	}
 
-	Command getCommand(String name) {
+	public Command getCommand(String name) {
 		CommandName commandName = null;
 		Command command = null;
 		try {

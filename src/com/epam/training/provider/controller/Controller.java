@@ -3,59 +3,48 @@ package com.epam.training.provider.controller;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.epam.training.provider.command.Command;
-import com.epam.training.provider.command.CommandChooser;
+import com.epam.training.provider.command.CommandProvider;
 
 import static com.epam.training.provider.util.Permanent.*;
 
 public class Controller extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
-	private static final String INDEX = "index";
+	private final CommandProvider provider = new CommandProvider();
 
 	public Controller() {
 		super();
-		System.out.println("servlet constructor"); // for me
-	}
-
-	public void init(ServletConfig config) throws ServletException {
-		System.out.println("servlet init method"); // for me
-	}
-
-	public void destroy() {
-		System.out.println("servlet destroy method"); // for me
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("servlet service method"); // for me
 		checkAuthorization(request);  // for future check access
 		super.service(request, response);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("servlet doGet method"); // for me
 		processRequest(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("servlet doPost method"); // for me
 		processRequest(request, response);
 	}
 
 	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter(ACTION);
-		System.out.println("action: " + action); // for me
+		
 		if (action == null) {
-			action = INDEX;
+			action = ACTION_SHOW_INDEX_PAGE;
 		}
 
-		Command command = CommandChooser.chooseCommand(action);
+		Command command = provider.getCommand(action);
 		String page = command.execute(request, response);
+		
 		if (request.getAttribute(REDIRECT_PARAMETER) == null) {
 			forward(request, response, page);
 		} else {

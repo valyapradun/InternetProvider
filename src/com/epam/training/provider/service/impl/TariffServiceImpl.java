@@ -1,7 +1,7 @@
 package com.epam.training.provider.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.dao.TariffDAO;
@@ -13,7 +13,7 @@ import com.epam.training.provider.service.exception.ServiceException;
 public class TariffServiceImpl implements TariffService {
 
 	@Override
-	public List<Tariff> listTariffsWithParameters(HashMap<String, String> parameters) throws ServiceException {
+	public List<Tariff> listTariffsWithParameters(Map<String, String> parameters) throws ServiceException {
 		if (parameters.isEmpty()) {
 			throw new ServiceException("Parameters in listTariffsWithParameters() weren't transferred!");
 		}

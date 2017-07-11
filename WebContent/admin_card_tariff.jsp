@@ -22,8 +22,8 @@
 				<div class="row">
 					<div class="container">
 						<ul class="nav nav-tabs">
-							<li <c:if test="${action=='tariffs'}"> class="active"</c:if>><a href="Controller?action=tariffs">Тарифы</a></li>
-							<li><a href="#">Пользователи</a></li>
+							<li <c:if test="${action=='display_tariffs'}"> class="active"</c:if>><a href="Controller?action=display_tariffs">Тарифы</a></li>
+							<li <c:if test="${action=='display_users'}"> class="active"</c:if>><a href="Controller?action=display_users">Пользователи</a></li>
 						</ul>
 					</div>
 				</div>
@@ -78,7 +78,7 @@
 					
 					<div class="button-tariff">
 						<button type="submit" class="btn btn-labeled btn-success" onclick="enabledAllField()"><span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Сохранить изменения</button>
-						<a href="Controller?action=tariffs" class="btn btn-labeled btn-danger" title="Вернуться обратно"><span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Вернуться обратно</a>					
+						<a href="Controller?action=display_tariffs" class="btn btn-labeled btn-danger" title="Вернуться обратно"><span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Вернуться обратно</a>					
 				 
 				    </div>
 					</form>

@@ -1,10 +1,10 @@
 package com.epam.training.provider.service.factory;
 
 import com.epam.training.provider.service.TariffService;
-import com.epam.training.provider.service.TransactionService;
+import com.epam.training.provider.service.PaymentService;
 import com.epam.training.provider.service.UserService;
 import com.epam.training.provider.service.impl.TariffServiceImpl;
-import com.epam.training.provider.service.impl.TransactionServiceImpl;
+import com.epam.training.provider.service.impl.PaymentServiceImpl;
 import com.epam.training.provider.service.impl.UserServiceImpl;
 
 public final class ServiceFactory {
@@ -12,7 +12,7 @@ public final class ServiceFactory {
 
 	private final UserService userService = new UserServiceImpl();
 	private final TariffService tariffService = new TariffServiceImpl();
-	private final TransactionService transactionService = new TransactionServiceImpl();
+	private final PaymentService paymentService = new PaymentServiceImpl();
 
 	private ServiceFactory() {
 	}
@@ -29,7 +29,7 @@ public final class ServiceFactory {
 		return tariffService;
 	}
 
-	public TransactionService getTransactionService() {
-		return transactionService;
+	public PaymentService getPaymentService() {
+		return paymentService;
 	}
 }

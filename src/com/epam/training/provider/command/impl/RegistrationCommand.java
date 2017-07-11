@@ -15,8 +15,8 @@ import static com.epam.training.provider.util.Permanent.*;
 
 import java.nio.charset.StandardCharsets;
 
-public class RegCommand implements Command {
-	private UserService service;
+public class RegistrationCommand implements Command {
+	private final UserService service;
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
 		service = serviceObjectFactory.getUserService();
@@ -51,11 +51,11 @@ public class RegCommand implements Command {
 				page = USER_PAGE;
 
 			} catch (ServiceException e) {
-				request.setAttribute(ERROR, "It is impossible to registrate! " + e.getMessage());
+				request.setAttribute(ERROR_MESSAGE, "It is impossible to registrate! " + e.getMessage());
 				page = ERROR_PAGE;
 			} catch (ValidateException e) {
 				request.setAttribute(USER, user);
-				request.setAttribute(ERROR, ("Wrong data:! " + e.getMessage()).split("!"));
+				request.setAttribute(ERROR_MESSAGE, ("Wrong data:! " + e.getMessage()).split("!"));
 				page = REGISTRATION_PAGE;
 			}
 

@@ -3,18 +3,18 @@ package com.epam.training.provider.bean;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Transaction implements Serializable {
+public class Payment implements Serializable {
 	private static final long serialVersionUID = 6550775677947500975L;
 	private int id;
-	private TransactionType type;
+	private PaymentType type;
 	private double ammount;
 	private Date date;
 	private int userId;
 
-	public Transaction() {
+	public Payment() {
 	}
 
-	public Transaction(int id, TransactionType type, double ammount, Date date, int userId) {
+	public Payment(int id, PaymentType type, double ammount, Date date, int userId) {
 		this.id = id;
 		this.type = type;
 		this.ammount = ammount;
@@ -22,7 +22,7 @@ public class Transaction implements Serializable {
 		this.userId = userId;
 	}
 	
-	public Transaction(TransactionType type, double ammount, Date date, int userId) {
+	public Payment(PaymentType type, double ammount, Date date, int userId) {
 		this.type = type;
 		this.ammount = ammount;
 		this.date = date;
@@ -37,11 +37,11 @@ public class Transaction implements Serializable {
 		this.id = id;
 	}
 
-	public TransactionType getType() {
+	public PaymentType getType() {
 		return type;
 	}
 
-	public void setType(TransactionType type) {
+	public void setType(PaymentType type) {
 		this.type = type;
 	}
 
@@ -91,7 +91,7 @@ public class Transaction implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Transaction other = (Transaction) obj;
+		Payment other = (Payment) obj;
 		if (Double.doubleToLongBits(ammount) != Double.doubleToLongBits(other.ammount))
 			return false;
 		if (date == null) {

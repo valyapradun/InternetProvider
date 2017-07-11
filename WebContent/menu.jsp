@@ -21,9 +21,9 @@
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown">ТАРИФЫ <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="Controller?action=all_tariffs&type=1">Безлимитные</a></li>
-								<li><a href="Controller?action=all_tariffs&type=2">По трафику</a></li>
-								<li><a href="Controller?action=all_tariffs">Все тарифы</a></li>
+								<li><a href="Controller?action=search_tariffs&type=1">Безлимитные</a></li>
+								<li><a href="Controller?action=search_tariffs&type=2">По трафику</a></li>
+								<li><a href="Controller?action=search_tariffs">Все тарифы</a></li>
 							</ul>
 						</li>
 						<li><a href="#">КОНТАКТЫ</a></li>
@@ -41,8 +41,8 @@
 							    <h5>Добро пожаловать,
 							    	<a href="	
 										<c:choose>
-											<c:when test="${user.getRole()=='admin'}">Controller?action=admin_main</c:when>
-											<c:otherwise>Controller?action=user_main</c:otherwise>
+											<c:when test="${user.getRole()=='admin'}">Controller?action=show_admin_page</c:when>
+											<c:otherwise>Controller?action=show_user_page</c:otherwise>
 										</c:choose>
 							    	" class="a-user"> 
 							    		<c:out value="${user.getName()}" />
