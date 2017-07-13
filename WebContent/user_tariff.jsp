@@ -7,20 +7,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>Домашний Интернет</title>
+<title>Домашний Интернет - Транзакции</title>
 
 <!-- Bootstrap -->
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
 
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body>
 	<div class="wrapper">
@@ -48,41 +41,45 @@
 					
 					<div class="col-md-2 col-lg-2 col-sm-1"></div>
 					<div class="col-md-8 col-lg-8 col-sm-10">
-					<h2>Состояние счета </h2>
+					<h2>Тарифы и услуги </h2>
+					<br>
 					<table class="table table-hover">
+						<thead class="thead-inverse">
+							<tr>
+								<th></th>
+								<th>Название</th>
+								<th>Цена (BYN)</th>
+								<th>Размер (Гб)</th>
+								<th>Скорость (Мбит/с)</th>
+								<th>Тип</th>
+								<th></th>
+							</tr>
+						</thead>
 						<tbody>
-							<tr>
-								<th>Абонент</th>
-								<td><c:out value="${user.getName()}" /></td>
-							</tr>
-							<tr>
-								<th>Логин</th>
-								<td><c:out value="${user.getLogin()}" /></td>
-							<tr>
-								<th>Email</th>
-								<td><c:out value="${user.getEmail()}" /></td>
-							</tr>
-							<tr>
-								<th>Статус блокировки</th>
-								<td></td>
-							</tr>
-							<tr>
-								<th>Актуальный баланс</th>
-								<td><c:out value="${user.getBalance()}" /></td>
-							</tr>
-							<tr>
-								<th>Тарифный план</th>
-								<td><c:out value="${user.getTariffTitle()}" /></td>
-							</tr>
+							<c:forEach items="${tariffs}" var="i">
+								<tr>
+									<td><img class="picture-user-tariff" src=<c:out value="${i.getPicture()}" /> alt=""></td>
+									<td><c:out value="${i.getName()}" /></td>
+									<td><c:out value="${i.getPrice()}" /></td>
+									<td><c:out value="${i.getSize()}" /></td>
+									<td><c:out value="${i.getSpeed()}" /></td>
+									<td><c:out value="${i.getType()}" /></td>
+									
+									<td>
+										<div class="row">
+												<a href="Controller?action=buy_tariff&id=${i.getId()}" class="btn btn-primary btn-labeled buy-btn" title="Купить тариф"><span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Купить</a> 
+												 
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
+
 					</div>
 					<div class="col-md-2 col-lg-2 col-sm-1"></div>
 				</div>
 			</div>
-			
-
-
 		</div>
 		
 		<footer>

@@ -24,6 +24,8 @@ public class EditTariffCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
+		String page = null;
+		
 		int id = Integer.parseInt(request.getParameter(TARIFF_ID));
 
 		String name = request.getParameter(TARIFF_NAME);
@@ -41,18 +43,21 @@ public class EditTariffCommand implements Command {
 		
 		Tariff tariff = new Tariff(id, name, type, price, size, speed, picture);
 
-		String page = null;
-
 		try {
+			
 			service.editTariff(tariff);
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
+			
 		} catch (ServiceException e) {
+			
 			request.setAttribute(ERROR_MESSAGE, "It is impossible to edit tariff's card!" + e.getMessage());
 			page = ERROR_PAGE;
+			
 		}
 		return page;
 	}
+	
 	
 	public String normalize(String parameter) {
 		if (parameter.equals("")) {

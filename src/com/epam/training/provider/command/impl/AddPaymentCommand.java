@@ -51,7 +51,7 @@ public class AddPaymentCommand implements Command {
 			
 		} catch (ServiceException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "Adding a transaction wasn't executed! " + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, "Adding a payment wasn't executed! " + e.getMessage());
 			page = ERROR_PAGE;
 			
 		}

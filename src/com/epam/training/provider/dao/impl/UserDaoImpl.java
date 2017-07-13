@@ -14,7 +14,6 @@ import com.epam.training.provider.dao.UserDAO;
 import com.epam.training.provider.dao.exception.DAOException;
 
 public class UserDAOImpl implements UserDAO {
-	private static ConnectionPool connectionPool;
 	private static String salt = ResourceBundle.getBundle("config").getString("salt");
 
 	private final static String SQL_LOGIN = "SELECT user.id, user.login, user.password, user.name, 'user' AS role FROM provider.user WHERE (login =? AND password=MD5(?)) UNION ALL SELECT administrator.id, administrator.login, administrator.password, 'Administrator' AS name, 'admin' AS role FROM provider.administrator WHERE (login =? AND password=MD5(?))";
@@ -22,7 +21,10 @@ public class UserDAOImpl implements UserDAO {
 	private final static String SQL_UNIQUE_EMAIL = "SELECT count(user.email) AS count FROM provider.user WHERE user.email = ?";
 	private final static String SQL_NEW_USER = "INSERT INTO user (`login`, `password`, `name`, `email`) VALUES (?, MD5(?), ?, ?)";
 	private final static String SQL_ALL_USERS = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user";
-	private final static String SQL_ONE_USER = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user WHERE user.login = ?";
+	private final static String SQL_ONE_USER = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user WHERE user.id = ?";
+	private final static String SQL_UNIQUE_TARIFF = "SELECT count(user_to_tariff.tariff_id) AS count FROM provider.user_to_tariff WHERE user_to_tariff.user_id = ? AND user_to_tariff.end IS NULL";
+	private final static String SQL_ACTIVE_TARIFF = "SELECT tariff.name FROM provider.tariff JOIN provider.user_to_tariff ON tariff.id = user_to_tariff.tariff_id WHERE user_to_tariff.user_id = ? AND user_to_tariff.end IS NULL";
+			
 
 	private final static String USER_ID = "id";
 	private final static String USER_LOGIN = "login";
@@ -33,7 +35,9 @@ public class UserDAOImpl implements UserDAO {
 	private final static String USER_BALANCE = "balance";
 	private final static String USER_TRAFFIC = "traffic_used";
 	private final static String USER_COUNT = "count";
-
+	private final static String TARIFF_NAME = "name";
+	
+	private static ConnectionPool connectionPool;
 	static {
 		try {
 			connectionPool = ConnectionPool.getInstance();
@@ -261,11 +265,10 @@ public class UserDAOImpl implements UserDAO {
 		return users;
 	}
 
+	
+
 	@Override
-	public User searchByLogin(String loginUser) throws DAOException {
-		if (loginUser == null) {
-			throw new DAOException("Login of user is equal to null!");
-		}
+	public User searchById(int id) throws DAOException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -274,16 +277,16 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			connection = connectionPool.takeConnection();
 			statement = connection.prepareStatement(SQL_ONE_USER);
-			statement.setString(1, loginUser);
+			statement.setInt(1, id);
 
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				int id = resultSet.getInt(USER_ID);
 				String login = resultSet.getString(USER_LOGIN);
 				String name = resultSet.getString(USER_NAME);
 				String email = resultSet.getString(USER_EMAIL);
 				double balance = resultSet.getDouble(USER_BALANCE);
 				double traffic = resultSet.getDouble(USER_TRAFFIC);
+				
 				user = new User(id, login, name, email, balance, traffic);
 			}
 
@@ -308,6 +311,84 @@ public class UserDAOImpl implements UserDAO {
 		}
 
 		return user;
+	}
+
+	@Override
+	public int countActiveTariffs(int userID) throws DAOException {
+		int count = 0;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.prepareStatement(SQL_UNIQUE_TARIFF);
+			statement.setInt(1, userID);
+
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				count = resultSet.getInt(USER_COUNT);
+			}
+
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException: ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Сan't count active tariffs! ", e);
+		} finally {
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+			}
+
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+
+			connectionPool.freeConnection(connection);
+		}
+		return count;
+	}
+
+	@Override
+	public String searchActiveTariff(int userID) throws DAOException {
+		String tariffName = "";
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.prepareStatement(SQL_ACTIVE_TARIFF);
+			statement.setInt(1, userID);
+
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				tariffName = resultSet.getString(TARIFF_NAME);
+			}
+
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException: ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Сan't search the active tariff! ", e);
+		} finally {
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+			}
+
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+
+			connectionPool.freeConnection(connection);
+		}
+		return tariffName;
 	}
 
 }

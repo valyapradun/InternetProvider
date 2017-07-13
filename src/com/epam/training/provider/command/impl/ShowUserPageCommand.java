@@ -24,19 +24,25 @@ public class ShowUserPageCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
 		User user = null;
+		
 		String action = request.getParameter(ACTION);
+		
 		HttpSession session = request.getSession(false);
 		Object currentUser = session.getAttribute(USER);
-		String login = ((User) currentUser).getLogin();
+		int id = ((User) currentUser).getId();
 
 		try {
-			user = service.userByLogin(login);
+			
+			user = service.userById(id);
 			request.setAttribute(USER, user);
 			request.setAttribute(ACTION, action);
 			page = USER_PAGE;
+			
 		} catch (ServiceException e) {
+			
 			request.setAttribute(ERROR_MESSAGE, "It is impossible to display user! " + e.getMessage());
 			page = ERROR_PAGE;
+			
 		}
 		return page;
 

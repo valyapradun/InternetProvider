@@ -10,8 +10,10 @@ public interface UserDAO {
 	public User signIn(String login, String password) throws DAOException;
 	public int uniqueLogin(String login) throws DAOException;
 	public int uniqueEmail(String email) throws DAOException;
+	public int countActiveTariffs(int userID) throws DAOException;
 	public List<User> searchWithParameters() throws DAOException;
-	public User searchByLogin(String login) throws DAOException;
+	public User searchById(int id) throws DAOException;
+	public String searchActiveTariff(int userID) throws DAOException;
 	// update
 	// delete
 

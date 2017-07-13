@@ -14,7 +14,7 @@ import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
 
 public class DisplayUsersCommand implements Command {
-	private static final String RESULT = "users";
+	private static final String LIST_USERS = "users";
 
 	private final UserService service;
 
@@ -27,13 +27,21 @@ public class DisplayUsersCommand implements Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
 		List<User> users = null;
+		
+		String action = request.getParameter(ACTION);
+		
 		try {
+			
 			users = service.listUsersWithParameters();
-			request.setAttribute(RESULT, users);
-			page = ADMIN_USERS;
+			request.setAttribute(LIST_USERS, users);
+			request.setAttribute(ACTION, action);
+			page = LIST_USERS_PAGE;
+			
 		} catch (ServiceException e) {
+			
 			request.setAttribute(ERROR_MESSAGE, "It is impossible to display users! " + e.getMessage());
 			page = ERROR_PAGE;
+			
 		}
 		return page;
 	}

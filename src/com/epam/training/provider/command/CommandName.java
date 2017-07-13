@@ -3,6 +3,7 @@ package com.epam.training.provider.command;
 public enum CommandName {
 	ADD_PAYMENT,
 	ADD_TARIFF, 
+	BUY_TARIFF,
 	DELETE_TARIFF, 
 	DISPLAY_TARIFFS, 
 	DISPLAY_USERS, 
@@ -14,6 +15,7 @@ public enum CommandName {
 	SHOW_ADMIN_PAGE,
 	SHOW_INDEX_PAGE, 
 	SHOW_USER_PAGE,
+	SHOW_USER_TARIFFS,
 	SIGN_IN, 
 	SIGN_OUT, 
 	WRONG_REQUEST;

@@ -118,16 +118,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User userByLogin(String login) throws ServiceException {
-		if (login == null) {
-			throw new ServiceException("The login is equal to null!");
+	public User userById(int id) throws ServiceException {
+		if (id <= 0) {
+			throw new ServiceException("ID of user is less or is equal to 0!");
 		}
 		
 		User user = null;
 		try {
+			
 			DAOFactory daoObjectFactory = DAOFactory.getInstance();
 			UserDAO dao = daoObjectFactory.getUserDAO();
-			user = dao.searchByLogin(login);
+			user = dao.searchById(id);
+			String tariffName = dao.searchActiveTariff(id);
+			user.setTariffTitle(tariffName);
+			
 		} catch (DAOException e) {
 			throw new ServiceException("Search of users wasn't executed! ", e);
 		}

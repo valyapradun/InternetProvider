@@ -13,6 +13,7 @@ public class User implements Serializable {
 	private String email;
 	private double balance;
 	private double traffic;
+	private String tariffTitle;
 
 	public User() {
 	}
@@ -97,6 +98,14 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getTariffTitle() {
+		return tariffTitle;
+	}
+
+	public void setTariffTitle(String tariffTitle) {
+		this.tariffTitle = tariffTitle;
+	}
 
 	@Override
 	public int hashCode() {
@@ -111,6 +120,7 @@ public class User implements Serializable {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((tariffTitle == null) ? 0 : tariffTitle.hashCode());
 		temp = Double.doubleToLongBits(traffic);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
@@ -154,6 +164,11 @@ public class User implements Serializable {
 				return false;
 		} else if (!role.equals(other.role))
 			return false;
+		if (tariffTitle == null) {
+			if (other.tariffTitle != null)
+				return false;
+		} else if (!tariffTitle.equals(other.tariffTitle))
+			return false;
 		if (Double.doubleToLongBits(traffic) != Double.doubleToLongBits(other.traffic))
 			return false;
 		return true;
@@ -162,7 +177,8 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + ", name=" + name
-				+ ", email=" + email + ", balance=" + balance + ", traffic=" + traffic + "]";
+				+ ", email=" + email + ", balance=" + balance + ", traffic=" + traffic + ", tariffTitle=" + tariffTitle
+				+ "]";
 	}
 
 }

@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>Домашний Интернет - Транзакции</title>
+<title>Домашний Интернет - Платежи</title>
 
 <!-- Bootstrap -->
 <link href="css/bootstrap.css" rel="stylesheet">
@@ -32,7 +32,7 @@
 					<div class="container">
 						<ul class="nav nav-tabs">
 							<li <c:if test="${action=='show_user_page'}"> class="active"</c:if>><a href="Controller?action=show_user_page">Состояние счета</a></li>
-							<li <c:if test="${action=='users'}"> class="active"</c:if>><a href="Controller?action=users">Тарифы и услуги</a></li>
+							<li <c:if test="${action=='show_user_tariffs'}"> class="active"</c:if>><a href="Controller?action=show_user_tariffs">Тарифы и услуги</a></li>
 							<li <c:if test="${action=='search_user_payments'}"> class="active"</c:if>><a href="Controller?action=search_user_payments">Платежи</a></li>
 							<li <c:if test="${action=='users'}"> class="active"</c:if>><a href="Controller?action=users">Настройки профиля</a></li>
 						</ul>
@@ -48,7 +48,7 @@
 					
 					<div class="col-md-2 col-lg-2 col-sm-1"></div>
 					<div class="col-md-8 col-lg-8 col-sm-10">
-					<h2>Транзакции </h2>
+					<h2>Платежи </h2>
 					<table class="table table-hover">
 						<thead class="thead-inverse">
 							<tr>

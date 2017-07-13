@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `provider`.`user_to_tariff` (
   `user_id` INT NOT NULL COMMENT 'Внешний ключ к таблице \'user\'.',
   `tariff_id` INT NOT NULL COMMENT 'Внешний ключ к таблице \'tariff\'.',
   `begin` DATETIME NOT NULL COMMENT 'Дата начала действия тарифного плана',
-  `end` DATETIME NOT NULL COMMENT 'Дата окончания тарифного плана',
+  `end` DATETIME NULL COMMENT 'Дата окончания тарифного плана',
   PRIMARY KEY (`id`),
   INDEX `fk_tariff_has_user_user1_idx` (`user_id` ASC),
   INDEX `fk_tariff_has_user_tariff1_idx` (`tariff_id` ASC),

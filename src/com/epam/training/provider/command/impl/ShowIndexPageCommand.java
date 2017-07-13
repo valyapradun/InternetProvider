@@ -12,11 +12,15 @@ public class ShowIndexPageCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
+		
 		HttpSession session = request.getSession(true);
 		User user = (User) session.getAttribute(USER);
+		
 		request.setAttribute(USER, user);
 		String page = INDEX_PAGE;
+		
 		return page;
+		
 	}
 
 }

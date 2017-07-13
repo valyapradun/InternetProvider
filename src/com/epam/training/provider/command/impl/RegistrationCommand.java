@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 
 public class RegistrationCommand implements Command {
 	private final UserService service;
+	
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
 		service = serviceObjectFactory.getUserService();
@@ -43,6 +44,7 @@ public class RegistrationCommand implements Command {
 			user.setEmail(email);
 
 			try {
+				
 				service.registration(user);
 				HttpSession session = request.getSession();
 				session.setAttribute(USER, user);
@@ -51,16 +53,22 @@ public class RegistrationCommand implements Command {
 				page = USER_PAGE;
 
 			} catch (ServiceException e) {
+				
 				request.setAttribute(ERROR_MESSAGE, "It is impossible to registrate! " + e.getMessage());
 				page = ERROR_PAGE;
+				
 			} catch (ValidateException e) {
+				
 				request.setAttribute(USER, user);
 				request.setAttribute(ERROR_MESSAGE, ("Wrong data:! " + e.getMessage()).split("!"));
 				page = REGISTRATION_PAGE;
+				
 			}
 
 		} else {
+			
 			page = REGISTRATION_PAGE;
+			
 		}
 
 		return page;

@@ -12,16 +12,15 @@ public class SignOutCommand implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		String page = null;
+		String page = INDEX_PAGE;
+		
 		HttpSession session = request.getSession(false);
 		User loggedUser = (User) session.getAttribute(USER);
 
-		if (loggedUser == null) {
-			page = INDEX_PAGE;
-		} else {
-			page = INDEX_PAGE;
+		if (loggedUser != null) {
 			session.invalidate();
 		}
+		
 		return page;
 	}
 

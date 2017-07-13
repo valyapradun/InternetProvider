@@ -17,14 +17,12 @@ import com.epam.training.provider.dao.exception.DAOException;
 import com.epam.training.provider.dao.exception.DAORuntimeException;
 
 public class TariffDAOImpl implements TariffDAO {
-	private static ConnectionPool connectionPool;
-
 	private final static String SQL_ALL_TARIFFS = "SELECT tariff.id, tariff.name, tariff.price, tariff.size, tariff.speed, tariff_type.type, tariff.picture FROM provider.tariff JOIN provider.tariff_type ON tariff_type.id = tariff.tariff_type_id";
 	private final static String SQL_ONE_TARIFF = "SELECT tariff.id, tariff.name, tariff.price, tariff.size, tariff.speed, tariff_type.type, tariff.picture FROM provider.tariff JOIN provider.tariff_type ON tariff_type.id = tariff.tariff_type_id WHERE tariff.id = ?";
 	private final static String SQL_EDIT_TARIFF = "UPDATE provider.tariff SET tariff.name = ?, tariff.price = ?, tariff.size = ?, tariff.speed = ?, tariff.picture = ?, tariff.tariff_type_id = ? WHERE tariff.id = ?";
 	private final static String SQL_NEW_TARIFF = "INSERT INTO provider.tariff (name, price, size, speed, picture, tariff_type_id) VALUES (?, ?, ?, ?, ?, ?)";
 	private final static String SQL_DELETE_TARIFF = "DELETE FROM provider.tariff WHERE tariff.id = ?";
-
+	
 	private final static String TARIFF_ID = "id";
 	private final static String TARIFF_NAME = "name";
 	private final static String TARIFF_TYPE = "type";
@@ -32,7 +30,8 @@ public class TariffDAOImpl implements TariffDAO {
 	private final static String TARIFF_SIZE = "size";
 	private final static String TARIFF_SPEED = "speed";
 	private final static String TARIFF_PICTURE = "picture";
-
+	
+	private static ConnectionPool connectionPool;
 	static {
 		try {
 			connectionPool = ConnectionPool.getInstance();
@@ -244,5 +243,6 @@ public class TariffDAOImpl implements TariffDAO {
 		}
 
 	}
+
 
 }

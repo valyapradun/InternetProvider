@@ -2,27 +2,20 @@ package com.epam.training.provider.command.impl;
 
 import static com.epam.training.provider.util.Permanent.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.epam.training.provider.bean.Payment;
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.PaymentService;
 import com.epam.training.provider.service.exception.ServiceException;
+import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
-public class SearchUserPaymentCommand implements Command {
-	private static final String USER_ID = "userId";
-	private static final String LIST_PAYMENTS = "transactions";
-	
+public class BuyTariffCommand implements Command {
 	private final PaymentService service;
-	
+
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
 		service = serviceObjectFactory.getPaymentService();
@@ -32,27 +25,27 @@ public class SearchUserPaymentCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
-		List<Payment> payments = null;
 
-		String action = request.getParameter(ACTION);
-		
 		HttpSession session = request.getSession(false);
-		Object user = session.getAttribute(USER);
-		String userID = Integer.toString(((User) user).getId());
-		
-		Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put(USER_ID, userID);
+		User user = (User) session.getAttribute(USER);
+		int userID = user.getId();
+
+		int tariffID = Integer.parseInt(request.getParameter(TARIFF_ID));
 
 		try {
-			
-			payments = service.listPaymentsWithParameters(parameters);
-			request.setAttribute(ACTION, action);
-			request.setAttribute(LIST_PAYMENTS, payments);
-			page = LIST_PAYMENTS_PAGE;
-			
+
+			service.buyTariff(userID, tariffID);
+			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			page = request.getServletPath() + ACTION_SHOW_USER_PAGE;
+
 		} catch (ServiceException e) {
+
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to buy of Tariff! " + e.getMessage());
+			page = ERROR_PAGE;
+
+		} catch (ValidateException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to display transactions!" + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, e.getMessage());
 			page = ERROR_PAGE;
 			
 		}

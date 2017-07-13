@@ -11,6 +11,7 @@ public final class CommandProvider {
 	public CommandProvider() {
 		repository.put(CommandName.ADD_PAYMENT, new AddPaymentCommand());
 		repository.put(CommandName.ADD_TARIFF, new AddTariffCommand());
+		repository.put(CommandName.BUY_TARIFF, new BuyTariffCommand());
 		repository.put(CommandName.DELETE_TARIFF, new DeleteTariffCommand());
 		repository.put(CommandName.DISPLAY_TARIFFS, new DisplayTariffsCommand());
 		repository.put(CommandName.DISPLAY_USERS, new DisplayUsersCommand());
@@ -22,6 +23,7 @@ public final class CommandProvider {
 		repository.put(CommandName.SHOW_ADMIN_PAGE, new ShowAdminPageCommand());
 		repository.put(CommandName.SHOW_INDEX_PAGE, new ShowIndexPageCommand());
 		repository.put(CommandName.SHOW_USER_PAGE, new ShowUserPageCommand());
+		repository.put(CommandName.SHOW_USER_TARIFFS, new ShowUserTariffsCommand());
 		repository.put(CommandName.SIGN_IN, new SignInCommand());
 		repository.put(CommandName.SIGN_OUT, new SignOutCommand());
 		repository.put(CommandName.WRONG_REQUEST, new WrongRequestCommand());

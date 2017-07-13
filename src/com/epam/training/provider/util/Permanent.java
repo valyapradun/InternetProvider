@@ -5,7 +5,6 @@ public final class Permanent {
 	/* for actions */
 	public static final String ACTION = "action";
 	public static final String ACTION_DISPLAY_TARIFFS = "?action=display_tariffs";
-//	public static final String ACTION_PROFILE_USER = "?action=profile_user";
 	public static final String ACTION_SHOW_ADMIN_PAGE = "?action=show_admin_page";
 	public static final String ACTION_SHOW_USER_PAGE = "?action=show_user_page";
 	public static final String ACTION_SHOW_INDEX_PAGE = "show_index_page";
@@ -40,12 +39,13 @@ public final class Permanent {
 	public static final String USER_PAGE = "/user_page.jsp";
 	public static final String ADMIN_PAGE = "/admin_page.jsp";
 	public static final String LIST_TARIFFS_PAGE = "/admin_tariff.jsp";
-	public static final String ADMIN_CARD_TARIFF = "/admin_card_tariff.jsp";
-	public static final String ADMIN_USERS = "/admin_user.jsp";
-	public static final String USER_TRANSACTION = "/user_transaction.jsp";
+	public static final String TARIFF_PAGE = "/admin_card_tariff.jsp";
+	public static final String LIST_USERS_PAGE = "/admin_user.jsp";
+	public static final String LIST_PAYMENTS_PAGE = "/user_transaction.jsp";
 	public static final String REGISTRATION_PAGE = "/register.jsp";
-	public static final String CATALOG = "/catalog.jsp";
+	public static final String CATALOG_PAGE = "/catalog.jsp";
 	public static final String ERROR_PAGE = "/error.jsp";
+	public static final String USER_TARIFFS_PAGE = "/user_tariff.jsp";
 
 	private Permanent() {
 

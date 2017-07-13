@@ -267,6 +267,18 @@ text-shadow: rgb(204, 204, 204) 0px 1px 0px, rgb(201, 201, 201) 0px 2px 0px, rgb
 .user-pay::-webkit-input-placeholder {
   color: #999;
 }   
+.picture-user-tariff {
+	width: 100px;
+	height: 60px;
+}
+.buy-btn {
+	margin-left: 25px !important;
+	margin-bottom: 5px;
+}
+.cancel-btn {
+	margin-left: 25px !important;
+}
+
 @media screen and (max-width: 991px) {
   .news, .action {clear: both; width: 100%;}
   .news {border-right: none;}
