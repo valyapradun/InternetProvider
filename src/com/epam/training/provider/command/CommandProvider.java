@@ -3,10 +3,15 @@ package com.epam.training.provider.command;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.training.provider.command.impl.*;
 
 public final class CommandProvider {
 	private final Map<CommandName, Command> repository = new HashMap<>();
+	private final static Logger logger = LogManager.getLogger(CommandProvider.class.getName());
 
 	public CommandProvider() {
 		repository.put(CommandName.ADD_PAYMENT, new AddPaymentCommand());
@@ -36,8 +41,8 @@ public final class CommandProvider {
 			commandName = CommandName.valueOf(name.toUpperCase());
 			command = repository.get(commandName);
 		} catch (IllegalArgumentException | NullPointerException e) {
-			// write log
 			command = repository.get(CommandName.WRONG_REQUEST);
+			logger.log(Level.ERROR, "Wrong request: " + e);
 		}
 		return command;
 	}

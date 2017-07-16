@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.training.provider.bean.Payment;
 import com.epam.training.provider.bean.PaymentType;
 import com.epam.training.provider.bean.User;
@@ -18,6 +22,8 @@ import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
 public class AddPaymentCommand implements Command {
+	private final static Logger logger = LogManager.getLogger(AddPaymentCommand.class.getName());
+	
 	private final PaymentService service;
 
 	{
@@ -42,6 +48,7 @@ public class AddPaymentCommand implements Command {
 		int userId = ((User) user).getId();
 
 		Payment payment = new Payment(type, ammount, date, userId);
+		logger.log(Level.INFO, "Payment of the ID user (" + userId + "): " + payment);
 
 		try {
 			
@@ -51,7 +58,8 @@ public class AddPaymentCommand implements Command {
 			
 		} catch (ServiceException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "Adding a payment wasn't executed! " + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, "Adding a payment wasn't executed! ");
+			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			
 		}

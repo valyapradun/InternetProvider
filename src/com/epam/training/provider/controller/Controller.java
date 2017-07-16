@@ -27,22 +27,7 @@ public class Controller extends HttpServlet {
 		super();
 	}
 
-	
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		super.init();
-		
-	//	String prefix = getServletContext().getRealPath("/");
-	//	String filename = getInitParameter("init_log4j");
-	//	if (filename != null) {
-	//	PropertyConfigurator.configure(prefix + filename);
-	//	}
-	}
-	
-	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		checkAuthorization(request);  // for future check access
 		super.service(request, response);
 	}
 
@@ -78,9 +63,4 @@ public class Controller extends HttpServlet {
 		disp.forward(request, response);
 	}
 
-	public void checkAuthorization(HttpServletRequest request) {  // for future check access
-		// HttpSession session = request.getSession(true);
-		// User user = (User) session.getAttribute("user");
-		// System.out.println("for future check access"); // for me
-	}
 }

@@ -7,6 +7,10 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.bean.TariffType;
 import com.epam.training.provider.command.Command;
@@ -15,6 +19,7 @@ import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
 public class AddTariffCommand implements Command {
+	private final static Logger logger = LogManager.getLogger(AddTariffCommand.class.getName());
 
 	private final TariffService service;
 
@@ -46,12 +51,14 @@ public class AddTariffCommand implements Command {
 		try {
 			
 			service.addTariff(tariff);
+			logger.log(Level.INFO, "Tariff (" + tariff + ") has been addeted by the admin (session id:" + request.getSession(false).getId() + ")");
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
 			
 		} catch (ServiceException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "Adding a tariff wasn't executed!" + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, "Adding a tariff wasn't executed! ");
+			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			
 		}

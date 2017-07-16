@@ -47,6 +47,19 @@ public final class Permanent {
 	public static final String ERROR_PAGE = "/error.jsp";
 	public static final String USER_TARIFFS_PAGE = "/user_tariff.jsp";
 
+	
+	/* for filter */
+	public static final String[][] securityAction = {
+			{   
+				// for administrator
+				"add_tariff", "delete_tariff", "display_tariffs", "display_users", "edit_tariff", "search_one_tariff", "show_admin_page" 
+			},
+			{   
+				// for user
+				"add_payment", "buy_tariff", "search_user_page", "search_user_payments", "show_user_tariffs"
+			},
+		};
+
 	private Permanent() {
 
 	}

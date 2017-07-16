@@ -25,4 +25,19 @@
 		<exception-type>java.lang.ExceptionInInitializerError</exception-type>
 		<location>/error.jsp</location>
 	</error-page>
+	<listener>
+    	<listener-class>com.epam.training.provider.controller.listener.ServletContextListenerImpl</listener-class>
+	</listener>
+	
+	<filter> 
+        <filter-name>checkAuthorization</filter-name>
+        <filter-class>com.epam.training.provider.controller.filter.CheckAuthorizationFilter</filter-class>
+       
+  	</filter>
+	
+	<filter-mapping>
+        <filter-name>checkAuthorization</filter-name>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>
