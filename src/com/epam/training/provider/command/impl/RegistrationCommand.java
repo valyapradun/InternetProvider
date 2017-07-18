@@ -4,6 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.UserService;
@@ -16,6 +20,8 @@ import static com.epam.training.provider.util.Permanent.*;
 import java.nio.charset.StandardCharsets;
 
 public class RegistrationCommand implements Command {
+	private final static Logger logger = LogManager.getLogger(RegistrationCommand.class.getName());
+	
 	private final UserService service;
 	
 	{
@@ -46,6 +52,7 @@ public class RegistrationCommand implements Command {
 			try {
 				
 				service.registration(user);
+				logger.log(Level.INFO, "User (id: " + user.getId() + ") has been registered.");
 				HttpSession session = request.getSession();
 				session.setAttribute(USER, user);
 				request.setAttribute(REDIRECT_PARAMETER, "Yes");
@@ -54,13 +61,15 @@ public class RegistrationCommand implements Command {
 
 			} catch (ServiceException e) {
 				
-				request.setAttribute(ERROR_MESSAGE, "It is impossible to registrate! " + e.getMessage());
+				request.setAttribute(ERROR_MESSAGE, "It is impossible to registrate! ");
+				logger.log(Level.ERROR, e);
 				page = ERROR_PAGE;
 				
 			} catch (ValidateException e) {
 				
 				request.setAttribute(USER, user);
 				request.setAttribute(ERROR_MESSAGE, ("Wrong data:! " + e.getMessage()).split("!"));
+				logger.log(Level.WARN, e);
 				page = REGISTRATION_PAGE;
 				
 			}

@@ -3,6 +3,10 @@ package com.epam.training.provider.command.impl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.bean.TariffType;
 import com.epam.training.provider.command.Command;
@@ -14,6 +18,7 @@ import static com.epam.training.provider.util.Permanent.*;
 import java.nio.charset.StandardCharsets;
 
 public class EditTariffCommand implements Command {
+	private final static Logger logger = LogManager.getLogger(EditTariffCommand.class.getName());
 
 	private final TariffService service;
 
@@ -46,12 +51,14 @@ public class EditTariffCommand implements Command {
 		try {
 			
 			service.editTariff(tariff);
+			logger.log(Level.INFO, "Tariff (id: " + tariff.getId() + ") has been edited by the admin (session id:" + request.getSession(false).getId() + ")");
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
 			
 		} catch (ServiceException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to edit tariff's card!" + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to edit tariff's card! ");
+			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			
 		}

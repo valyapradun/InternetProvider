@@ -9,6 +9,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.training.provider.bean.Payment;
 import com.epam.training.provider.bean.PaymentType;
 import com.epam.training.provider.dao.PaymentDAO;
@@ -16,6 +20,8 @@ import com.epam.training.provider.dao.exception.DAOException;
 import com.epam.training.provider.dao.exception.DAORuntimeException;
 
 public class PaymentDAOImpl implements PaymentDAO {
+	private final static Logger logger = LogManager.getLogger(PaymentDAOImpl.class.getName());
+	
 	private final static String SQL_ALL_PAYMENTS = "SELECT transaction.id, transaction.type, transaction.ammount, transaction.date FROM provider.transaction";
 	private final static String SQL_NEW_PAYMENT = "INSERT INTO provider.transaction (type, ammount, date, user_id) VALUES (?, ?, ?, ?)";
 	private final static String SQL_UPDATE_BALANCE = "UPDATE provider.user SET user.balance = user.balance + ? WHERE user.id = ?";
@@ -32,6 +38,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
+			logger.log(Level.ERROR, "Don't create Pool Connection!" + e);
 			throw new DAORuntimeException("Don't create Pool Connection!", e);
 		}
 	}
@@ -74,13 +81,13 @@ public class PaymentDAOImpl implements PaymentDAO {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
 
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -129,18 +136,18 @@ public class PaymentDAOImpl implements PaymentDAO {
 			try {
 				statementAdd.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 			try {
 				statementUpdate.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 			
 			try {
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 			connectionPool.freeConnection(connection);
 		}
@@ -191,18 +198,18 @@ public class PaymentDAOImpl implements PaymentDAO {
 			try {
 				statementAdd.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 			try {
 				statementUpdate.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 			
 			try {
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "setAutoCommit() isn't true.");
 			}
 			connectionPool.freeConnection(connection);
 		}

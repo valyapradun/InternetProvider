@@ -74,7 +74,6 @@
 					<form role="form" action="Controller" method="POST">
 						<h4>Пополнение счета </h4>
 						<input type="hidden" name="action" value="add_payment" />
-						<!--  <input type="hidden" name="userId" value="${user.getId()}"/> -->
 						<input type="text" class="user-pay" id="inputAmmount" name="ammount" placeholder="Введите сумму" required pattern="^[ 0-9]+$" title="Ввести можно только целое положительное число"/>						
 						<button type="submit" class="btn btn-labeled btn-primary"><span class="btn-label"><i class="glyphicon glyphicon-thumbs-up"></i></span>Зачислить</button>
 					</form>

@@ -7,6 +7,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.TariffService;
@@ -15,6 +19,7 @@ import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
 
 public class SearchTariffsCommand implements Command {
+	private final static Logger logger = LogManager.getLogger(SearchTariffsCommand.class.getName());
 	private static final String LIST_TARIFFS = "tariffs";
 
 	private final TariffService service;
@@ -36,13 +41,15 @@ public class SearchTariffsCommand implements Command {
 		try {
 			
 			tariffs = service.listTariffsWithParameters(parameters);
+			logger.log(Level.INFO, "User (session id:" + request.getSession(false).getId() + ") opened catalog of tariffs");
 			request.setAttribute(LIST_TARIFFS, tariffs);
 			request.setAttribute(TARIFF_TYPE, typeTariff);
 			page = CATALOG_PAGE;
 			
 		} catch (ServiceException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to display tariffs!" + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to display tariffs!");
+			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			
 		}

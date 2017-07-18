@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.bean.TariffType;
 
@@ -17,6 +21,8 @@ import com.epam.training.provider.dao.exception.DAOException;
 import com.epam.training.provider.dao.exception.DAORuntimeException;
 
 public class TariffDAOImpl implements TariffDAO {
+	private final static Logger logger = LogManager.getLogger(TariffDAOImpl.class.getName());
+	
 	private final static String SQL_ALL_TARIFFS = "SELECT tariff.id, tariff.name, tariff.price, tariff.size, tariff.speed, tariff_type.type, tariff.picture FROM provider.tariff JOIN provider.tariff_type ON tariff_type.id = tariff.tariff_type_id";
 	private final static String SQL_ONE_TARIFF = "SELECT tariff.id, tariff.name, tariff.price, tariff.size, tariff.speed, tariff_type.type, tariff.picture FROM provider.tariff JOIN provider.tariff_type ON tariff_type.id = tariff.tariff_type_id WHERE tariff.id = ?";
 	private final static String SQL_EDIT_TARIFF = "UPDATE provider.tariff SET tariff.name = ?, tariff.price = ?, tariff.size = ?, tariff.speed = ?, tariff.picture = ?, tariff.tariff_type_id = ? WHERE tariff.id = ?";
@@ -36,6 +42,7 @@ public class TariffDAOImpl implements TariffDAO {
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
+			logger.log(Level.ERROR, "Don't create Pool Connection!" + e);
 			throw new DAORuntimeException("Don't create Pool Connection!", e);
 		}
 	}
@@ -78,13 +85,13 @@ public class TariffDAOImpl implements TariffDAO {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
 
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -127,13 +134,13 @@ public class TariffDAOImpl implements TariffDAO {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
 
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -170,7 +177,7 @@ public class TariffDAOImpl implements TariffDAO {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -207,7 +214,7 @@ public class TariffDAOImpl implements TariffDAO {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -237,7 +244,7 @@ public class TariffDAOImpl implements TariffDAO {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 			connectionPool.freeConnection(connection);
 		}

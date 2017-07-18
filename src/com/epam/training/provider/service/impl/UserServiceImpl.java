@@ -14,26 +14,41 @@ import com.epam.training.provider.service.exception.ValidateException;
 public class UserServiceImpl implements UserService {
 
 	@Override
-	public User authorize(String login, String password) throws ServiceException {
+	public User authorize(String login, String password) throws ServiceException, ValidateException {		
+		String errors = validateLoginPassword(login, password);
+		
+		if (errors.isEmpty()) {
+			
+			User user = null;
+			try {
+				DAOFactory daoObjectFactory = DAOFactory.getInstance();
+				UserDAO dao = daoObjectFactory.getUserDAO();
+				user = dao.signIn(login, password);
+			} catch (DAOException e) {
+				throw new ServiceException("Authorization wasn't executed! ", e);
+			}
+			return user;
+			
+		} else {
+			throw new ValidateException(errors);
+		}
+	}
+
+	public String validateLoginPassword(String login, String password) throws ServiceException, ValidateException {
 		if ((login == null) || (password == null)) {
-			throw new ServiceException("The login or password is equal to null!");
+			throw new ValidateException("The login or password is equal to null!");
 		}
 
-		User user = null;
-		try {
-			DAOFactory daoObjectFactory = DAOFactory.getInstance();
-			UserDAO dao = daoObjectFactory.getUserDAO();
-			user = dao.signIn(login, password);
-		} catch (DAOException e) {
-			throw new ServiceException("Authorization wasn't executed! ", e);
-		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(Validate.checkLatinSymbol(login));
+		buffer.append(Validate.checkDifficultPassword(password));
 
-		return user;
+		return buffer.toString();
 	}
 
 	@Override
 	public void registration(User newUser) throws ServiceException, ValidateException {
-		String errors = validate(newUser);
+		String errors = validateUser(newUser);
 		if (errors.isEmpty()) {
 			try {
 				DAOFactory daoObjectFactory = DAOFactory.getInstance();
@@ -48,11 +63,11 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	public String validate(User newUser) throws ServiceException {
-
+	public String validateUser(User newUser) throws ServiceException, ValidateException {
 		if (newUser == null) {
-			throw new ServiceException("The user is equal to null! ");
+			throw new ValidateException("The user is equal to null! ");
 		}
+		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(checkUniqueLogin(newUser.getLogin()));
 		buffer.append(checkUniqueEmail(newUser.getEmail()));
@@ -65,12 +80,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String checkUniqueLogin(String login) throws ServiceException {
-		String result = "";
+	public String checkUniqueLogin(String login) throws ServiceException, ValidateException {
 		if (login == null) {
-			throw new ServiceException("The login is equal to null!");
+			throw new ValidateException("The login is equal to null!");
 		}
-
+		
+		String result = "";
 		try {
 			DAOFactory daoObjectFactory = DAOFactory.getInstance();
 			UserDAO dao = daoObjectFactory.getUserDAO();
@@ -78,19 +93,21 @@ public class UserServiceImpl implements UserService {
 			if (count > 0) {
 				result = "- Such login already exists! ";
 			}
+			
 		} catch (DAOException e) {
 			throw new ServiceException("Uniqueness of login wasn't executed! ", e);
 		}
+		
 		return result;
 	}
 
 	@Override
-	public String checkUniqueEmail(String email) throws ServiceException {
-		String result = "";
+	public String checkUniqueEmail(String email) throws ServiceException, ValidateException {
 		if (email == null) {
-			throw new ServiceException("The email is equal to null!");
+			throw new ValidateException("The email is equal to null!");
 		}
-
+		
+		String result = "";
 		try {
 			DAOFactory daoObjectFactory = DAOFactory.getInstance();
 			UserDAO dao = daoObjectFactory.getUserDAO();
@@ -98,9 +115,11 @@ public class UserServiceImpl implements UserService {
 			if (count > 0) {
 				result = "- Such email already exists! ";
 			}
+			
 		} catch (DAOException e) {
 			throw new ServiceException("Uniqueness of email wasn't executed! ", e);
 		}
+		
 		return result;
 	}
 
@@ -118,20 +137,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User userById(int id) throws ServiceException {
+	public User userById(int id) throws ServiceException, ValidateException {
 		if (id <= 0) {
-			throw new ServiceException("ID of user is less or is equal to 0!");
+			throw new ValidateException("ID of user is less or is equal to 0!");
 		}
-		
+
 		User user = null;
 		try {
-			
+
 			DAOFactory daoObjectFactory = DAOFactory.getInstance();
 			UserDAO dao = daoObjectFactory.getUserDAO();
 			user = dao.searchById(id);
 			String tariffName = dao.searchActiveTariff(id);
 			user.setTariffTitle(tariffName);
-			
+
 		} catch (DAOException e) {
 			throw new ServiceException("Search of users wasn't executed! ", e);
 		}

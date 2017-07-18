@@ -9,11 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.dao.UserDAO;
 import com.epam.training.provider.dao.exception.DAOException;
 
 public class UserDAOImpl implements UserDAO {
+	private final static Logger logger = LogManager.getLogger(UserDAOImpl.class.getName());
 	private static String salt = ResourceBundle.getBundle("config").getString("salt");
 
 	private final static String SQL_LOGIN = "SELECT user.id, user.login, user.password, user.name, 'user' AS role FROM provider.user WHERE (login =? AND password=MD5(?)) UNION ALL SELECT administrator.id, administrator.login, administrator.password, 'Administrator' AS name, 'admin' AS role FROM provider.administrator WHERE (login =? AND password=MD5(?))";
@@ -42,16 +47,13 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			connectionPool = ConnectionPool.getInstance();
 		} catch (ConnectionPoolException e) {
+			logger.log(Level.ERROR, "Don't create Pool Connection!" + e);
 			throw new RuntimeException("Don't create Pool Connection!", e);
 		}
 	}
 
 	@Override
 	public User signIn(String login, String password) throws DAOException {
-		if ((login == null) || (password == null)) {
-			throw new DAOException("The login or password is equal to null!");
-		}
-
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -83,13 +85,13 @@ public class UserDAOImpl implements UserDAO {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
 
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -99,10 +101,6 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void registration(User newUser) throws DAOException {
-		if (newUser == null) {
-			throw new DAOException("The user is equal to null!");
-		}
-
 		Connection connection = null;
 		PreparedStatement statement = null;
 
@@ -125,7 +123,7 @@ public class UserDAOImpl implements UserDAO {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -135,10 +133,6 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public int uniqueLogin(String login) throws DAOException {
-		if (login == null) {
-			throw new DAOException("The login is equal to null!");
-		}
-
 		int count = 0;
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -162,13 +156,13 @@ public class UserDAOImpl implements UserDAO {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
 
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -178,10 +172,6 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public int uniqueEmail(String email) throws DAOException {
-		if (email == null) {
-			throw new DAOException("The email is equal to null!");
-		}
-
 		int count = 0;
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -205,13 +195,13 @@ public class UserDAOImpl implements UserDAO {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
 
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -250,13 +240,13 @@ public class UserDAOImpl implements UserDAO {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
 
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -298,13 +288,13 @@ public class UserDAOImpl implements UserDAO {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
 
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -338,13 +328,13 @@ public class UserDAOImpl implements UserDAO {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
 
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);
@@ -377,13 +367,13 @@ public class UserDAOImpl implements UserDAO {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "ResultSet isn't closed.");
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
 			}
 
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				// logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Statement isn't closed.");
 			}
 
 			connectionPool.freeConnection(connection);

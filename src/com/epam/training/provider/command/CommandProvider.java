@@ -17,6 +17,7 @@ public final class CommandProvider {
 		repository.put(CommandName.ADD_PAYMENT, new AddPaymentCommand());
 		repository.put(CommandName.ADD_TARIFF, new AddTariffCommand());
 		repository.put(CommandName.BUY_TARIFF, new BuyTariffCommand());
+		repository.put(CommandName.CHOOSE_LANGUAGE, new ChooseLanguageCommand());
 		repository.put(CommandName.DELETE_TARIFF, new DeleteTariffCommand());
 		repository.put(CommandName.DISPLAY_TARIFFS, new DisplayTariffsCommand());
 		repository.put(CommandName.DISPLAY_USERS, new DisplayUsersCommand());

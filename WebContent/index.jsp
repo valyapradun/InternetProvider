@@ -2,6 +2,7 @@
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <html lang="ru">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -27,6 +28,8 @@
 		
 <%@ include file="menu.jsp"%>
 		<main>
+		<fmt:setLocale value = "${lang}" />
+      	<fmt:setBundle basename = "com.epam.training.provider.util.data" var = "data"/>
 		<div id="carousel" class="carousel slide" data-ride="carousel">
 			<!-- Индикаторы слайдов-->
 			<ol class="carousel-indicators">
@@ -38,16 +41,16 @@
 			<!-- Слайды-->
 			<div class="carousel-inner">
 				<div class="item active">
-					<a href="admin_tariff.jsp"><img src="images/cover1.png" alt="Тариф 'Ночной'"></a>
+					<a href="#"><img src=<fmt:message key = "images.cover1" bundle = "${data}"/> alt="Тариф 'Ночной'"></a>
 				</div>
 				<div class="item">
-					<a href="admin_tariff.jsp"><img src="images/cover2.png" alt="Тариф 'Подарок'"></a>
+					<a href="#"><img src=<fmt:message key = "images.cover2" bundle = "${data}"/> alt="Тариф 'Подарок'"></a>
 				</div>
 				<div class="item">
-					<a href="tariff.jsp"><img src="images/cover3.png" alt="Тариф 'Для тебя'"></a>
+					<a href="#"><img src=<fmt:message key = "images.cover3" bundle = "${data}"/> alt="Тариф 'Для тебя'"></a>
 				</div>
 				<div class="item">
-					<a href="tariff.jsp"><img src="images/cover4.png" alt="Тариф 'Семейный'"></a>
+					<a href="#"><img src=<fmt:message key = "images.cover4" bundle = "${data}"/> alt="Тариф 'Семейный'"></a>
 				</div>
 			</div>
 			<!-- Стрелки переключения слайдов-->
@@ -62,28 +65,29 @@
 			<div class="col-md-6">
 				<div class="news">
 					<div class="title-section">
-						<a href="#">Новости &#9658;</a>
+						<a href="#"><fmt:message key = "title.news" bundle = "${data}"/> &#9658;</a>
 					</div>
 					<div class="news-block">
 						<div class="date">
-							<h4>26.05.2017</h4>
+							<h4>
+								<c:set var = "currentDate" value = "03-08-2017" />
+      							<fmt:parseDate value = "${currentDate}" var = "parsedEmpDate" pattern = "dd-MM-yyyy" />
+      							<fmt:formatDate value="${parsedEmpDate}" />
+							</h4>
 						</div>
-						<a href="#" class="news-title">Оплата услуг через ЕРИП</a>
-						<div class="news-text">Уважаемые клиенты! Спешим обрадовать
-							Вас приятной новостью - вскоре оплатить наши услуги Вы сможете
-							через ЕРИП!</div>
-						<a class="more" href="#">Подробнее...</a>
+						<a href="#" class="news-title"><fmt:message key = "news.title.number1" bundle = "${data}"/></a>
+						<div class="news-text"><fmt:message key = "news.text.number1" bundle = "${data}"/></div>
+						<a class="more" href="#"><fmt:message key = "title.detail" bundle = "${data}"/></a>
 					</div>
 					<div class="news-block">
 						<div class="date">
-							<h4>25.05.2017</h4>
+							<h4><c:set var = "currentDate" value = "20-07-2017" />
+      							<fmt:parseDate value = "${currentDate}" var = "parsedEmpDate" pattern = "dd-MM-yyyy" />
+      							<fmt:formatDate value="${parsedEmpDate}" /></h4>
 						</div>
-						<a href="#" class="news-title">Профилактические работы 27 мая</a>
-						<div class="news-text">В субботу 27 мая 2017 года с 09:00 до
-							13:00 на оборудовании оператора будут проводиться
-							профилактические работы. Во время работ возможны перебои с
-							доступом в интернет.</div>
-						<a class="more" href="#">Подробнее...</a>
+						<a href="#" class="news-title"><fmt:message key = "news.title.number2" bundle = "${data}"/></a>
+						<div class="news-text"><fmt:message key = "news.text.number2" bundle = "${data}"/></div>
+						<a class="more" href="#"><fmt:message key = "title.detail" bundle = "${data}"/></a>
 					</div>
 				</div>
 
@@ -91,25 +95,27 @@
 			<div class="col-md-6">
 				<div class="action">
 					<div class="title-section">
-						<a href="#">Акции &#9658;</a>
+						<a href="#"><fmt:message key = "title.actions" bundle = "${data}"/> &#9658;</a>
 					</div>
 					<div class="action-block">
 						<div class="date">
-							<h4>25.05.2017</h4>
+							<h4><c:set var = "currentDate" value = "31-07-2017" />
+      							<fmt:parseDate value = "${currentDate}" var = "parsedEmpDate" pattern = "dd-MM-yyyy" />
+      							<fmt:formatDate value="${parsedEmpDate}" /></h4>
 						</div>
-						<a href="#" class="news-title">Удивительно низкие цены!</a>
-						<div class="news-text">Подключись до конца июля — и получи
-							скидку 50% на 3 месяца на безлимитный Интернет! Только до конца
-							июля! Таких цен в Минске еще не было!</div>
-						<a class="more" href="#">Подробнее...</a>
+						<a href="#" class="news-title"><fmt:message key = "actions.title.number1" bundle = "${data}"/></a>
+						<div class="news-text"><fmt:message key = "actions.text.number1" bundle = "${data}"/></div>
+						<a class="more" href="#"><fmt:message key = "title.detail" bundle = "${data}"/></a>
 					</div>
 					<div class="action-block">
 						<div class="date">
-							<h4>25.04.2017</h4>
+							<h4><c:set var = "currentDate" value = "30-06-2017" />
+      							<fmt:parseDate value = "${currentDate}" var = "parsedEmpDate" pattern = "dd-MM-yyyy" />
+      							<fmt:formatDate value="${parsedEmpDate}" /></h4>
 						</div>
-						<a href="#" class="news-title">Сделай подарок себе и близким!</a>
-						<div class="news-text">Акция для новых абонентов.</div>
-						<a class="more" href="#">Подробнее...</a>
+						<a href="#" class="news-title"><fmt:message key = "actions.title.number2" bundle = "${data}"/></a>
+						<div class="news-text"><fmt:message key = "actions.text.number2" bundle = "${data}"/></div>
+						<a class="more" href="#"><fmt:message key = "title.detail" bundle = "${data}"/></a>
 					</div>
 				</div>
 
@@ -137,12 +143,12 @@
 					</div>
 					<div class="col-md-6 col-lg-6 col-sm-6">
 						<ul class="list-unstyled info">
-							<li><a href="#">Контакты</a></li>
-							<li><a href="#">Карта сайта</a></li>
-							<li><a href="#">Полезная информация</a></li>
+							<li><a href="#"><fmt:message key = "footer.contacts" bundle = "${data}"/></a></li>
+							<li><a href="#"><fmt:message key = "footer.map" bundle = "${data}"/></a></li>
+							<li><a href="#"><fmt:message key = "footer.info" bundle = "${data}"/></a></li>
 						</ul>
 						<br>
-						<p class="footer-p">&copy; 2017 «Домашний Интернет»</p>
+						<p class="footer-p">&copy; <fmt:message key = "footer.title" bundle = "${data}"/></p>
 					</div>
 				</div>
 			</div>

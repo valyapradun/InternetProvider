@@ -15,6 +15,7 @@ import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.UserService;
 import com.epam.training.provider.service.exception.ServiceException;
+import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
 
@@ -64,13 +65,13 @@ public class SignInCommand implements Command {
 				page = request.getServletPath() + currentPage.get(role);
 			}
 
-		} catch (ServiceException e) {
+		} catch (ServiceException | ValidateException e) {
 			
 			request.setAttribute(ERROR_MESSAGE, "It is impossible to sign in!");
 			logger.log(Level.ERROR, "It is impossible to sign in!" + e);
 			page = ERROR_PAGE;
 			
-		}
+		} 
 		
 		return page;
 	}

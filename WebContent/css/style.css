@@ -278,6 +278,28 @@ text-shadow: rgb(204, 204, 204) 0px 1px 0px, rgb(201, 201, 201) 0px 2px 0px, rgb
 .cancel-btn {
 	margin-left: 25px !important;
 }
+.language {
+	float: right; 
+	margin-left: 15px;
+	margin-top: 15px;
+	color: #9d9d9d;
+}
+.language a{
+	color: #9d9d9d;
+}
+
+.language a:focus {
+    text-decoration: none;
+    color: #fff;
+}
+.language a:hover {
+    text-decoration: none;
+    color: #fff;
+}
+html{ width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
 
 @media screen and (max-width: 991px) {
   .news, .action {clear: both; width: 100%;}

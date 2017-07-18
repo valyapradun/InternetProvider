@@ -5,6 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.UserService;
@@ -15,6 +19,7 @@ import static com.epam.training.provider.util.Permanent.*;
 
 public class DisplayUsersCommand implements Command {
 	private static final String LIST_USERS = "users";
+	private final static Logger logger = LogManager.getLogger(DisplayUsersCommand.class.getName());
 
 	private final UserService service;
 
@@ -35,11 +40,13 @@ public class DisplayUsersCommand implements Command {
 			users = service.listUsersWithParameters();
 			request.setAttribute(LIST_USERS, users);
 			request.setAttribute(ACTION, action);
+			logger.log(Level.INFO, "Administrator (id session: " + request.getSession(false).getId() + ") displayed users.");
 			page = LIST_USERS_PAGE;
 			
 		} catch (ServiceException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to display users! " + e.getMessage());
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to display users! ");
+			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			
 		}

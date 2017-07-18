@@ -58,7 +58,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void buyTariff(int userID, int tariffID) throws ServiceException, ValidateException {
 		if ((userID <= 0) || (tariffID <= 0)) {
-			throw new ServiceException("ID of tariff (or ID of user) is less or is equal to 0!");
+			throw new ValidateException("ID of tariff (or ID of user) is less or is equal to 0!");
 		}
 
 		DAOFactory daoObjectFactory = DAOFactory.getInstance();
@@ -86,6 +86,10 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	public void checkActiveTariffs(int userID) throws ValidateException, ServiceException {
+		if (userID <= 0) {
+			throw new ValidateException("ID of user is less or is equal to 0!");
+		}
+		
 		DAOFactory daoObjectFactory = DAOFactory.getInstance();
 		UserDAO daoUser = daoObjectFactory.getUserDAO();
 
