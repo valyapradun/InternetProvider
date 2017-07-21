@@ -15,6 +15,7 @@ import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.TariffService;
 import com.epam.training.provider.service.exception.ServiceException;
+import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
 
@@ -36,21 +37,21 @@ public class DisplayTariffsCommand implements Command {
 		
 		String typeTariff = request.getParameter(TARIFF_TYPE);
 		
-		Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put(TARIFF_TYPE, typeTariff);
+		Map<String, String> criteria = new HashMap<String, String>();
+		criteria.put(TARIFF_TYPE, typeTariff);
 		
 		String action = request.getParameter(ACTION);
 		
 		try {
 			
-			tariffs = service.listTariffsWithParameters(parameters);
+			tariffs = service.listTariffsWithCriteria(criteria);
 			request.setAttribute(LIST_TARIFFS, tariffs);
 			request.setAttribute(TARIFF_TYPE, typeTariff);
 			request.setAttribute(ACTION, action);
 			logger.log(Level.INFO, "Administrator (id session: " + request.getSession(false).getId() + ") displayed tarifs.");
 			page = LIST_TARIFFS_PAGE;
 			
-		} catch (ServiceException e) {
+		} catch (ServiceException | ValidateException e) {
 			
 			request.setAttribute(ERROR_MESSAGE, "It is impossible to display tariffs!");
 			logger.log(Level.ERROR, e);

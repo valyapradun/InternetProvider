@@ -19,6 +19,7 @@ import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.PaymentService;
 import com.epam.training.provider.service.exception.ServiceException;
+import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
 public class AddPaymentCommand implements Command {
@@ -56,7 +57,7 @@ public class AddPaymentCommand implements Command {
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
 			page = request.getServletPath() + ACTION_SHOW_USER_PAGE;
 			
-		} catch (ServiceException e) {
+		} catch (ServiceException | ValidateException e) {
 			
 			request.setAttribute(ERROR_MESSAGE, "Adding a payment wasn't executed! ");
 			logger.log(Level.ERROR, e);

@@ -16,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 import com.epam.training.provider.bean.Payment;
 import com.epam.training.provider.bean.PaymentType;
 import com.epam.training.provider.dao.PaymentDAO;
+import com.epam.training.provider.dao.connectionPool.ConnectionPool;
+import com.epam.training.provider.dao.connectionPool.ConnectionPoolException;
 import com.epam.training.provider.dao.exception.DAOException;
 import com.epam.training.provider.dao.exception.DAORuntimeException;
 
@@ -100,10 +102,6 @@ public class PaymentDAOImpl implements PaymentDAO {
 
 	@Override
 	public void addNew(Payment payment) throws DAOException {
-		if (payment == null) {
-			throw new DAOException("The transaction for adding is equal to null!");
-		}
-
 		Connection connection = null;
 		PreparedStatement statementAdd = null;
 		PreparedStatement statementUpdate = null;

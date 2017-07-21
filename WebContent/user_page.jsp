@@ -64,7 +64,7 @@
 							</tr>
 							<tr>
 								<th>Статус блокировки</th>
-								<td></td>
+								<td><c:out value="${user.isActiveBan()}" /></td>
 							</tr>
 							<tr>
 								<th>Актуальный баланс</th>

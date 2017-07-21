@@ -1,5 +1,8 @@
 package com.epam.training.provider.service.impl;
 
+import static com.epam.training.provider.util.Permanent.*;
+
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,40 +24,42 @@ import com.epam.training.provider.service.exception.ValidateException;
 public class PaymentServiceImpl implements PaymentService {
 
 	@Override
-	public List<Payment> listPaymentsWithParameters(Map<String, String> parameters) throws ServiceException {
-		if (parameters.isEmpty()) {
-			throw new ServiceException("Parameters in listTransactionWithParameters weren't transferred!");
+	public List<Payment> listPaymentsWithCriteria(Map<String, String> criteria) throws ServiceException, ValidateException {
+		if (criteria.isEmpty()) {
+			throw new ValidateException("Criteria in listPaymentsWithCriteria weren't transferred!");
 		}
+		
 		List<Payment> payments = null;
 
 		DAOFactory daoObjectFactory = DAOFactory.getInstance();
 		PaymentDAO dao = daoObjectFactory.getPaymentDAO();
 
 		try {
-			payments = dao.searchWithParameters(parameters);
+			payments = dao.searchWithParameters(criteria);
 		} catch (DAOException e) {
-			throw new ServiceException("Search of transactions with parameters wasn't executed!", e);
+			throw new ServiceException("Search of payments with criteria wasn't executed!", e);
 		}
 
 		return payments;
 	}
 
 	@Override
-	public void addPayment(Payment payment) throws ServiceException {
-		if (payment == null) {
-			throw new ServiceException("Transaction in addTransaction wasn't transferred!");
+	public void addPayment(Payment payment) throws ServiceException, ValidateException {
+		String errors = validatePayment(payment);
+		if (errors.isEmpty()) {
+			DAOFactory daoObjectFactory = DAOFactory.getInstance();
+			PaymentDAO dao = daoObjectFactory.getPaymentDAO();
+			try {
+				dao.addNew(payment);
+			} catch (DAOException e) {
+				throw new ServiceException("Add of transaction wasn't executed!", e);
+			}
+		} else {
+			throw new ValidateException(errors);
 		}
-
-		DAOFactory daoObjectFactory = DAOFactory.getInstance();
-		PaymentDAO dao = daoObjectFactory.getPaymentDAO();
-		try {
-			dao.addNew(payment);
-		} catch (DAOException e) {
-			throw new ServiceException("Add of transaction wasn't executed!", e);
-		}
-
 	}
-
+	
+	
 	@Override
 	public void buyTariff(int userID, int tariffID) throws ServiceException, ValidateException {
 		if ((userID <= 0) || (tariffID <= 0)) {
@@ -119,6 +124,18 @@ public class PaymentServiceImpl implements PaymentService {
 		} catch (DAOException e) {
 			throw new ServiceException("Сan't search user by ID! ", e);
 		}
+	}
+	
+
+	public String validatePayment(Payment payment) throws ValidateException {
+		if (payment == null) {
+			throw new ValidateException("Payment is equal to null!");
+		}
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(Validate.checkRequiredDoubleField(PAYMENT_AMMOUNT, payment.getAmmount()));
+		return buffer.toString();
+
 	}
 
 }

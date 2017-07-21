@@ -1,4 +1,4 @@
-package com.epam.training.provider.dao.impl;
+package com.epam.training.provider.dao.connectionPool;
 
 public final class DBParameter {
 	public static final String DB_DRIVER = "db.driver";

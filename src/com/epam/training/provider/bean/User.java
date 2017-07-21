@@ -3,8 +3,8 @@ package com.epam.training.provider.bean;
 import java.io.Serializable;
 
 public class User implements Serializable {
+	private static final long serialVersionUID = -1802610255722244828L;
 
-	private static final long serialVersionUID = 7401903692889847932L;
 	private int id;
 	private String login;
 	private String password;
@@ -14,6 +14,7 @@ public class User implements Serializable {
 	private double balance;
 	private double traffic;
 	private String tariffTitle;
+	private boolean activeBan;
 
 	public User() {
 	}
@@ -107,10 +108,19 @@ public class User implements Serializable {
 		this.tariffTitle = tariffTitle;
 	}
 
+	public boolean isActiveBan() {
+		return activeBan;
+	}
+
+	public void setActiveBan(boolean activeBan) {
+		this.activeBan = activeBan;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (activeBan ? 1231 : 1237);
 		long temp;
 		temp = Double.doubleToLongBits(balance);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -135,6 +145,8 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (activeBan != other.activeBan)
+			return false;
 		if (Double.doubleToLongBits(balance) != Double.doubleToLongBits(other.balance))
 			return false;
 		if (email == null) {
@@ -178,7 +190,8 @@ public class User implements Serializable {
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + ", name=" + name
 				+ ", email=" + email + ", balance=" + balance + ", traffic=" + traffic + ", tariffTitle=" + tariffTitle
-				+ "]";
+				+ ", activeBan=" + activeBan + "]";
 	}
 
+	
 }

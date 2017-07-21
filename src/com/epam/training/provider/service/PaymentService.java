@@ -9,8 +9,8 @@ import com.epam.training.provider.service.exception.ValidateException;
 
 public interface PaymentService {
 	
-	public List<Payment> listPaymentsWithParameters(Map<String, String> parameters) throws ServiceException;
-	public void addPayment(Payment payment) throws ServiceException;
+	public List<Payment> listPaymentsWithCriteria(Map<String, String> criteria) throws ServiceException, ValidateException;
+	public void addPayment(Payment payment) throws ServiceException, ValidateException;
 	public void buyTariff(int userID, int tariffID) throws ServiceException, ValidateException;
 	
 }

@@ -1,10 +1,19 @@
 
-INSERT INTO `provider`.`administrator` (`login`, `password`) VALUES ('admin', '04a3e7c17ee075952a7c349cb12b8fd3');
-INSERT INTO `provider`.`administrator` (`login`, `password`) VALUES ('administrator', '04a3e7c17ee075952a7c349cb12b8fd3');
+// для админов пароль - aA1aA1
+INSERT INTO `provider`.`administrator` (`login`, `password`) VALUES ('admin', '3636adf508e00eb49436de619f2d85f8');
+INSERT INTO `provider`.`administrator` (`login`, `password`) VALUES ('administrator', '3636adf508e00eb49436de619f2d85f8');
 
-INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`) VALUES ('user1', 'user1', 'Ivan', 'ivan@gmail.com');
-INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`) VALUES ('user2', 'user2', 'Petr', 'petr@gmail.com');
-INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`) VALUES ('user3', 'user3', 'Olga', 'olga@gmail.com');
+// для пользователей пароль - userUSER1 (2, 3, 4 и т.д.)
+INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`, `balance`) VALUES ('user1', 'a7cd73b6ff14aeea621a9ee85fcb5163', 'Ivan', 'ivan@gmail.com', '61.00');  
+INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`, `balance`) VALUES ('user2', '75e91531835c927c66fd79cdf6a63ab8', 'Petr', 'petr@gmail.com', '0.00');
+INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`) VALUES ('user3', '6be23f5a387ceaace739957e8c23d797', 'Olga', 'olga@gmail.com');
+INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`, `balance`) VALUES ('user4', '10510d0146cf8060d14c1a6e0b19c447', 'Masha', 'masha@gmail.com', '25.00');  
+INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`, `balance`) VALUES ('user5', '9c010ae804014fedaed08743dcd2ecac', 'Sasha', 'sasha@gmail.com', '22.00');
+INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`, `balance`) VALUES ('user6', 'a37bac07ad2782f62d1f9467125b6cd1', 'Ryhor', 'ryhor@gmail.com', '65.00');  
+INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`, `balance`) VALUES ('user7', '163b6034975365c713eaa3cda82e541c', 'Oleg', 'oleg@gmail.com', '10.00');
+INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`) VALUES ('user8', 'f55b4bf0814bb4d2502ddf2b1bbfd0da', 'Владимир', 'vladimir@gmail.com');  
+INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`) VALUES ('user9', '5f21b8484d0bb2257497da33cfdec328', 'МАРИНА', 'marina@tut.by');
+INSERT INTO `provider`.`user` (`login`, `password`, `name`, `email`) VALUES ('user10', '71e158e348e9d9ac8218a3948f9cea83', 'Anna', 'anna@gmail.com');  
 
 INSERT INTO `provider`.`tariff_type` (`type`) VALUES ('unlim');
 INSERT INTO `provider`.`tariff_type` (`type`) VALUES ('traffic');
@@ -17,13 +26,19 @@ INSERT INTO `provider`.`tariff` (`name`, `price`, `speed`, `tariff_type_id`, `pi
 INSERT INTO `provider`.`tariff` (`name`, `price`, `speed`, `tariff_type_id`, `picture`) VALUES ('Мировой', '39.00', '100', '1', 'images/tariffs/world.png');
 
 
-UPDATE `provider`.`user` SET `balance`='10' WHERE `id`='1';
-UPDATE `provider`.`user` SET `balance`='-8' WHERE `id`='2';
-UPDATE `provider`.`user` SET `balance`='0' WHERE `id`='3';
-UPDATE `provider`.`user` SET `balance`='25' WHERE `id`='4';
-UPDATE `provider`.`user` SET `balance`='-1' WHERE `id`='5';
-UPDATE `provider`.`user` SET `balance`='3.7' WHERE `id`='6';
-UPDATE `provider`.`user` SET `balance`='-2.4' WHERE `id`='9';
+INSERT INTO `provider`.`transaction` (`type`, `ammount`, `date`, `user_id`) VALUES ('refill', '100.00', '2017-06-20 00:00:00', '1');
+INSERT INTO `provider`.`transaction` (`type`, `ammount`, `date`, `user_id`) VALUES ('refill', '5.00', '2017-06-18 00:00:00', '2');
+INSERT INTO `provider`.`transaction` (`type`, `ammount`, `date`, `user_id`) VALUES ('withdraw', '39.00', '2017-06-20 00:00:00', '1');
+INSERT INTO `provider`.`transaction` (`type`, `ammount`, `date`, `user_id`) VALUES ('withdraw', '5.00', '2017-06-18 00:00:00', '2');
+
+
+INSERT INTO `provider`.`event` (`title`) VALUES ('Нет оплаты');
+
+
+
+
+
+UPDATE `provider`.`transaction` SET `date`='2017-06-20 00:00:00' WHERE `id`='25' and`user_id`='1';
 
 
 

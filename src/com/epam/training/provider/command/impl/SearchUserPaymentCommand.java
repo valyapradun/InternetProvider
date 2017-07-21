@@ -19,6 +19,7 @@ import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.PaymentService;
 import com.epam.training.provider.service.exception.ServiceException;
+import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
 public class SearchUserPaymentCommand implements Command {
@@ -45,18 +46,18 @@ public class SearchUserPaymentCommand implements Command {
 		Object user = session.getAttribute(USER);
 		String userID = Integer.toString(((User) user).getId());
 		
-		Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put(USER_ID, userID);
+		Map<String, String> criteria = new HashMap<String, String>();
+		criteria.put(USER_ID, userID);
 
 		try {
 			
-			payments = service.listPaymentsWithParameters(parameters);
+			payments = service.listPaymentsWithCriteria(criteria);
 			logger.log(Level.INFO, "User (session id:" + request.getSession(false).getId() + ") opened list of payments.");
 			request.setAttribute(ACTION, action);
 			request.setAttribute(LIST_PAYMENTS, payments);
 			page = LIST_PAYMENTS_PAGE;
 			
-		} catch (ServiceException e) {
+		} catch (ServiceException | ValidateException e) {
 			
 			request.setAttribute(ERROR_MESSAGE, "It is impossible to display transactions!");
 			logger.log(Level.ERROR, e);

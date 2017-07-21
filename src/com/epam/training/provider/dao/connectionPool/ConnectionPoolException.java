@@ -1,4 +1,4 @@
-package com.epam.training.provider.dao.connectionPoolOlgaSmolyakova;
+package com.epam.training.provider.dao.connectionPool;
 
 public class ConnectionPoolException extends Exception {
 	private static final long serialVersionUID = -4804741111910589521L;
@@ -18,4 +18,8 @@ public class ConnectionPoolException extends Exception {
 	public ConnectionPoolException(Throwable cause) {
 		super(cause);
 	}
+	
+	
+	
+
 }

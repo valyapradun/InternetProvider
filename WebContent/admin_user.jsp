@@ -31,6 +31,10 @@
             <div class="container">
 				<div class="row">
 					<h2>Администрирование пользователей</h2>
+					<hr>
+					<a href="Controller?action=prolong_unlim_tariffs" class="btn btn-primary" title="Продлить тарифы UNLIM">Продлить тарифы UNLIM</a>
+					<a href="Controller?action=put_ban" class="btn btn-warning" title="Поставить бан неплательщикам">Поставить бан неплательщикам</a>
+					<hr>
 					<table class="table table-hover">
 						<thead class="thead-inverse">
 							<tr>
@@ -57,7 +61,7 @@
 												<div class="btn-group">
 													<a href="Controller?action=search_one_tariff&id=${i.getId()}" class="btn btn-info" title="Просмотреть"><i class="fa fa-eye"></i></a> 
 													<a href="Controller?action=search_one_tariff&id=${i.getId()}" class="btn btn-success" title="Редактировать"><i class="fa fa-pencil"></i></a> 
-													<a href="Controller?action=delete_tariff&id=${i.getId()}" class="btn btn-danger" title="Удалить"><i class="fa fa-trash"></i></a>
+													<a href="Controller?action=delete_user&id=${i.getId()}" class="btn btn-danger" title="Удалить"><i class="fa fa-trash"></i></a>
 												</div>
 											</div>
 										</div>

@@ -14,5 +14,7 @@ public interface UserService {
 	public String checkUniqueEmail(String email) throws ServiceException, ValidateException;
 	public List<User> listUsersWithParameters() throws ServiceException;
 	public User userById(int id) throws ServiceException, ValidateException;
+	public void deleteUser(int id) throws ServiceException, ValidateException;
+	public void putBan(int adminId) throws ServiceException, ValidateException;
 
 }

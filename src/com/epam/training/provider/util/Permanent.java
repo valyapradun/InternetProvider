@@ -5,14 +5,17 @@ public final class Permanent {
 	/* for actions */
 	public static final String ACTION = "action";
 	public static final String ACTION_DISPLAY_TARIFFS = "?action=display_tariffs";
+	public static final String ACTION_DISPLAY_USERS = "?action=display_users";
 	public static final String ACTION_SHOW_ADMIN_PAGE = "?action=show_admin_page";
 	public static final String ACTION_SHOW_USER_PAGE = "?action=show_user_page";
 	public static final String ACTION_SHOW_INDEX_PAGE = "show_index_page";
 
-	/* for attribute of jsp-page */
+	/* for attribute/parameters of jsp-page */
 	public final static String ERROR_MESSAGE = "error";
 	public final static String USER = "user";
 	public static final String REDIRECT_PARAMETER = "redirectTo";
+	public static final String LANGUAGE = "lang";
+	public static final String REFERER = "referer";
 	
 	/* for user */
 	public final static String USER_ID = "id";

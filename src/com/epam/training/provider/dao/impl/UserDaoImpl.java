@@ -15,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.dao.UserDAO;
+import com.epam.training.provider.dao.connectionPool.ConnectionPool;
+import com.epam.training.provider.dao.connectionPool.ConnectionPoolException;
 import com.epam.training.provider.dao.exception.DAOException;
 
 public class UserDAOImpl implements UserDAO {
@@ -28,9 +30,12 @@ public class UserDAOImpl implements UserDAO {
 	private final static String SQL_ALL_USERS = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user";
 	private final static String SQL_ONE_USER = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user WHERE user.id = ?";
 	private final static String SQL_UNIQUE_TARIFF = "SELECT count(user_to_tariff.tariff_id) AS count FROM provider.user_to_tariff WHERE user_to_tariff.user_id = ? AND user_to_tariff.end IS NULL";
+	private final static String SQL_UNIQUE_BAN = "SELECT count(ban.user_id) AS count FROM provider.ban WHERE ban.user_id = ? AND ban.end_date IS NULL";
 	private final static String SQL_ACTIVE_TARIFF = "SELECT tariff.name FROM provider.tariff JOIN provider.user_to_tariff ON tariff.id = user_to_tariff.tariff_id WHERE user_to_tariff.user_id = ? AND user_to_tariff.end IS NULL";
-			
-
+	private final static String SQL_DELETE_USER = "DELETE FROM provider.user WHERE user.id = ?";		
+	private final static String SQL_NEGATIVE_BALANCE = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user WHERE user.balance < 0";
+	
+	
 	private final static String USER_ID = "id";
 	private final static String USER_LOGIN = "login";
 	private final static String USER_PASSWORD = "password";
@@ -217,10 +222,9 @@ public class UserDAOImpl implements UserDAO {
 		List<User> users = new ArrayList<User>();
 		try {
 			connection = connectionPool.takeConnection();
-
 			statement = connection.createStatement();
-			String where = "";
-			resultSet = statement.executeQuery(SQL_ALL_USERS + where);
+			resultSet = statement.executeQuery(SQL_ALL_USERS);
+			
 			while (resultSet.next()) {
 				int id = resultSet.getInt(USER_ID);
 				String login = resultSet.getString(USER_LOGIN);
@@ -256,7 +260,6 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	
-
 	@Override
 	public User searchById(int id) throws DAOException {
 		Connection connection = null;
@@ -379,6 +382,114 @@ public class UserDAOImpl implements UserDAO {
 			connectionPool.freeConnection(connection);
 		}
 		return tariffName;
+	}
+	
+	@Override
+	public void delete(int id) throws DAOException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.prepareStatement(SQL_DELETE_USER);
+			statement.setInt(1, id);
+			statement.executeUpdate();
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException. ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Cannot delete the user. ", e);
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+			connectionPool.freeConnection(connection);
+		}
+	}
+
+	@Override
+	public List<User> negativeBalance() throws DAOException {
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		List<User> users = new ArrayList<User>();
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(SQL_NEGATIVE_BALANCE);
+			
+			while (resultSet.next()) {
+				int id = resultSet.getInt(USER_ID);
+				String login = resultSet.getString(USER_LOGIN);
+				String name = resultSet.getString(USER_NAME);
+				String email = resultSet.getString(USER_EMAIL);
+				double balance = resultSet.getDouble(USER_BALANCE);
+				double traffic = resultSet.getDouble(USER_TRAFFIC);
+				User user = new User(id, login, name, email, balance, traffic);
+				users.add(user);
+			}
+
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException: ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Cannot display users with negative balance! ", e);
+		} finally {
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
+			}
+
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+
+			connectionPool.freeConnection(connection);
+		}
+
+		return users;
+	}
+
+	@Override
+	public int countActiveBan(int userID) throws DAOException {
+		int count = 0;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.prepareStatement(SQL_UNIQUE_BAN);
+			statement.setInt(1, userID);
+
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				count = resultSet.getInt(USER_COUNT);
+			}
+
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException: ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Сan't count active bans! ", e);
+		} finally {
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
+			}
+
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+
+			connectionPool.freeConnection(connection);
+		}
+		return count;
 	}
 
 }

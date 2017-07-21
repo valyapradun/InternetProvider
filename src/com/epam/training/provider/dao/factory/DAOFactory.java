@@ -1,9 +1,11 @@
 package com.epam.training.provider.dao.factory;
 
 import com.epam.training.provider.dao.TariffDAO;
+import com.epam.training.provider.dao.BanDAO;
 import com.epam.training.provider.dao.PaymentDAO;
 import com.epam.training.provider.dao.UserDAO;
 import com.epam.training.provider.dao.impl.TariffDAOImpl;
+import com.epam.training.provider.dao.impl.BanDAOImpl;
 import com.epam.training.provider.dao.impl.PaymentDAOImpl;
 import com.epam.training.provider.dao.impl.UserDAOImpl;
 
@@ -14,6 +16,7 @@ public final class DAOFactory {
 	private final UserDAO userImpl = new UserDAOImpl();
 	private final TariffDAO tariffImpl = new TariffDAOImpl();
 	private final PaymentDAO paymentImpl = new PaymentDAOImpl();
+	private final BanDAO banImpl = new BanDAOImpl();
 
 	private DAOFactory() {
 	}
@@ -32,6 +35,10 @@ public final class DAOFactory {
 	
 	public PaymentDAO getPaymentDAO() {
 		return paymentImpl;
+	}
+	
+	public BanDAO getBanDAO() {
+		return banImpl;
 	}
 
 }

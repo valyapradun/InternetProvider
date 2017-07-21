@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,8 @@ import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.bean.TariffType;
 
 import com.epam.training.provider.dao.TariffDAO;
+import com.epam.training.provider.dao.connectionPool.ConnectionPool;
+import com.epam.training.provider.dao.connectionPool.ConnectionPoolException;
 import com.epam.training.provider.dao.exception.DAOException;
 import com.epam.training.provider.dao.exception.DAORuntimeException;
 
@@ -28,6 +29,8 @@ public class TariffDAOImpl implements TariffDAO {
 	private final static String SQL_EDIT_TARIFF = "UPDATE provider.tariff SET tariff.name = ?, tariff.price = ?, tariff.size = ?, tariff.speed = ?, tariff.picture = ?, tariff.tariff_type_id = ? WHERE tariff.id = ?";
 	private final static String SQL_NEW_TARIFF = "INSERT INTO provider.tariff (name, price, size, speed, picture, tariff_type_id) VALUES (?, ?, ?, ?, ?, ?)";
 	private final static String SQL_DELETE_TARIFF = "DELETE FROM provider.tariff WHERE tariff.id = ?";
+	private final static String SQL_UNIQUE_TARIFF = "SELECT count(tariff.name) AS count FROM provider.tariff WHERE tariff.name = ?";
+	private final static String SQL_FOR_WHERE_TARIFF_TYPE = " WHERE tariff.tariff_type_id = ?";
 	
 	private final static String TARIFF_ID = "id";
 	private final static String TARIFF_NAME = "name";
@@ -36,6 +39,7 @@ public class TariffDAOImpl implements TariffDAO {
 	private final static String TARIFF_SIZE = "size";
 	private final static String TARIFF_SPEED = "speed";
 	private final static String TARIFF_PICTURE = "picture";
+	private final static String TARIFF_COUNT = "count";
 	
 	private static ConnectionPool connectionPool;
 	static {
@@ -50,20 +54,20 @@ public class TariffDAOImpl implements TariffDAO {
 	@Override
 	public List<Tariff> searchWithParameters(Map<String, String> parameters) throws DAOException {
 		Connection connection = null;
-		Statement statement = null;
+		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		List<Tariff> tariffs = new ArrayList<Tariff>();
 
 		try {
 			connection = connectionPool.takeConnection();
-			statement = connection.createStatement();
-			String where = "";
-
-			if (!parameters.isEmpty() && (parameters.get(TARIFF_TYPE) != null)) {
-				where = " WHERE tariff.tariff_type_id = " + parameters.get(TARIFF_TYPE);
+			statement = connection.prepareStatement(SQL_ALL_TARIFFS);
+			
+			if (parameters.get(TARIFF_TYPE) != null) {
+				statement = connection.prepareStatement(SQL_ALL_TARIFFS + SQL_FOR_WHERE_TARIFF_TYPE);
+				statement.setInt(1, Integer.parseInt(parameters.get(TARIFF_TYPE)));
 			}
 
-			resultSet = statement.executeQuery(SQL_ALL_TARIFFS + where);
+			resultSet = statement.executeQuery();
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt(TARIFF_ID);
@@ -102,9 +106,6 @@ public class TariffDAOImpl implements TariffDAO {
 
 	@Override
 	public Tariff searchById(int id) throws DAOException {
-		if (id <= 0) {
-			throw new DAOException("ID of tariff is less or is equal to 0!");
-		}
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -150,10 +151,6 @@ public class TariffDAOImpl implements TariffDAO {
 
 	@Override
 	public void edit(Tariff tariff) throws DAOException {
-		if (tariff == null) {
-			throw new DAOException("The tariff for editing is equal to null!");
-		}
-
 		Connection connection = null;
 		PreparedStatement statement = null;
 
@@ -187,10 +184,6 @@ public class TariffDAOImpl implements TariffDAO {
 
 	@Override
 	public void addNew(Tariff tariff) throws DAOException {
-		if (tariff == null) {
-			throw new DAOException("The tariff for adding is equal to null!");
-		}
-
 		Connection connection = null;
 		PreparedStatement statement = null;
 
@@ -224,10 +217,6 @@ public class TariffDAOImpl implements TariffDAO {
 
 	@Override
 	public void delete(int id) throws DAOException {
-		if (id <= 0) {
-			throw new DAOException("ID of tariff is less or is equal to 0!");
-		}
-
 		Connection connection = null;
 		PreparedStatement statement = null;
 
@@ -239,7 +228,7 @@ public class TariffDAOImpl implements TariffDAO {
 		} catch (ConnectionPoolException e) {
 			throw new DAOException("ConnectionPoolException. ", e);
 		} catch (SQLException e) {
-			throw new DAOException("Cannot add the tariff. ", e);
+			throw new DAOException("Cannot delete the tariff. ", e);
 		} finally {
 			try {
 				statement.close();
@@ -249,6 +238,45 @@ public class TariffDAOImpl implements TariffDAO {
 			connectionPool.freeConnection(connection);
 		}
 
+	}
+
+	@Override
+	public int uniqueTariff(String nameTariff) throws DAOException {
+		int count = 0;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.prepareStatement(SQL_UNIQUE_TARIFF);
+			statement.setString(1, nameTariff);
+
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				count = resultSet.getInt(TARIFF_COUNT);
+			}
+
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException: ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Cannot check uniqueness of tariff's name! ", e);
+		} finally {
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
+			}
+
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+
+			connectionPool.freeConnection(connection);
+		}
+		return count;
 	}
 
 

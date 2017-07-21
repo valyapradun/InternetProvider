@@ -1,8 +1,6 @@
 package com.epam.training.provider.command.impl;
 
-
 import static com.epam.training.provider.util.Permanent.*;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,41 +9,39 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.command.Command;
-import com.epam.training.provider.service.TariffService;
+import com.epam.training.provider.service.UserService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
-public class SearchOneTariffCommand implements Command{
-	private final static Logger logger = LogManager.getLogger(SearchOneTariffCommand.class.getName());
-	private final static String TARIFF = "tariff";
-	
-	private final TariffService service;
+public class DeleteUserCommand implements Command {
+	private final static Logger logger = LogManager.getLogger(DeleteUserCommand.class.getName());
+
+	private final UserService service;
 
 	{
 		ServiceFactory serviceObjectFactory = ServiceFactory.getInstance();
-		service = serviceObjectFactory.getTariffService();
+		service = serviceObjectFactory.getUserService();
+				
 	}
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
-		Tariff tariff = null;
 		
-		int id = Integer.parseInt(request.getParameter(TARIFF_ID));
+		int id = Integer.parseInt(request.getParameter(USER_ID));
 		
 		try {
 			
-			tariff = service.tariffById(id);
-			logger.log(Level.INFO, "Administrotor (session id:" + request.getSession(false).getId() + ") opened this tariff (tariff id: " + id + ")");
-			request.setAttribute(TARIFF, tariff);
-			page = TARIFF_PAGE;
+			service.deleteUser(id);
+			logger.log(Level.INFO, "User (id: " + id + ") has been deleted by the admin (session id:" + request.getSession(false).getId() + ")");
+			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			page = request.getServletPath() + ACTION_DISPLAY_USERS;
 			
-		} catch (ServiceException | ValidateException e ) {
+		} catch (ServiceException | ValidateException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to show a tariff card");
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to delete the user!");
 			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			

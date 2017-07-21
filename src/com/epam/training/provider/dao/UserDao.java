@@ -14,7 +14,7 @@ public interface UserDAO {
 	public List<User> searchWithParameters() throws DAOException;
 	public User searchById(int id) throws DAOException;
 	public String searchActiveTariff(int userID) throws DAOException;
-	// update
-	// delete
-
+	public void delete(int id) throws DAOException;
+	public List<User> negativeBalance() throws DAOException;
+	public int countActiveBan(int userID) throws DAOException;
 }

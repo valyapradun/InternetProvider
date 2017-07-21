@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import com.epam.training.provider.command.Command;
 import com.epam.training.provider.service.TariffService;
 import com.epam.training.provider.service.exception.ServiceException;
+import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
 public class DeleteTariffCommand implements Command {
@@ -37,7 +38,7 @@ public class DeleteTariffCommand implements Command {
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
 			
-		} catch (ServiceException e) {
+		} catch (ServiceException | ValidateException e) {
 			
 			request.setAttribute(ERROR_MESSAGE, "It is impossible to delete the tariff!");
 			logger.log(Level.ERROR, e);

@@ -8,8 +8,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.epam.training.provider.dao.impl.ConnectionPool;
-import com.epam.training.provider.dao.impl.ConnectionPoolException;
+import com.epam.training.provider.dao.connectionPool.ConnectionPool;
+import com.epam.training.provider.dao.connectionPool.ConnectionPoolException;
+
+
 
 public class ServletContextListenerImpl implements ServletContextListener {
 	private final static Logger logger = LogManager.getLogger(ServletContextListenerImpl.class.getName());

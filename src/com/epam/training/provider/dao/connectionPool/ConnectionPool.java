@@ -1,4 +1,6 @@
-package com.epam.training.provider.dao.connectionPoolOlgaSmolyakova;
+package com.epam.training.provider.dao.connectionPool;
+
+import static com.epam.training.provider.dao.connectionPool.DBParameter.*;
 
 import java.sql.Array;
 import java.sql.Blob;
@@ -9,7 +11,6 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.NClob;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
@@ -17,55 +18,50 @@ import java.sql.SQLXML;
 import java.sql.Savepoint;
 import java.sql.Statement;
 import java.sql.Struct;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public final class ConnectionPool {
-	private BlockingQueue<Connection> freePool;
-	private BlockingQueue<Connection> usedPool;
-	private String driverName;
-	private String url;
-	private String user;
-	private String password;
-	private int poolSize;
+
+
+public class ConnectionPool {
+	private final static Logger logger = LogManager.getLogger(ConnectionPool.class.getName());
+
 	private static volatile ConnectionPool instance = null;
+	private static BlockingQueue<Connection> freePool;
+	private static BlockingQueue<Connection> usedPool;
+	private static int poolSize = 5;
 
-	private ConnectionPool() {
-		DBResourceManager dbResourseManager = DBResourceManager.getInstance();
-		this.driverName = dbResourseManager.getValue(DBParameter.DB_DRIVER);
-		this.url = dbResourseManager.getValue(DBParameter.DB_URL);
-		this.user = dbResourseManager.getValue(DBParameter.DB_USER);
-		this.password = dbResourseManager.getValue(DBParameter.DB_PASSWORD);
-		try {
-			this.poolSize = Integer.parseInt(dbResourseManager.getValue(DBParameter.DB_POLL_SIZE));
-		} catch (NumberFormatException e) {
-			poolSize = 5;
-		}
+	private ConnectionPool() throws ConnectionPoolException {
+		ResourceBundle resource = ResourceBundle.getBundle(RESOURCE_BUNDLE);
+		String driver = resource.getString(DB_DRIVER);
+		String url = resource.getString(DB_URL);
+		String user = resource.getString(DB_USER);
+		String pass = resource.getString(DB_PASSWORD);
+
+		freePool = new ArrayBlockingQueue<Connection>(poolSize);
+		usedPool = new ArrayBlockingQueue<Connection>(poolSize);
 		
-	}
-
-	public void initPoolData() throws ConnectionPoolException {
-		Locale.setDefault(Locale.ENGLISH);
-		try {
-			Class.forName(driverName);
-			freePool = new ArrayBlockingQueue<Connection>(poolSize);
-			usedPool = new ArrayBlockingQueue<Connection>(poolSize);
-
-			for (int i = 0; i < poolSize; i++) {
-				Connection connection = DriverManager.getConnection(url, user, password);
+		for (int i = 0; i < poolSize; i++) {
+			try {
+				
+				Class.forName(driver);
+				Connection connection = DriverManager.getConnection(url, user, pass);
 				PooledConnection pooledConnection = new PooledConnection(connection);
 				freePool.add(pooledConnection);
+				
+			} catch (ClassNotFoundException e) {
+				throw new ConnectionPoolException("Can't find database driver class. ", e);
+			} catch (SQLException e) {
+				throw new ConnectionPoolException("SQLException in ConnectionPool. ", e);
 			}
-
-		} catch (SQLException e) {
-			throw new ConnectionPoolException("SQLException in ConnectionPool", e);
-		} catch (ClassNotFoundException e) {
-			throw new ConnectionPoolException("Can't find database driver class", e);
 		}
 	}
 
@@ -80,26 +76,13 @@ public final class ConnectionPool {
 		return instance;
 	}
 
-	public void dispose() {
-		clearConnectionQueue();
-	}
-
-	private void clearConnectionQueue() {
-		try {
-			closeConnectionsQueue(usedPool);
-			closeConnectionsQueue(freePool);
-		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "Error closing the connection.", e);
-		}
-	}
-
 	public Connection takeConnection() throws ConnectionPoolException {
 		Connection connection = null;
 		try {
 			connection = freePool.take();
 			usedPool.add(connection);
 		} catch (InterruptedException e) {
-			throw new ConnectionPoolException("Error connecting to the data source.", e);
+			throw new ConnectionPoolException("Error connecting to the data source! ", e);
 		}
 		return connection;
 	}
@@ -111,42 +94,19 @@ public final class ConnectionPool {
 		}
 	}
 
-	public void closeConnection(Connection connection, Statement statement, ResultSet resultSet) {
+	public void shutdown() {
 		try {
-			connection.close();
+			closeQueue(usedPool);
+			closeQueue(freePool);
 		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "Connection isn't return to the pool.");
+			logger.log(Level.ERROR, "Error closing the connection. ", e);
 		}
 
-		try {
-			resultSet.close();
-		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "ResultSet isn't closed.");
-		}
-
-		try {
-			statement.close();
-		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "Statement isn't closed.");
-		}
 	}
 
-	public void closeConnection(Connection connection, Statement statement) {
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "Connection isn't return to the pool.");
-		}
-
-		try {
-			statement.close();
-		} catch (SQLException e) {
-			// logger.log(Level.ERROR, "Statement isn't closed.");
-		}
-	}
-
-	private void closeConnectionsQueue(BlockingQueue<Connection> queue) throws SQLException {
+	private void closeQueue(BlockingQueue<Connection> queue) throws SQLException {
 		Connection connection;
+
 		while ((connection = queue.poll()) != null) {
 			if (!connection.getAutoCommit()) {
 				connection.commit();
@@ -155,6 +115,7 @@ public final class ConnectionPool {
 		}
 	}
 
+	
 	private class PooledConnection implements Connection {
 
 		private Connection connection;
@@ -458,5 +419,7 @@ public final class ConnectionPool {
 			connection.setTypeMap(arg0);
 		}
 	}
-
+	
+	
+	
 }
