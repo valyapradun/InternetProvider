@@ -31,6 +31,7 @@ public class TariffDAOImpl implements TariffDAO {
 	private final static String SQL_DELETE_TARIFF = "DELETE FROM provider.tariff WHERE tariff.id = ?";
 	private final static String SQL_UNIQUE_TARIFF = "SELECT count(tariff.name) AS count FROM provider.tariff WHERE tariff.name = ?";
 	private final static String SQL_FOR_WHERE_TARIFF_TYPE = " WHERE tariff.tariff_type_id = ?";
+	private final static String SQL_END_TARIFF = "UPDATE provider.user_to_tariff SET end = CURDATE() WHERE user_to_tariff.id = ?";
 	
 	private final static String TARIFF_ID = "id";
 	private final static String TARIFF_NAME = "name";
@@ -279,5 +280,30 @@ public class TariffDAOImpl implements TariffDAO {
 		return count;
 	}
 
+	@Override
+	public void endTariff(int idContract) throws DAOException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.prepareStatement(SQL_END_TARIFF);
+			statement.setInt(1, idContract);
+			statement.executeUpdate();
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException. ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Cannot end to tariff. ", e);
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+
+			connectionPool.freeConnection(connection);
+		}
+		
+	}
 
 }

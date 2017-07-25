@@ -2,9 +2,10 @@ package com.epam.training.provider.service.impl;
 
 import static com.epam.training.provider.util.Permanent.*;
 
-
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -136,6 +137,38 @@ public class PaymentServiceImpl implements PaymentService {
 		buffer.append(Validate.checkRequiredDoubleField(PAYMENT_AMMOUNT, payment.getAmmount()));
 		return buffer.toString();
 
+	}
+
+	@Override
+	public void prolongUnlimTariffs() throws ServiceException {
+		DAOFactory daoObjectFactory = DAOFactory.getInstance();
+		UserDAO daoUser = daoObjectFactory.getUserDAO();
+		TariffDAO daoTariff = daoObjectFactory.getTariffDAO();
+		PaymentDAO daoPayment = daoObjectFactory.getPaymentDAO();
+		
+		List<User> users = new ArrayList<User>();
+		try {
+			users = daoUser.usersWithUnlimMore30Days();
+			
+			if (users != null) {
+				
+				Iterator<User> iterator = users.iterator();
+		        while(iterator.hasNext()){
+		        	User user = iterator.next();
+		        	
+						daoTariff.endTariff(user.getNumberContract());
+						
+						PaymentType type = PaymentType.WITHDRAW;
+						Calendar currentDate = Calendar.getInstance();
+						Date date = currentDate.getTime();
+						Payment payment = new Payment(type, (user.getTariff()).getPrice(), date, user.getId());
+						daoPayment.buyNewTariff(payment, (user.getTariff()).getId());	
+		        }   
+			}
+			
+		} catch (DAOException e) {
+			throw new ServiceException("Сan't search users! ", e);
+		}
 	}
 
 }

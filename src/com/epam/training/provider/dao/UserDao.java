@@ -17,4 +17,6 @@ public interface UserDAO {
 	public void delete(int id) throws DAOException;
 	public List<User> negativeBalance() throws DAOException;
 	public int countActiveBan(int userID) throws DAOException;
+	public List<User> usersWithUnlimMore30Days() throws DAOException;
+	
 }

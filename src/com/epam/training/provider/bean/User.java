@@ -3,8 +3,8 @@ package com.epam.training.provider.bean;
 import java.io.Serializable;
 
 public class User implements Serializable {
-	private static final long serialVersionUID = -1802610255722244828L;
-
+	private static final long serialVersionUID = -2402160618802474285L;
+	
 	private int id;
 	private String login;
 	private String password;
@@ -13,8 +13,9 @@ public class User implements Serializable {
 	private String email;
 	private double balance;
 	private double traffic;
-	private String tariffTitle;
 	private boolean activeBan;
+	private int numberContract;
+	private Tariff tariff;
 
 	public User() {
 	}
@@ -99,14 +100,6 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public String getTariffTitle() {
-		return tariffTitle;
-	}
-
-	public void setTariffTitle(String tariffTitle) {
-		this.tariffTitle = tariffTitle;
-	}
 
 	public boolean isActiveBan() {
 		return activeBan;
@@ -114,6 +107,22 @@ public class User implements Serializable {
 
 	public void setActiveBan(boolean activeBan) {
 		this.activeBan = activeBan;
+	}
+
+	public int getNumberContract() {
+		return numberContract;
+	}
+
+	public void setNumberContract(int numberContract) {
+		this.numberContract = numberContract;
+	}
+
+	public Tariff getTariff() {
+		return tariff;
+	}
+
+	public void setTariff(Tariff tariff) {
+		this.tariff = tariff;
 	}
 
 	@Override
@@ -128,9 +137,10 @@ public class User implements Serializable {
 		result = prime * result + id;
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + numberContract;
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
-		result = prime * result + ((tariffTitle == null) ? 0 : tariffTitle.hashCode());
+		result = prime * result + ((tariff == null) ? 0 : tariff.hashCode());
 		temp = Double.doubleToLongBits(traffic);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
@@ -166,6 +176,8 @@ public class User implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (numberContract != other.numberContract)
+			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -176,10 +188,10 @@ public class User implements Serializable {
 				return false;
 		} else if (!role.equals(other.role))
 			return false;
-		if (tariffTitle == null) {
-			if (other.tariffTitle != null)
+		if (tariff == null) {
+			if (other.tariff != null)
 				return false;
-		} else if (!tariffTitle.equals(other.tariffTitle))
+		} else if (!tariff.equals(other.tariff))
 			return false;
 		if (Double.doubleToLongBits(traffic) != Double.doubleToLongBits(other.traffic))
 			return false;
@@ -189,9 +201,8 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + ", name=" + name
-				+ ", email=" + email + ", balance=" + balance + ", traffic=" + traffic + ", tariffTitle=" + tariffTitle
-				+ ", activeBan=" + activeBan + "]";
+				+ ", email=" + email + ", balance=" + balance + ", traffic=" + traffic + ", activeBan=" + activeBan
+				+ ", numberContract=" + numberContract + ", tariff=" + tariff + "]";
 	}
 
-	
 }

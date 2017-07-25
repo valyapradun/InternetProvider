@@ -59,8 +59,9 @@
 										<div class="row">
 											<div class="btn-toolbar">
 												<div class="btn-group">
-													<a href="Controller?action=search_one_tariff&id=${i.getId()}" class="btn btn-info" title="Просмотреть"><i class="fa fa-eye"></i></a> 
-													<a href="Controller?action=search_one_tariff&id=${i.getId()}" class="btn btn-success" title="Редактировать"><i class="fa fa-pencil"></i></a> 
+													<a href="#" class="btn btn-info" title="Просмотреть"><i class="fa fa-eye"></i></a> 
+													<a href="Controller?action=remove_ban&id=${i.getId()}" class="btn btn-warning" title="Убрать бан"><i class="fa fa-ban"></i></a> 
+													<a href="#" class="btn btn-success" title="Окончить тариф"><i class="fa fa-calendar-check-o"></i></a> 
 													<a href="Controller?action=delete_user&id=${i.getId()}" class="btn btn-danger" title="Удалить"><i class="fa fa-trash"></i></a>
 												</div>
 											</div>

@@ -72,7 +72,7 @@
 							</tr>
 							<tr>
 								<th>Тарифный план</th>
-								<td><c:out value="${user.getTariffTitle()}" /></td>
+								<td><c:out value="${user.getTariff().getName()}" /></td>
 							</tr>
 						</tbody>
 					</table>

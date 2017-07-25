@@ -14,5 +14,6 @@ public interface TariffDAO {
 	public void addNew(Tariff tariff) throws DAOException;
 	public void delete(int id) throws DAOException;
 	public int uniqueTariff(String nameTariff) throws DAOException;
+	public void endTariff(int idContract) throws DAOException;
 	
 }

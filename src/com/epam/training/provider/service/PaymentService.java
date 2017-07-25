@@ -12,5 +12,6 @@ public interface PaymentService {
 	public List<Payment> listPaymentsWithCriteria(Map<String, String> criteria) throws ServiceException, ValidateException;
 	public void addPayment(Payment payment) throws ServiceException, ValidateException;
 	public void buyTariff(int userID, int tariffID) throws ServiceException, ValidateException;
+	public void prolongUnlimTariffs() throws ServiceException;
 	
 }

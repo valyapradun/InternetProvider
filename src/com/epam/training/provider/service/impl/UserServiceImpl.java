@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.epam.training.provider.bean.Ban;
+import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.dao.BanDAO;
 import com.epam.training.provider.dao.UserDAO;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
 				UserDAO dao = daoObjectFactory.getUserDAO();
 				user = dao.signIn(login, password);
 			} catch (DAOException e) {
-				throw new ServiceException("Authorization wasn't executed! ", e);
+				throw new ServiceException("Authorization wasn't executed! " + e.getMessage(), e);
 			}
 			return user;
 			
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
 				UserDAO dao = daoObjectFactory.getUserDAO();
 				dao.registration(newUser);
 			} catch (DAOException e) {
-				throw new ServiceException("Registration wasn't executed! ", e);
+				throw new ServiceException("Registration wasn't executed! " + e.getMessage(), e);
 			}
 		} else {
 			throw new ValidateException(errors);
@@ -65,17 +66,19 @@ public class UserServiceImpl implements UserService {
 		}
 
 		User user = null;
+		Tariff tariff = new Tariff();
 		try {
 
 			DAOFactory daoObjectFactory = DAOFactory.getInstance();
 			UserDAO dao = daoObjectFactory.getUserDAO();
 			user = dao.searchById(id);
 			String tariffName = dao.searchActiveTariff(id);
-			user.setTariffTitle(tariffName);
+			tariff.setName(tariffName);
+			user.setTariff(tariff);
 			user.setActiveBan(checkActiveBan(id));
 			
 		} catch (DAOException e) {
-			throw new ServiceException("Search of users wasn't executed! ", e);
+			throw new ServiceException("Search of users wasn't executed! " + e.getMessage(), e);
 		}
 		return user;
 	}
@@ -96,7 +99,7 @@ public class UserServiceImpl implements UserService {
 			}
 			
 		} catch (DAOException e) {
-			throw new ServiceException("Uniqueness of login wasn't executed! ", e);
+			throw new ServiceException("Uniqueness of login wasn't executed! " + e.getMessage(), e);
 		}
 		
 		return result;
@@ -119,7 +122,7 @@ public class UserServiceImpl implements UserService {
 			}
 			
 		} catch (DAOException e) {
-			throw new ServiceException("Uniqueness of email wasn't executed! ", e);
+			throw new ServiceException("Uniqueness of email wasn't executed! " + e.getMessage(), e);
 		}
 		
 		return result;
@@ -133,7 +136,7 @@ public class UserServiceImpl implements UserService {
 			UserDAO dao = daoObjectFactory.getUserDAO();
 			users = dao.searchWithParameters();
 		} catch (DAOException e) {
-			throw new ServiceException("Search of users wasn't executed! ", e);
+			throw new ServiceException("Search of users wasn't executed! " + e.getMessage(), e);
 		}
 		return users;
 	}
@@ -150,7 +153,7 @@ public class UserServiceImpl implements UserService {
 
 			dao.delete(id);
 		} catch (DAOException e) {
-			throw new ServiceException("Deleting the user wasn't executed!", e);
+			throw new ServiceException("Deleting the user wasn't executed!" + e.getMessage(), e);
 		}
 	}
 	
@@ -185,7 +188,7 @@ public class UserServiceImpl implements UserService {
 		        }
 			}
 		} catch (DAOException e) {
-			throw new ServiceException("It wasn't succeeded to put the ban!", e);
+			throw new ServiceException("It wasn't succeeded to put the ban!" + e.getMessage(), e);
 		}
 		
 	}
@@ -236,6 +239,59 @@ public class UserServiceImpl implements UserService {
 		try {
 			countActiveBan = daoUser.countActiveBan(userID);
 			if (countActiveBan > 0) {
+				return true;
+			}
+
+		} catch (DAOException e) {
+			throw new ServiceException("Сan't count active tariffs! " + e.getMessage(), e);
+		}
+		
+		return false;
+	}
+
+	@Override
+	public void removeBan(int adminId, int userId) throws ServiceException, ValidateException {
+		if ((adminId <= 0) || (userId <= 0)) {
+			throw new ValidateException("ID of administrator is less or is equal to 0!");
+		}
+		
+		checkActiveBan(userId);
+		
+		DAOFactory daoObjectFactory = DAOFactory.getInstance();
+		UserDAO daoUser = daoObjectFactory.getUserDAO();
+
+		try {
+			User user = daoUser.searchById(userId);
+			
+			if (user != null) {
+				if (!checkNegativeBalance(userId) && checkActiveBan(userId)){
+					
+					BanDAO daoBan = daoObjectFactory.getBanDAO();
+					Ban ban = daoBan.activeBan(userId);
+					ban.setEndDate(Calendar.getInstance().getTime());
+					daoBan.edit(ban);
+				} else {
+					throw new ValidateException("User hasn't active ban or enough money!");
+				}	
+			}
+		} catch (DAOException e) {
+			throw new ServiceException("Сan't remove the ban! " + e.getMessage(), e);
+		}
+	}
+	
+	
+	public boolean checkNegativeBalance(int userID) throws ValidateException, ServiceException {
+		if (userID <= 0) {
+			throw new ValidateException("ID of user is less or is equal to 0!");
+		}
+		
+		DAOFactory daoObjectFactory = DAOFactory.getInstance();
+		UserDAO daoUser = daoObjectFactory.getUserDAO();
+		User user;
+
+		try {
+			user = daoUser.searchById(userID);
+			if (user.getBalance() < 0) {
 				return true;
 			}
 

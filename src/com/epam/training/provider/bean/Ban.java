@@ -5,7 +5,8 @@ import java.util.Date;
 
 public class Ban implements Serializable {
 
-	private static final long serialVersionUID = -717954426332720714L;
+	private static final long serialVersionUID = -5655327823692115728L;
+	
 	private int id;
 	private int userId;
 	private int adminId;
@@ -18,6 +19,14 @@ public class Ban implements Serializable {
 		
 	}
 
+	
+	public Ban(int id, int userId, int adminId, String reason) {
+		this.id = id;
+		this.userId = userId;
+		this.adminId = adminId;
+		this.reason = reason;
+	}	
+	
 
 	public int getId() {
 		return id;

@@ -16,5 +16,6 @@ public interface UserService {
 	public User userById(int id) throws ServiceException, ValidateException;
 	public void deleteUser(int id) throws ServiceException, ValidateException;
 	public void putBan(int adminId) throws ServiceException, ValidateException;
+	public void removeBan(int adminId, int userId) throws ServiceException, ValidateException;
 
 }

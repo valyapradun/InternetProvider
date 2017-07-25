@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.dao.UserDAO;
 import com.epam.training.provider.dao.connectionPool.ConnectionPool;
@@ -34,6 +35,7 @@ public class UserDAOImpl implements UserDAO {
 	private final static String SQL_ACTIVE_TARIFF = "SELECT tariff.name FROM provider.tariff JOIN provider.user_to_tariff ON tariff.id = user_to_tariff.tariff_id WHERE user_to_tariff.user_id = ? AND user_to_tariff.end IS NULL";
 	private final static String SQL_DELETE_USER = "DELETE FROM provider.user WHERE user.id = ?";		
 	private final static String SQL_NEGATIVE_BALANCE = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user WHERE user.balance < 0";
+	private final static String SQL_USERS_WITH_UNLIM_MORE_30_DAYS = "SELECT user_to_tariff.id AS contract_id, user_to_tariff.user_id AS id, user_to_tariff.tariff_id, tariff.name, tariff.price FROM provider.user_to_tariff JOIN provider.tariff ON user_to_tariff.tariff_id = tariff.id WHERE tariff.tariff_type_id = 1 AND user_to_tariff.end is NULL AND user_to_tariff.begin <= CURDATE() - INTERVAL 30 DAY";
 	
 	
 	private final static String USER_ID = "id";
@@ -45,7 +47,10 @@ public class UserDAOImpl implements UserDAO {
 	private final static String USER_BALANCE = "balance";
 	private final static String USER_TRAFFIC = "traffic_used";
 	private final static String USER_COUNT = "count";
+	private final static String TARIFF_ID = "tariff_id";
 	private final static String TARIFF_NAME = "name";
+	private final static String TARIFF_PRICE = "price";
+	private final static String NUMBER_CONTRACT = "contract_id";
 	
 	private static ConnectionPool connectionPool;
 	static {
@@ -326,7 +331,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (ConnectionPoolException e) {
 			throw new DAOException("ConnectionPoolException: ", e);
 		} catch (SQLException e) {
-			throw new DAOException("Сan't count active tariffs! ", e);
+			throw new DAOException("Сan't count active tariffsQQQQ! ", e);
 		} finally {
 			try {
 				resultSet.close();
@@ -490,6 +495,58 @@ public class UserDAOImpl implements UserDAO {
 			connectionPool.freeConnection(connection);
 		}
 		return count;
+	}
+
+	@Override
+	public List<User> usersWithUnlimMore30Days() throws DAOException {
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		List<User> users = new ArrayList<User>();
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(SQL_USERS_WITH_UNLIM_MORE_30_DAYS);
+			
+			while (resultSet.next()) {
+				int id = resultSet.getInt(USER_ID);
+				int tariffID = resultSet.getInt(TARIFF_ID);
+				String tariffName = resultSet.getString(TARIFF_NAME);
+				double tariffPrice = resultSet.getDouble(TARIFF_PRICE);
+				int numberContract = resultSet.getInt(NUMBER_CONTRACT);
+				
+				User user = new User();
+				Tariff tariff = new Tariff();
+				user.setId(id);
+				tariff.setId(tariffID);
+				tariff.setPrice(tariffPrice);
+				tariff.setName(tariffName);
+				user.setTariff(tariff);
+				user.setNumberContract(numberContract);
+				users.add(user);
+			}
+
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException: ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Cannot display users! ", e);
+		} finally {
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
+			}
+
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+
+			connectionPool.freeConnection(connection);
+		}
+
+		return users;
 	}
 
 }
