@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `provider`.`user` (
   `password` VARCHAR(45) NOT NULL COMMENT 'Пароль пользователя.',
   `name` VARCHAR(100) NOT NULL COMMENT 'Имя пользователя.',
   `email` VARCHAR(45) NOT NULL COMMENT 'E-mail пользователя.',
-  `balance` DECIMAL(9,2) NULL COMMENT 'Остаток на счете пользователя.',
+  `balance` DECIMAL(9,2) NULL DEFAULT 0.0 COMMENT 'Остаток на счете пользователя.',
   `traffic_used` DECIMAL(9,2) NULL COMMENT 'Израсходованный трафик пользователя.',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC),
@@ -37,7 +37,7 @@ COMMENT = 'Зарегистрированные пользователи.';
 
 -- -----------------------------------------------------
 -- Table `provider`.`administrator`
--- -----------------------------------------------------
+-- ----------------------------------------------------- 
 DROP TABLE IF EXISTS `provider`.`administrator` ;
 
 CREATE TABLE IF NOT EXISTS `provider`.`administrator` (

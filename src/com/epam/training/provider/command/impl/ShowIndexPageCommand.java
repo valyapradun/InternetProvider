@@ -11,7 +11,12 @@ import org.apache.logging.log4j.Logger;
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.command.Command;
 import static com.epam.training.provider.util.Permanent.*;
-
+/**
+ * Class for implementation of the command 'Show index-page'.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class ShowIndexPageCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(ShowIndexPageCommand.class.getName());
 

@@ -27,7 +27,7 @@
 							<li <c:if test="${action=='show_user_page'}"> class="active"</c:if>><a href="Controller?action=show_user_page">Состояние счета</a></li>
 							<li <c:if test="${action=='show_user_tariffs'}"> class="active"</c:if>><a href="Controller?action=show_user_tariffs">Тарифы и услуги</a></li>
 							<li <c:if test="${action=='search_user_payments'}"> class="active"</c:if>><a href="Controller?action=search_user_payments">Платежи</a></li>
-							<li <c:if test="${action=='users'}"> class="active"</c:if>><a href="Controller?action=users">Настройки профиля</a></li>
+					<!--  		<li <c:if test="${action=='users'}"> class="active"</c:if>><a href="Controller?action=users">Настройки профиля</a></li> -->
 						</ul>
 					</div>
 				</div>

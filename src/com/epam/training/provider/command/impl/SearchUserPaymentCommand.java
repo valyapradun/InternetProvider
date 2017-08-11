@@ -21,7 +21,12 @@ import com.epam.training.provider.service.PaymentService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
-
+/**
+ * Class for implementation of the command 'Search all payments of user' by user.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class SearchUserPaymentCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(SearchUserPaymentCommand.class.getName());
 	private static final String USER_ID = "userId";

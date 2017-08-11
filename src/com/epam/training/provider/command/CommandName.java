@@ -1,5 +1,10 @@
 package com.epam.training.provider.command;
-
+/**
+ * Enum with the list of action's commands for pattern Command .
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public enum CommandName {
 	ADD_PAYMENT,
 	ADD_TARIFF, 
@@ -9,7 +14,8 @@ public enum CommandName {
 	DELETE_USER,
 	DISPLAY_TARIFFS, 
 	DISPLAY_USERS, 
-	EDIT_TARIFF, 
+	EDIT_TARIFF,
+	END_TARIFF,
 	PROLONG_UNLIM_TARIFFS,
 	PUT_BAN,
 	REGISTRATION,

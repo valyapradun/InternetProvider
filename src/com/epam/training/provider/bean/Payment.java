@@ -2,29 +2,34 @@ package com.epam.training.provider.bean;
 
 import java.io.Serializable;
 import java.util.Date;
-
+/**
+ * Entity class.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class Payment implements Serializable {
 	private static final long serialVersionUID = 6550775677947500975L;
 	private int id;
 	private PaymentType type;
-	private double ammount;
+	private double amount;
 	private Date date;
 	private int userId;
 
 	public Payment() {
 	}
 
-	public Payment(int id, PaymentType type, double ammount, Date date, int userId) {
+	public Payment(int id, PaymentType type, double amount, Date date, int userId) {
 		this.id = id;
 		this.type = type;
-		this.ammount = ammount;
+		this.amount = amount;
 		this.date = date;
 		this.userId = userId;
 	}
 	
-	public Payment(PaymentType type, double ammount, Date date, int userId) {
+	public Payment(PaymentType type, double amount, Date date, int userId) {
 		this.type = type;
-		this.ammount = ammount;
+		this.amount = amount;
 		this.date = date;
 		this.userId = userId;
 	}
@@ -45,12 +50,12 @@ public class Payment implements Serializable {
 		this.type = type;
 	}
 
-	public double getAmmount() {
-		return ammount;
+	public double getAmount() {
+		return amount;
 	}
 
-	public void setAmmount(double ammount) {
-		this.ammount = ammount;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 	public Date getDate() {
@@ -74,7 +79,7 @@ public class Payment implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(ammount);
+		temp = Double.doubleToLongBits(amount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + id;
@@ -92,7 +97,7 @@ public class Payment implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Payment other = (Payment) obj;
-		if (Double.doubleToLongBits(ammount) != Double.doubleToLongBits(other.ammount))
+		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
 			return false;
 		if (date == null) {
 			if (other.date != null)
@@ -110,7 +115,7 @@ public class Payment implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Transaction [id=" + id + ", type=" + type + ", ammount=" + ammount + ", date=" + date + ", userId="
+		return "Payment [id=" + id + ", type=" + type + ", amount=" + amount + ", date=" + date + ", userId="
 				+ userId + "]";
 	}
 

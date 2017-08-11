@@ -12,6 +12,7 @@ public final class Permanent {
 
 	/* for attribute/parameters of jsp-page */
 	public final static String ERROR_MESSAGE = "error";
+	public final static String INFO_MESSAGE = "info";
 	public final static String USER = "user";
 	public static final String REDIRECT_PARAMETER = "redirectTo";
 	public static final String LANGUAGE = "lang";
@@ -34,7 +35,7 @@ public final class Permanent {
 	public final static String TARIFF_PICTURE = "picture";
 	
 	/* for transaction */
-	public final static String PAYMENT_AMMOUNT = "ammount";
+	public final static String PAYMENT_AMOUNT = "amount";
 	
 	
 	/* pages */
@@ -52,7 +53,7 @@ public final class Permanent {
 
 	
 	/* for filter */
-	public static final String[][] securityAction = {
+	public static final String[][] SECURITY_ACTION = {
 			{   
 				// for administrator
 				"add_tariff", "delete_tariff", "display_tariffs", "display_users", "edit_tariff", "search_one_tariff", "show_admin_page" 

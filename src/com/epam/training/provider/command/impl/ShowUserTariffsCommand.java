@@ -19,7 +19,12 @@ import com.epam.training.provider.service.TariffService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
-
+/**
+ * Class for implementation of the command 'Show tariffs with criteria (type)'.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class ShowUserTariffsCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(ShowUserTariffsCommand.class.getName());
 	private static final String LIST_TARIFFS = "tariffs";

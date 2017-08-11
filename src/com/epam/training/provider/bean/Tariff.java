@@ -1,7 +1,12 @@
 package com.epam.training.provider.bean;
 
 import java.io.Serializable;
-
+/**
+ * Entity class.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class Tariff implements Serializable {
 
 	private static final long serialVersionUID = 1509353325974972944L;

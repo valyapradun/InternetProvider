@@ -52,7 +52,7 @@ public class UserDAOImpl implements UserDAO {
 	private final static String TARIFF_PRICE = "price";
 	private final static String NUMBER_CONTRACT = "contract_id";
 	
-	private static ConnectionPool connectionPool;
+	private final static ConnectionPool connectionPool;
 	static {
 		try {
 			connectionPool = ConnectionPool.getInstance();

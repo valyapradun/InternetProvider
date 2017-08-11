@@ -17,6 +17,12 @@ import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 
+/**
+ * Class for implementation of the command 'Put Ban for users who have negative balance'.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class PutBanCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(PutBanCommand.class.getName());
 
@@ -41,6 +47,7 @@ public class PutBanCommand implements Command {
 			logger.log(Level.INFO, "Admin (session id:" + request.getSession(false).getId() + ") has put the ban");
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
 			page = request.getServletPath() + ACTION_DISPLAY_USERS;
+			session.setAttribute(INFO_MESSAGE, "The bans had successfully added!");
 			
 		} catch (ServiceException | ValidateException e) {
 			

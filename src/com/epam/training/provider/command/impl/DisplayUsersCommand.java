@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +17,12 @@ import com.epam.training.provider.service.exception.ServiceException;
 //import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
-
+/**
+ * Class for implementation of the command 'Display users' by administrator.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class DisplayUsersCommand implements Command {
 	private static final String LIST_USERS = "users";
 	private final static Logger logger = LogManager.getLogger(DisplayUsersCommand.class.getName());
@@ -42,6 +48,9 @@ public class DisplayUsersCommand implements Command {
 			request.setAttribute(ACTION, action);
 			logger.log(Level.INFO, "Administrator (id session: " + request.getSession(false).getId() + ") displayed users.");
 			page = LIST_USERS_PAGE;
+			HttpSession session = request.getSession(false);
+			request.setAttribute(INFO_MESSAGE, session.getAttribute(INFO_MESSAGE));
+			session.setAttribute(INFO_MESSAGE, null);
 			
 		} catch (ServiceException e) {
 			

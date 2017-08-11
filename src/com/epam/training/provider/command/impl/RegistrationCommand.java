@@ -18,7 +18,12 @@ import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
 
 import java.nio.charset.StandardCharsets;
-
+/**
+ * Class for implementation of the command 'Registration of new user'.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class RegistrationCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(RegistrationCommand.class.getName());
 	

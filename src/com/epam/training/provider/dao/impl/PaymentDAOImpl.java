@@ -31,11 +31,11 @@ public class PaymentDAOImpl implements PaymentDAO {
 	
 	private final static String PAYMENT_ID = "id";
 	private final static String PAYMENT_TYPE = "type";
-	private final static String PAYMENT_AMMOUNT = "ammount";
+	private final static String PAYMENT_AMOUNT = "ammount";
 	private final static String PAYMENT_DATE = "date";
 	private final static String PAYMENT_USER_ID = "userId";
 
-	private static ConnectionPool connectionPool;
+	private final static ConnectionPool connectionPool;
 	static {
 		try {
 			connectionPool = ConnectionPool.getInstance();
@@ -68,10 +68,10 @@ public class PaymentDAOImpl implements PaymentDAO {
 				
 				int id = resultSet.getInt(PAYMENT_ID);
 				PaymentType type = PaymentType.valueOf(resultSet.getString(PAYMENT_TYPE).toUpperCase());
-				double ammount = resultSet.getDouble(PAYMENT_AMMOUNT);
+				double amount = resultSet.getDouble(PAYMENT_AMOUNT);
 				Date date = resultSet.getDate(PAYMENT_DATE);
 				
-				Payment payment = new Payment(id, type, ammount, date, Integer.parseInt(parameters.get(PAYMENT_USER_ID)));
+				Payment payment = new Payment(id, type, amount, date, Integer.parseInt(parameters.get(PAYMENT_USER_ID)));
 				payments.add(payment);
 			}
 
@@ -113,14 +113,14 @@ public class PaymentDAOImpl implements PaymentDAO {
 			
 			statementAdd = connection.prepareStatement(SQL_NEW_PAYMENT);
 			statementAdd.setString(1, payment.getType().toString().toLowerCase());
-			statementAdd.setDouble(2, payment.getAmmount());
+			statementAdd.setDouble(2, payment.getAmount());
 			statementAdd.setDate(3, new java.sql.Date(payment.getDate().getTime()));
 			statementAdd.setInt(4, payment.getUserId());
 			statementAdd.executeUpdate();
 			
 
 			statementUpdate = connection.prepareStatement(SQL_UPDATE_BALANCE);
-			statementUpdate.setDouble(1, payment.getAmmount());
+			statementUpdate.setDouble(1, payment.getAmount());
 			statementUpdate.setInt(2, payment.getUserId());
 			statementUpdate.executeUpdate();
 
@@ -145,7 +145,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 			try {
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {
-				 logger.log(Level.ERROR, "Statement isn't closed.");
+				 logger.log(Level.ERROR, "Connection isn't setAutoCommit(true).");
 			}
 			connectionPool.freeConnection(connection);
 		}
@@ -175,14 +175,14 @@ public class PaymentDAOImpl implements PaymentDAO {
 	
 			statementAdd = connection.prepareStatement(SQL_NEW_PAYMENT);
 			statementAdd.setString(1, payment.getType().toString().toLowerCase());
-			statementAdd.setDouble(2, payment.getAmmount());
+			statementAdd.setDouble(2, payment.getAmount());
 			statementAdd.setDate(3, new java.sql.Date(payment.getDate().getTime()));
 			statementAdd.setInt(4, payment.getUserId());
 			statementAdd.executeUpdate();
 			
 
 			statementUpdate = connection.prepareStatement(SQL_UPDATE_BALANCE);
-			statementUpdate.setDouble(1, - payment.getAmmount());
+			statementUpdate.setDouble(1, - payment.getAmount());
 			statementUpdate.setInt(2, payment.getUserId());
 			statementUpdate.executeUpdate();
 
@@ -207,7 +207,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 			try {
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {
-				 logger.log(Level.ERROR, "setAutoCommit() isn't true.");
+				 logger.log(Level.ERROR, "connection.setAutoCommit() isn't true.");
 			}
 			connectionPool.freeConnection(connection);
 		}

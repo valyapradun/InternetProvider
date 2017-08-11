@@ -18,7 +18,12 @@ import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
-
+/**
+ * Class for implementation of the command 'Search all tariffs' by user.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class SearchTariffsCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(SearchTariffsCommand.class.getName());
 	private static final String LIST_TARIFFS = "tariffs";

@@ -16,7 +16,12 @@ import com.epam.training.provider.command.Command;
 import com.epam.training.provider.command.CommandProvider;
 
 import static com.epam.training.provider.util.Permanent.*;
-
+/**
+ * Class of the servlet. 
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class Controller extends HttpServlet {
 	private final static Logger logger = LogManager.getLogger(Controller.class.getName());
 	
@@ -26,19 +31,55 @@ public class Controller extends HttpServlet {
 	public Controller() {
 		super();
 	}
-
+	
+	
+	/**
+	 * Method for distinction of methods of request (GET or POST).
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 *           
+	 */
+	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		super.service(request, response);
 	}
-
+	
+	
+	/**
+	 * Method for processing of GET-request.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 *           
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
-
+	
+	
+	/**
+	 * Method for processing of POST-request.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 *           
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 
+	
+	/**
+	 * Method for processing of requests: reads the parameter at request 'action', calls method 'execute' for 
+	 * specific action-command, receives jsp-page and forward or redirect transition to the page.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 *           
+	 */
 	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter(ACTION);
 		
@@ -58,6 +99,15 @@ public class Controller extends HttpServlet {
 		}
 	}
 
+	
+	/**
+	 * Method for a call method 'forward' RequestDispatcher.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @param page {@link String}
+	 *           
+	 */
 	public void forward(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
 		RequestDispatcher disp = request.getRequestDispatcher(page);
 		disp.forward(request, response);

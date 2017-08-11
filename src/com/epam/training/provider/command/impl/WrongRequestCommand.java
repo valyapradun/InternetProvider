@@ -10,7 +10,12 @@ import org.apache.logging.log4j.Logger;
 import static com.epam.training.provider.util.Permanent.*;
 
 import com.epam.training.provider.command.Command;
-
+/**
+ * Class for implementation of the wrong command.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class WrongRequestCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(WrongRequestCommand.class.getName());
 

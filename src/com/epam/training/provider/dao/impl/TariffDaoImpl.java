@@ -42,7 +42,7 @@ public class TariffDAOImpl implements TariffDAO {
 	private final static String TARIFF_PICTURE = "picture";
 	private final static String TARIFF_COUNT = "count";
 	
-	private static ConnectionPool connectionPool;
+	private final static ConnectionPool connectionPool;
 	static {
 		try {
 			connectionPool = ConnectionPool.getInstance();

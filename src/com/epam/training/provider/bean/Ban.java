@@ -3,110 +3,89 @@ package com.epam.training.provider.bean;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Ban implements Serializable {
-
-	private static final long serialVersionUID = -5655327823692115728L;
+/**
+ * Entity class.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
+public class Ban extends Entity implements Serializable {
+	private static final long serialVersionUID = -7817698796309899140L;
 	
-	private int id;
 	private int userId;
 	private int adminId;
 	private Date startDate;
 	private Date endDate;
 	private String reason;
-	
-	
+
 	public Ban() {
-		
+		super();
 	}
 
-	
 	public Ban(int id, int userId, int adminId, String reason) {
-		this.id = id;
+		super(id);
 		this.userId = userId;
 		this.adminId = adminId;
 		this.reason = reason;
-	}	
-	
-
-	public int getId() {
-		return id;
 	}
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 
 	public int getUserId() {
 		return userId;
 	}
 
-
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-
 
 	public int getAdminId() {
 		return adminId;
 	}
 
-
 	public void setAdminId(int adminId) {
 		this.adminId = adminId;
 	}
-
 
 	public Date getStartDate() {
 		return startDate;
 	}
 
-
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-
 
 	public Date getEndDate() {
 		return endDate;
 	}
 
-
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-
 
 	public String getReason() {
 		return reason;
 	}
 
-
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + adminId;
 		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-		result = prime * result + id;
 		result = prime * result + ((reason == null) ? 0 : reason.hashCode());
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
 		result = prime * result + userId;
 		return result;
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -117,8 +96,6 @@ public class Ban implements Serializable {
 			if (other.endDate != null)
 				return false;
 		} else if (!endDate.equals(other.endDate))
-			return false;
-		if (id != other.id)
 			return false;
 		if (reason == null) {
 			if (other.reason != null)
@@ -135,10 +112,9 @@ public class Ban implements Serializable {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
-		return "Ban [id=" + id + ", userId=" + userId + ", adminId=" + adminId + ", startDate=" + startDate
+		return "Ban [" + super.toString() + ", userId=" + userId + ", adminId=" + adminId + ", startDate=" + startDate
 				+ ", endDate=" + endDate + ", reason=" + reason + "]";
 	}
 }

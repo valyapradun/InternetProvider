@@ -10,7 +10,12 @@ import org.apache.logging.log4j.Logger;
 import static com.epam.training.provider.util.Permanent.*;
 
 import com.epam.training.provider.command.Command;
-
+/**
+ * Class for implementation of the command 'Show page of administrator after authentication'.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class ShowAdminPageCommand implements Command{
 	private final static Logger logger = LogManager.getLogger(ShowAdminPageCommand.class.getName());
 

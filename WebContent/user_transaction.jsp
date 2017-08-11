@@ -34,7 +34,7 @@
 							<li <c:if test="${action=='show_user_page'}"> class="active"</c:if>><a href="Controller?action=show_user_page">Состояние счета</a></li>
 							<li <c:if test="${action=='show_user_tariffs'}"> class="active"</c:if>><a href="Controller?action=show_user_tariffs">Тарифы и услуги</a></li>
 							<li <c:if test="${action=='search_user_payments'}"> class="active"</c:if>><a href="Controller?action=search_user_payments">Платежи</a></li>
-							<li <c:if test="${action=='users'}"> class="active"</c:if>><a href="Controller?action=users">Настройки профиля</a></li>
+					<!-- 		<li <c:if test="${action=='users'}"> class="active"</c:if>><a href="Controller?action=users">Настройки профиля</a></li>  -->
 						</ul>
 					</div>
 				</div>
@@ -63,7 +63,7 @@
 							<tr>
 							<th scope="row"><c:out value="${i.getId()}" /></th>
 							<td><c:out value="${i.getType()}" /></td>
-							<td><c:out value="${i.getAmmount()}" /></td>
+							<td><c:out value="${i.getAmount()}" /></td>
 							<td><c:out value="${i.getDate()}" /></td>
 							</tr>
 							</c:forEach>
@@ -74,8 +74,13 @@
 					<form role="form" action="Controller" method="POST">
 						<h4>Пополнение счета </h4>
 						<input type="hidden" name="action" value="add_payment" />
-						<input type="text" class="user-pay" id="inputAmmount" name="ammount" placeholder="Введите сумму" required pattern="^[ 0-9]+$" title="Ввести можно только целое положительное число"/>						
+						<input type="text" class="user-pay" id="inputAmount" name="amount" placeholder="Введите сумму" required pattern="^[ 0-9]+$" title="Ввести можно только целое положительное число"/>						
 						<button type="submit" class="btn btn-labeled btn-primary"><span class="btn-label"><i class="glyphicon glyphicon-thumbs-up"></i></span>Зачислить</button>
+						<div class = "validate-info">
+						<c:if test="${info!=null}"> 
+							<c:out value="${info}" />
+						</c:if>
+						</div>
 					</form>
 					</div>
 					<div class="col-md-2 col-lg-2 col-sm-1"></div>

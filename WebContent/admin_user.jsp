@@ -31,6 +31,12 @@
             <div class="container">
 				<div class="row">
 					<h2>Администрирование пользователей</h2>
+						<c:if test="${info!=null}"> 
+							<div class="alert alert-info fade in">
+    							<a href="#" class="close" data-dismiss="alert">&times;</a>
+    							<strong>Note!</strong> <c:out value="${info}" />
+							</div>
+						</c:if>
 					<hr>
 					<a href="Controller?action=prolong_unlim_tariffs" class="btn btn-primary" title="Продлить тарифы UNLIM">Продлить тарифы UNLIM</a>
 					<a href="Controller?action=put_ban" class="btn btn-warning" title="Поставить бан неплательщикам">Поставить бан неплательщикам</a>
@@ -59,9 +65,9 @@
 										<div class="row">
 											<div class="btn-toolbar">
 												<div class="btn-group">
-													<a href="#" class="btn btn-info" title="Просмотреть"><i class="fa fa-eye"></i></a> 
+												<!--  <a href="#" class="btn btn-info" title="Просмотреть"><i class="fa fa-eye"></i></a> -->	
 													<a href="Controller?action=remove_ban&id=${i.getId()}" class="btn btn-warning" title="Убрать бан"><i class="fa fa-ban"></i></a> 
-													<a href="#" class="btn btn-success" title="Окончить тариф"><i class="fa fa-calendar-check-o"></i></a> 
+													<a href="Controller?action=end_tariff&id=${i.getId()}" class="btn btn-success" title="Окончить тариф"><i class="fa fa-calendar-check-o"></i></a> 
 													<a href="Controller?action=delete_user&id=${i.getId()}" class="btn btn-danger" title="Удалить"><i class="fa fa-trash"></i></a>
 												</div>
 											</div>

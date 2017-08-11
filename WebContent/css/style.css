@@ -300,6 +300,10 @@ html{ width: 100%;
     max-width: 100%;
     overflow-x: hidden;
 }
+.validate-info {
+	margin-top: 10px;
+	color: red;
+}
 
 @media screen and (max-width: 991px) {
   .news, .action {clear: both; width: 100%;}

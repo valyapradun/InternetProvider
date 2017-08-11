@@ -30,7 +30,7 @@ public class BanDAOImpl implements BanDAO{
 	private final static String BAN_REASON = "reason";
 
 	
-	private static ConnectionPool connectionPool;
+	private final static ConnectionPool connectionPool;
 	static {
 		try {
 			connectionPool = ConnectionPool.getInstance();

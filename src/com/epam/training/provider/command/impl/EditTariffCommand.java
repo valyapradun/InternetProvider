@@ -17,7 +17,12 @@ import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
 
 import java.nio.charset.StandardCharsets;
-
+/**
+ * Class for implementation of the command 'Edit the tariff' by administrator.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class EditTariffCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(EditTariffCommand.class.getName());
 

@@ -18,7 +18,12 @@ import com.epam.training.provider.service.TariffService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
-
+/**
+ * Class for implementation of the command 'Add the tariff' by administrator.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class AddTariffCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(AddTariffCommand.class.getName());
 

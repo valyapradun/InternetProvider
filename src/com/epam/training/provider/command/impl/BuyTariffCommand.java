@@ -16,7 +16,12 @@ import com.epam.training.provider.service.PaymentService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
-
+/**
+ * Class for implementation of the command 'Buy the tariff' by user.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class BuyTariffCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(BuyTariffCommand.class.getName());
 	private final PaymentService service;

@@ -1,4 +1,4 @@
-package com.epam.training.provider.command;
+ package com.epam.training.provider.command;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.epam.training.provider.command.impl.*;
-
+/**
+ * Final class with the list of action's commands for pattern Command .
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public final class CommandProvider {
 	private final Map<CommandName, Command> repository = new HashMap<>();
 	private final static Logger logger = LogManager.getLogger(CommandProvider.class.getName());
@@ -39,6 +44,14 @@ public final class CommandProvider {
 		repository.put(CommandName.WRONG_REQUEST, new WrongRequestCommand());
 	}
 
+	
+/**
+* Method for search of implementation of specific action-command.
+* 
+* @param name action-command {@link String}
+* @return implementation of command {@link Command}
+*           
+*/
 	public Command getCommand(String name) {
 		CommandName commandName = null;
 		Command command = null;

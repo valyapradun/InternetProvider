@@ -16,7 +16,12 @@ import com.epam.training.provider.service.UserService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
-
+/**
+ * Class for implementation of the command 'To show user page after authentication'.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class ShowUserPageCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(ShowUserPageCommand.class.getName());
 	

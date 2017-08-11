@@ -18,7 +18,12 @@ import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
 import static com.epam.training.provider.util.Permanent.*;
-
+/**
+ * Class for implementation of the command 'Sign In'.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class SignInCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(SignInCommand.class.getName());
 	private Map<String, String> currentPage = new HashMap<>();

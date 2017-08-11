@@ -12,8 +12,22 @@ import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import static com.epam.training.provider.util.Permanent.*;
 
+/**
+ * Class of business-logic for the operations of tariff.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class TariffServiceImpl implements TariffService {
 
+	/**
+	 * Method for adding of tariff.
+	 * 
+	 * @param tariff {@link Tariff} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors
+	 *           
+	 */
 	@Override
 	public void addTariff(Tariff tariff) throws ServiceException, ValidateException {
 		String errors = validateTariff(tariff);
@@ -23,7 +37,7 @@ public class TariffServiceImpl implements TariffService {
 				TariffDAO dao = daoObjectFactory.getTariffDAO();
 				dao.addNew(tariff);
 			} catch (DAOException e) {
-				throw new ServiceException("Adding a tariff wasn't executed!", e);
+				throw new ServiceException("Adding a tariff wasn't executed!" + e.getMessage(), e);
 			}
 		} else {
 			throw new ValidateException(errors);
@@ -31,6 +45,14 @@ public class TariffServiceImpl implements TariffService {
 	}
 	
 	
+	/**
+	 * Method for editing of tariff.
+	 * 
+	 * @param tariff {@link Tariff} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors
+	 *           
+	 */
 	@Override
 	public void editTariff(Tariff tariff) throws ServiceException, ValidateException {
 		String errors = validateTariff(tariff);
@@ -40,13 +62,23 @@ public class TariffServiceImpl implements TariffService {
 				TariffDAO dao = daoObjectFactory.getTariffDAO();
 				dao.edit(tariff);
 			} catch (DAOException e) {
-				throw new ServiceException("Editing a tariff wasn't executed!", e);
+				throw new ServiceException("Editing a tariff wasn't executed!" + e.getMessage(), e);
 			}
 		} else {
 			throw new ValidateException(errors);
 		}
 	}
 	
+	
+	/**
+	 * Method for searching of tariff by id.
+	 * 
+	 * @param id - {@link Tariff#id} 
+	 * @return tariff - {@link Tariff} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors
+	 *           
+	 */
 	@Override
 	public Tariff tariffById(int id) throws ServiceException, ValidateException {
 		if (id <= 0) {
@@ -64,12 +96,21 @@ public class TariffServiceImpl implements TariffService {
 			}
 			
 		} catch (DAOException e) {
-			throw new ServiceException("Search of tariff by id wasn't executed!", e);
+			throw new ServiceException("Search of tariff by id wasn't executed!" + e.getMessage(), e);
 		}
 
 		return tariff;
 	}
 
+	
+	/**
+	 * Method for deleting of tariff by id.
+	 * 
+	 * @param id - {@link Tariff#id} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors
+	 *           
+	 */
 	@Override
 	public void deleteTariff(int id) throws ServiceException, ValidateException {
 		if (id <= 0) {
@@ -79,14 +120,22 @@ public class TariffServiceImpl implements TariffService {
 		try {
 			DAOFactory daoObjectFactory = DAOFactory.getInstance();
 			TariffDAO dao = daoObjectFactory.getTariffDAO();
-
 			dao.delete(id);
 		} catch (DAOException e) {
-			throw new ServiceException("Deleting a tariff wasn't executed!", e);
+			throw new ServiceException("Deleting a tariff wasn't executed!" + e.getMessage(), e);
 		}
 	}
 
 	
+	/**
+	 * Method for searching of tariff by criteria.
+	 * 
+	 * @param criteria - {@link Map}
+	 * @return list of tariffs - {@link List}
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors
+	 *           
+	 */
 	@Override
 	public List<Tariff> listTariffsWithCriteria(Map<String, String> criteria) throws ServiceException, ValidateException {
 		if (criteria.isEmpty()) {
@@ -99,12 +148,25 @@ public class TariffServiceImpl implements TariffService {
 			TariffDAO dao = daoObjectFactory.getTariffDAO();
 			tariffs = dao.searchWithParameters(criteria);
 		} catch (DAOException e) {
-			throw new ServiceException("Search of tariffs with parameters wasn't executed!", e);
+			throw new ServiceException("Search of tariffs with parameters wasn't executed!" + e.getMessage(), e);
 		}
 
 		return tariffs;
 	}
 	
+	
+	/**
+	 * Method for checking of uniqueness of a name of tariff.
+	 * 
+	 * Calculation of the count of tariffs with current name. 
+	 * Throw ValidateException if count > 0.
+	 * 
+	 * @param nameTariff - {@link Tariff#name}
+	 * @return String of errors
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors
+	 *           
+	 */
 	@Override
 	public String checkUniqueTariff(String nameTariff) throws ServiceException, ValidateException {
 		if (nameTariff == null) {
@@ -122,13 +184,30 @@ public class TariffServiceImpl implements TariffService {
 			}
 			
 		} catch (DAOException e) {
-			throw new ServiceException("Uniqueness of tariff's name wasn't executed! ", e);
+			throw new ServiceException("Uniqueness of tariff's name wasn't executed! " + e.getMessage(), e);
 		}
 		
 		return result;
 	}
 		
 	
+	/**
+	 * Method for validating of tariff.
+	 * 
+	 * <ol>
+	 *   <li>Check on tariff == null</li>
+	 *   <li>Check on the required field (name of tariff)</li>
+	 *   <li>Check on the required field (price of tariff)</li>
+	 *   <li>Check on the required field (type of tariff)</li>
+	 *   <li>Check on admissible symbols (name of tariff)</li>
+	 *   <li>Check of uniqueness of a tariff</li>
+	 * </ol>
+	 * @param tariff {@link Tariff}
+	 * @return String of errors
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors
+	 *           
+	 */
 	public String validateTariff(Tariff tariff) throws ValidateException, ServiceException {
 		if (tariff == null) {
 			throw new ValidateException("The tariff is equal to null! ");

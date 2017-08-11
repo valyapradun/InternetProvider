@@ -1,6 +1,5 @@
 package com.epam.training.provider.command.impl;
 
-
 import static com.epam.training.provider.util.Permanent.*;
 
 
@@ -17,7 +16,12 @@ import com.epam.training.provider.service.TariffService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
-
+/**
+ * Class for implementation of the command 'Search the tariff' by administrator.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class SearchOneTariffCommand implements Command{
 	private final static Logger logger = LogManager.getLogger(SearchOneTariffCommand.class.getName());
 	private final static String TARIFF = "tariff";

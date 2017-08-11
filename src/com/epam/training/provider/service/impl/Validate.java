@@ -9,13 +9,14 @@ public class Validate {
 	private static final String DIFFICULT_PASSWORD_PATTERN = "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,20})";
 	private static final String VALID_EMAIL_PATTERN = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 	private static final String TARIFF_NAME_PATTERN = "^[A-Za-zА-Яа-я0-9_-\\s]{3,45}$";
-//	private static final String DIGIT_PATTERN = "^[ 0-9]+$";
+	private static final String DIGIT_PATTERN = "^[ 0-9]+$";
 
 	private final static String ERROR_LATIN_SYMBOL = "- Your login has to contain Latin symbols, digits, hyphens and underlinings from 3 to 15 symbols long! ";
 	private final static String ERROR_DIFFICULT_PASSWORD = "- Your password has to contain Latin symbols in the upper and lower case and digits from 6 to 20 symbols long! ";
 	private final static String ERROR_VALID_EMAIL = "- Your email has to contain Latin symbols, digits, '@' and '.'! ";
 	private final static String ERROR_TARIFF_NAME = "- Your tariff's name has to contain Latin/Cyrillic symbols, digits, hyphens and underlinings from 3 to 45 symbols long! ";
 	private final static String ERROR_REQUIRED_FIELD = "- This field is required! Fill it! ";
+	private final static String ERROR_DIGITAL_SYMBOL = "- Your amount has to contain only digits! ";
 	
 	public static String checkLatinSymbol(String login) {
 		String result = "";
@@ -23,6 +24,17 @@ public class Validate {
 		Matcher matcher = pattern.matcher(login);
 		if (!matcher.matches()) {
 			result = ERROR_LATIN_SYMBOL;
+		}
+		return result;
+
+	}
+	
+	public static String checkDigitalSymbol(String amount) {
+		String result = "";
+		Pattern pattern = Pattern.compile(DIGIT_PATTERN);
+		Matcher matcher = pattern.matcher(amount);
+		if (!matcher.matches()) {
+			result = ERROR_DIGITAL_SYMBOL;
 		}
 		return result;
 
