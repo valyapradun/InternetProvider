@@ -18,5 +18,6 @@ public interface UserDAO {
 	public List<User> negativeBalance() throws DAOException;
 	public int countActiveBan(int userID) throws DAOException;
 	public List<User> usersWithUnlimMore30Days() throws DAOException;
+	public int searchContractId(int userID) throws DAOException;
 	
 }

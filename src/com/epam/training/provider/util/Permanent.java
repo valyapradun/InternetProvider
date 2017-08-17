@@ -8,6 +8,7 @@ public final class Permanent {
 	public static final String ACTION_DISPLAY_USERS = "?action=display_users";
 	public static final String ACTION_SHOW_ADMIN_PAGE = "?action=show_admin_page";
 	public static final String ACTION_SHOW_USER_PAGE = "?action=show_user_page";
+	public static final String ACTION_REGISTRATION = "?action=sign_in";
 	public static final String ACTION_SHOW_INDEX_PAGE = "show_index_page";
 
 	/* for attribute/parameters of jsp-page */

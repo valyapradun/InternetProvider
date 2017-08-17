@@ -72,7 +72,7 @@ public class EditTariffCommand implements Command {
 	}
 	
 	
-	public String normalize(String parameter) {
+	private String normalize(String parameter) {
 		if (parameter.equals("")) {
 			parameter = "0";
 		}

@@ -36,7 +36,7 @@ public class UserDAOImpl implements UserDAO {
 	private final static String SQL_DELETE_USER = "DELETE FROM provider.user WHERE user.id = ?";		
 	private final static String SQL_NEGATIVE_BALANCE = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user WHERE user.balance < 0";
 	private final static String SQL_USERS_WITH_UNLIM_MORE_30_DAYS = "SELECT user_to_tariff.id AS contract_id, user_to_tariff.user_id AS id, user_to_tariff.tariff_id, tariff.name, tariff.price FROM provider.user_to_tariff JOIN provider.tariff ON user_to_tariff.tariff_id = tariff.id WHERE tariff.tariff_type_id = 1 AND user_to_tariff.end is NULL AND user_to_tariff.begin <= CURDATE() - INTERVAL 30 DAY";
-	
+	private final static String SQL_CONTRACT_USER = "SELECT user_to_tariff.id AS contract_id FROM provider.user_to_tariff WHERE user_to_tariff.end is NULL AND user_to_tariff.user_id = ?";
 	
 	private final static String USER_ID = "id";
 	private final static String USER_LOGIN = "login";
@@ -547,6 +547,46 @@ public class UserDAOImpl implements UserDAO {
 		}
 
 		return users;
+	}
+
+	@Override
+	public int searchContractId(int userID) throws DAOException {
+		int contract = 0;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.prepareStatement(SQL_CONTRACT_USER);
+			statement.setInt(1, userID);
+
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				contract = resultSet.getInt(NUMBER_CONTRACT);
+			}
+
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException: ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Сan't search contract of the user! ", e);
+		} finally {
+			try {
+				resultSet.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "ResultSet isn't closed.");
+			}
+
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+
+			connectionPool.freeConnection(connection);
+		}
+		
+		return contract;
 	}
 
 }

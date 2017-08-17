@@ -61,8 +61,10 @@ public class RegistrationCommand implements Command {
 				HttpSession session = request.getSession();
 				session.setAttribute(USER, user);
 				request.setAttribute(REDIRECT_PARAMETER, "Yes");
-				request.setAttribute(USER, user);
-				page = USER_PAGE;
+			//	request.setAttribute(USER, user);
+			//	page = USER_PAGE;
+			//	page = request.getServletPath() + ACTION_SHOW_USER_PAGE;
+				page = request.getServletPath() + ACTION_REGISTRATION;
 
 			} catch (ServiceException e) {
 				

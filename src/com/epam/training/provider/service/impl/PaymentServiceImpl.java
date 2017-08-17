@@ -23,7 +23,7 @@ import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 
 /**
- * Class of business-logic for the payments operations.
+ * Class-implementation of business-logic for the payments operations.
  * 
  * @author Valentina Pradun
  * @version 1.0
@@ -31,15 +31,6 @@ import com.epam.training.provider.service.exception.ValidateException;
 
 public class PaymentServiceImpl implements PaymentService {
 	
-	/**
-	 * Method for searching of payments by criteria.
-	 * 
-	 * @param Map<String, String> 
-	 * @return List of payments
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
-	 */
 	@Override
 	public List<Payment> listPaymentsWithCriteria(Map<String, String> criteria) throws ServiceException, ValidateException {
 		if (criteria.isEmpty()) {
@@ -60,14 +51,7 @@ public class PaymentServiceImpl implements PaymentService {
 		return payments;
 	}
 
-	/**
-	 * Method for adding of payments.
-	 * 
-	 * @param payment {@link Payment} 
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
-	 */
+
 	@Override
 	public void addPayment(Payment payment) throws ServiceException, ValidateException {
 		String errors = validatePayment(payment);
@@ -85,32 +69,6 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	
-	/**
-	 * Method for buying of tariff.
-	 * 
-	 * <ol>
-	 *   <li>To check an active tariff at the user</li>
-	 *   <li>To find price of tariff</li>
-	 *   <li>To check a balance at the user</li>
-	 *   <li>To buy this tariff:
-	 *    <ul>
-	 *       <li>to add new row in the table 'user_to_tariff'</li>
-	 *       <li>to add new payment (type - WITHDRAW)</li>
-	 *       <li>to update the balance of user</li>
-	 *     </ul>
-	 *   </li>
-	 * </ol>
-	 * 
-	 * @param userID {@link User#id}
-	 * @param tariffID {@link Tariff#id}
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 * @see PaymentServiceImpl#checkActiveTariffs(int userID)
-	 * @see TariffDAOImpl#searchById(int id)
-	 * @see PaymentServiceImpl#checkBalanceUser(int userID, double priceTariff)
-	 * @see PaymentDAOImpl#buyNewTariff(Payment payment, int idTariff) 
-	 *           
-	 */
 	@Override
 	public void buyTariff(int userID, int tariffID) throws ServiceException, ValidateException {
 		if ((userID <= 0) || (tariffID <= 0)) {
@@ -154,7 +112,7 @@ public class PaymentServiceImpl implements PaymentService {
 	 * @see UserDAOImpl#countActiveTariffs(int userID)
 	 *           
 	 */
-	public void checkActiveTariffs(int userID) throws ValidateException, ServiceException {
+	private void checkActiveTariffs(int userID) throws ValidateException, ServiceException {
 		if (userID <= 0) {
 			throw new ValidateException("ID of user is less or is equal to 0!");
 		}
@@ -186,7 +144,7 @@ public class PaymentServiceImpl implements PaymentService {
 	 * @see UserDAOImpl#searchById(int id)
 	 *           
 	 */
-	public void checkBalanceUser(int userID, double priceTariff) throws ValidateException, ServiceException {
+	private void checkBalanceUser(int userID, double priceTariff) throws ValidateException, ServiceException {
 		DAOFactory daoObjectFactory = DAOFactory.getInstance();
 		UserDAO daoUser = daoObjectFactory.getUserDAO();
 
@@ -218,7 +176,7 @@ public class PaymentServiceImpl implements PaymentService {
 	 * @see Validate#checkRequiredDoubleField(String nameField, double valuefield)
 	 *           
 	 */
-	public String validatePayment(Payment payment) throws ValidateException {
+	private String validatePayment(Payment payment) throws ValidateException {
 		if (payment == null) {
 			throw new ValidateException("Payment is equal to null!");
 		}
@@ -230,33 +188,6 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	
-	/**
-	 * Method for prolonging of unlim-tariffs.
-	 * 
-	 * <ol>
-	 *   <li>To choose all users who have UNLIM tariff with:
-	 *     <ul>
-	 *       <li>date of tariff's end is NULL</li>
-	 *       <li>date of tariff's beginning more current date than 30 days</li>
-	 *     </ul>
-	 *   </li>
-	 *   <li>For these users to change the date of tariff's on current date.</li>
-	 *   <li>For these users to buy those tariffs again:
-	 *    <ul>
-	 *       <li>to add new row in the table 'user_to_tariff'</li>
-	 *       <li>to add new payment (type - WITHDRAW)</li>
-	 *       <li>to update the balance of user</li>
-	 *     </ul>
-	 *   </li>
-	 * </ol>
-	 * 
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException 
-	 * @see UserDAOImpl#usersWithUnlimMore30Days()
-	 * @see TariffDAOImpl#endTariff(int idContract)    
-	 * @see PaymentDAOImpl#buyNewTariff(Payment payment, int idTariff)          
-	 */
-
 	@Override
 	public void prolongUnlimTariffs() throws ServiceException {
 		DAOFactory daoObjectFactory = DAOFactory.getInstance();

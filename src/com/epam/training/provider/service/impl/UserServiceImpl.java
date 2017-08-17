@@ -8,6 +8,7 @@ import com.epam.training.provider.bean.Ban;
 import com.epam.training.provider.bean.Tariff;
 import com.epam.training.provider.bean.User;
 import com.epam.training.provider.dao.BanDAO;
+import com.epam.training.provider.dao.TariffDAO;
 import com.epam.training.provider.dao.UserDAO;
 import com.epam.training.provider.dao.exception.DAOException;
 import com.epam.training.provider.dao.factory.DAOFactory;
@@ -17,7 +18,7 @@ import com.epam.training.provider.service.exception.ValidateException;
 import static com.epam.training.provider.util.Permanent.*;
 
 /**
- * Class of business-logic for the operations of user.
+ * Class-implementation of business-logic for the operations of user.
  * 
  * @author Valentina Pradun
  * @version 1.0
@@ -25,16 +26,6 @@ import static com.epam.training.provider.util.Permanent.*;
 public class UserServiceImpl implements UserService {
 	private static final String NO_PAYMENT = "no payment";
 	
-	/**
-	 * Method for authorization of user.
-	 * 
-	 * @param login - {@link User#login}
-	 * @param password - {@link User#password}
-	 * @return user - {@link User}
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
-	 */
 	@Override
 	public User authorize(String login, String password) throws ServiceException, ValidateException {		
 		String errors = validateLoginPassword(login, password);
@@ -57,20 +48,12 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
-	/**
-	 * Method for registration of user.
-	 * Add new row in table 'user'.
-	 * 
-	 * @param newUser - {@link User}
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
-	 */
 	@Override
 	public void registration(User newUser) throws ServiceException, ValidateException {
 		String errors = validateUser(newUser);
 		
 		if (errors.isEmpty()) {
+			// Add new row in table 'user'.
 			try {
 				DAOFactory daoObjectFactory = DAOFactory.getInstance();
 				UserDAO dao = daoObjectFactory.getUserDAO();
@@ -85,15 +68,6 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
-	/**
-	 * Method for searching of user by id.
-	 * 
-	 * @param id - {@link User#id}
-	 * @return user - {@link User}
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
-	 */
 	@Override
 	public User userById(int id) throws ServiceException, ValidateException {
 		if (id <= 0) {
@@ -102,16 +76,17 @@ public class UserServiceImpl implements UserService {
 
 		User user = null;
 		Tariff tariff = new Tariff();
+		
 		try {
 
 			DAOFactory daoObjectFactory = DAOFactory.getInstance();
 			UserDAO dao = daoObjectFactory.getUserDAO();
+			
 			user = dao.searchById(id);
 			String tariffName = dao.searchActiveTariff(id);
 			tariff.setName(tariffName);
 			user.setTariff(tariff);
 			user.setActiveBan(checkActiveBan(id));
-			System.out.println("user: " + user);
 			
 		} catch (DAOException e) {
 			throw new ServiceException("Search of users wasn't executed! " + e.getMessage(), e);
@@ -120,18 +95,6 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
-	
-	/**
-	 * Method for checking of uniqueness of a login of user.
-	 * Calculation of the count of users with current login. 
-	 * Throw ValidateException if count > 0.
-	 * 
-	 * @param login - {@link User#login}
-	 * @return String of errors
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
-	 */
 	@Override
 	public String checkUniqueLogin(String login) throws ServiceException, ValidateException {
 		if (login == null) {
@@ -155,17 +118,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	
-	/**
-	 * Method for checking of uniqueness of a email of user.
-	 * Calculation of the count of users with current email. 
-	 * Throw ValidateException if count > 0.
-	 * 
-	 * @param email - {@link User#email}
-	 * @return String of errors
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
-	 */
 	@Override
 	public String checkUniqueEmail(String email) throws ServiceException, ValidateException {
 		if (email == null) {
@@ -188,14 +140,8 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
-	/**
-	 * Method for searching of all users.
-	 * 
-	 * @return list of users - {@link List}
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
-	 */
+
+	
 	@Override
 	public List<User> listUsersWithParameters() throws ServiceException {
 		List<User> users = null;
@@ -210,14 +156,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	
-	/**
-	 * Method for deleting of user by id.
-	 * 
-	 * @param id - {@link User#id} 
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
-	 */
+
 	@Override
 	public void deleteUser(int id) throws ServiceException, ValidateException {
 		if (id <= 0) {
@@ -237,16 +176,10 @@ public class UserServiceImpl implements UserService {
 	
 	/**
 	 * Method for putting of bans.
-	 * 
 	 * <ol>
 	 *   <li>Search users with a negative balance</li>
 	 *   <li>For these users add new row in table 'ban' with a reason 'no payment'</li>
-	 * </ol>
-	 * 
-	 * @param adminId - {@link User#id} 
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
+	 * </ol>         
 	 */
 	@Override
 	public void putBan(int adminId) throws ServiceException, ValidateException {
@@ -301,7 +234,7 @@ public class UserServiceImpl implements UserService {
 	 * @throws ValidateException Validations errors
 	 *           
 	 */
-	public String validateLoginPassword(String login, String password) {
+	private String validateLoginPassword(String login, String password) {
 		StringBuffer buffer = new StringBuffer();
 		
 		buffer.append(Validate.checkRequiredStringField(USER_LOGIN, login));
@@ -334,7 +267,7 @@ public class UserServiceImpl implements UserService {
 	 * @throws ValidateException Validations errors
 	 *           
 	 */
-	public String validateUser(User newUser) throws ServiceException, ValidateException {
+	private String validateUser(User newUser) throws ServiceException, ValidateException {
 		if (newUser == null) {
 			throw new ValidateException("The user is equal to null! ");
 		}
@@ -355,18 +288,7 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	/**
-	 * Method for checking of active ban at the user.
-	 * 
-	 * Calculation of the count of active ban at the current user. 
-	 * Return true if count > 0.
-	 * 
-	 * @param userID - {@link User#id}
-	 * @return true or false
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors
-	 *           
-	 */
+	@Override
 	public boolean checkActiveBan(int userID) throws ValidateException, ServiceException {
 		if (userID <= 0) {
 			throw new ValidateException("ID of user is less or is equal to 0!");
@@ -397,12 +319,7 @@ public class UserServiceImpl implements UserService {
 	 *   <li>Check of the active ban at the current user</li>
 	 *   <li>Check of the negative balance at the current user</li>
 	 *   <li>Change the date of end of ban's on current date</li>
-	 * </ol>
-	 * 
-	 * @param adminId - {@link User#id} 
-	 * @param userId - {@link User#id} 
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors         
+	 * </ol>       
 	 */
 	@Override
 	public void removeBan(int adminId, int userId) throws ServiceException, ValidateException {
@@ -434,16 +351,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
-	/**
-	 * Method for checking of negative balance at the current user.
-	 * 
-	 * Return true if balance at the current user < 0.
-	 * 
-	 * @param userID - {@link User#id} 
-	 * @return true or false
-	 * @throws ServiceException Exception from the DAO-level
-	 * @throws ValidateException Validations errors         
-	 */	
+
+	@Override
 	public boolean checkNegativeBalance(int userID) throws ValidateException, ServiceException {
 		if (userID <= 0) {
 			throw new ValidateException("ID of user is less or is equal to 0!");
@@ -460,9 +369,61 @@ public class UserServiceImpl implements UserService {
 			}
 
 		} catch (DAOException e) {
-			throw new ServiceException("Сan't count active tariffs! ", e);
+			throw new ServiceException("Сan't count search of the user! ", e);
 		}
 		
+		return false;
+	}
+
+	
+	
+	@Override
+	public void endTariff(int userId) throws ServiceException, ValidateException {
+		if (userId <= 0) {
+			throw new ValidateException("ID of user is less or is equal to 0!");
+		}
+		
+		// Check of an active tariff and an active ban of the user
+		if (!checkActiveTariff(userId) || checkActiveBan(userId)) {
+			throw new ValidateException("User hasn't active tariff or he has active ban!");
+		}
+		
+		
+		// Get ID contract of the user and end the tariff
+		DAOFactory daoObjectFactory = DAOFactory.getInstance();
+		UserDAO daoUser = daoObjectFactory.getUserDAO();
+		TariffDAO daoTariff = daoObjectFactory.getTariffDAO();
+		
+		try {
+			int contract = daoUser.searchContractId(userId);
+			if (contract != 0) {
+				daoTariff.endTariff(contract);
+			}
+			
+		} catch (DAOException e) {
+			throw new ServiceException("Can't end the tariff of the user! ", e);
+		}
+		
+	}
+
+
+	@Override
+	public boolean checkActiveTariff(int userID) throws ValidateException, ServiceException {
+		if (userID <= 0) {
+			throw new ValidateException("ID of user is less or is equal to 0!");
+		}
+		
+		DAOFactory daoObjectFactory = DAOFactory.getInstance();
+		UserDAO daoUser = daoObjectFactory.getUserDAO();
+
+		try {
+			int count = daoUser.countActiveTariffs(userID);
+			if (count > 0) {
+				return true;
+			}
+		} catch (DAOException e) {
+			throw new ServiceException("Can't count active tariffs! ", e);
+		}
 		return false;
 	}
 
