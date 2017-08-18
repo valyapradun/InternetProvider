@@ -58,13 +58,16 @@ public class RegistrationCommand implements Command {
 				
 				service.registration(user);
 				logger.log(Level.INFO, "User (id: " + user.getId() + ") has been registered.");
-				HttpSession session = request.getSession();
+				
+				user = service.authorize(login, password);
+				logger.log(Level.INFO, "Attempt to sign in (login: " + login + ")");
+				
+				HttpSession session = request.getSession(true);
 				session.setAttribute(USER, user);
+				logger.log(Level.INFO, "Successful attempt to sign in - session: " + session.getId() + ", user role: " + user.getRole() + ", user ID: " + user.getId());
+						
 				request.setAttribute(REDIRECT_PARAMETER, "Yes");
-			//	request.setAttribute(USER, user);
-			//	page = USER_PAGE;
-			//	page = request.getServletPath() + ACTION_SHOW_USER_PAGE;
-				page = request.getServletPath() + ACTION_REGISTRATION;
+				page = request.getServletPath() + ACTION_SHOW_USER_PAGE;
 
 			} catch (ServiceException e) {
 				

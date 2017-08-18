@@ -29,7 +29,7 @@ public class TariffDAOImpl implements TariffDAO {
 	private final static String SQL_EDIT_TARIFF = "UPDATE provider.tariff SET tariff.name = ?, tariff.price = ?, tariff.size = ?, tariff.speed = ?, tariff.picture = ?, tariff.tariff_type_id = ? WHERE tariff.id = ?";
 	private final static String SQL_NEW_TARIFF = "INSERT INTO provider.tariff (name, price, size, speed, picture, tariff_type_id) VALUES (?, ?, ?, ?, ?, ?)";
 	private final static String SQL_DELETE_TARIFF = "DELETE FROM provider.tariff WHERE tariff.id = ?";
-	private final static String SQL_UNIQUE_TARIFF = "SELECT count(tariff.name) AS count FROM provider.tariff WHERE tariff.name = ?";
+	private final static String SQL_UNIQUE_TARIFF = "SELECT count(tariff.name) AS count FROM provider.tariff WHERE tariff.name = ? AND tariff.id <> ?";
 	private final static String SQL_FOR_WHERE_TARIFF_TYPE = " WHERE tariff.tariff_type_id = ?";
 	private final static String SQL_END_TARIFF = "UPDATE provider.user_to_tariff SET end = CURDATE() WHERE user_to_tariff.id = ?";
 	
@@ -241,8 +241,35 @@ public class TariffDAOImpl implements TariffDAO {
 
 	}
 
+
 	@Override
-	public int uniqueTariff(String nameTariff) throws DAOException {
+	public void endTariff(int idContract) throws DAOException {
+		Connection connection = null;
+		PreparedStatement statement = null;
+
+		try {
+			connection = connectionPool.takeConnection();
+			statement = connection.prepareStatement(SQL_END_TARIFF);
+			statement.setInt(1, idContract);
+			statement.executeUpdate();
+		} catch (ConnectionPoolException e) {
+			throw new DAOException("ConnectionPoolException. ", e);
+		} catch (SQLException e) {
+			throw new DAOException("Cannot end to tariff. ", e);
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				 logger.log(Level.ERROR, "Statement isn't closed.");
+			}
+
+			connectionPool.freeConnection(connection);
+		}
+		
+	}
+
+	@Override
+	public int uniqueTariff(Tariff tariff) throws DAOException {
 		int count = 0;
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -251,7 +278,8 @@ public class TariffDAOImpl implements TariffDAO {
 		try {
 			connection = connectionPool.takeConnection();
 			statement = connection.prepareStatement(SQL_UNIQUE_TARIFF);
-			statement.setString(1, nameTariff);
+			statement.setString(1, tariff.getName());
+			statement.setInt(2, tariff.getId());
 
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
@@ -278,32 +306,6 @@ public class TariffDAOImpl implements TariffDAO {
 			connectionPool.freeConnection(connection);
 		}
 		return count;
-	}
-
-	@Override
-	public void endTariff(int idContract) throws DAOException {
-		Connection connection = null;
-		PreparedStatement statement = null;
-
-		try {
-			connection = connectionPool.takeConnection();
-			statement = connection.prepareStatement(SQL_END_TARIFF);
-			statement.setInt(1, idContract);
-			statement.executeUpdate();
-		} catch (ConnectionPoolException e) {
-			throw new DAOException("ConnectionPoolException. ", e);
-		} catch (SQLException e) {
-			throw new DAOException("Cannot end to tariff. ", e);
-		} finally {
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				 logger.log(Level.ERROR, "Statement isn't closed.");
-			}
-
-			connectionPool.freeConnection(connection);
-		}
-		
 	}
 
 }

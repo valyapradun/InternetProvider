@@ -8,9 +8,9 @@ import java.util.Date;
  * @author Valentina Pradun
  * @version 1.0
  */
-public class Payment implements Serializable {
-	private static final long serialVersionUID = 6550775677947500975L;
-	private int id;
+public class Payment extends Entity implements Serializable {
+	private static final long serialVersionUID = 3073245438364164558L;
+	
 	private PaymentType type;
 	private double amount;
 	private Date date;
@@ -20,7 +20,7 @@ public class Payment implements Serializable {
 	}
 
 	public Payment(int id, PaymentType type, double amount, Date date, int userId) {
-		this.id = id;
+		super(id);
 		this.type = type;
 		this.amount = amount;
 		this.date = date;
@@ -32,14 +32,6 @@ public class Payment implements Serializable {
 		this.amount = amount;
 		this.date = date;
 		this.userId = userId;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public PaymentType getType() {
@@ -77,12 +69,11 @@ public class Payment implements Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		long temp;
 		temp = Double.doubleToLongBits(amount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + id;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + userId;
 		return result;
@@ -92,7 +83,7 @@ public class Payment implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -104,8 +95,6 @@ public class Payment implements Serializable {
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (id != other.id)
-			return false;
 		if (type != other.type)
 			return false;
 		if (userId != other.userId)
@@ -115,8 +104,7 @@ public class Payment implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Payment [id=" + id + ", type=" + type + ", amount=" + amount + ", date=" + date + ", userId="
-				+ userId + "]";
+		return "Payment [type=" + type + ", amount=" + amount + ", date=" + date + ", userId=" + userId + "]";
 	}
 
 }

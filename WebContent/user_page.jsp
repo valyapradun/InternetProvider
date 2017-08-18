@@ -54,25 +54,39 @@
 							<tr>
 								<th>Абонент</th>
 								<td><c:out value="${user.getName()}" /></td>
+								<td></td>
 							</tr>
 							<tr>
 								<th>Логин</th>
 								<td><c:out value="${user.getLogin()}" /></td>
+								<td></td>
 							<tr>
 								<th>Email</th>
 								<td><c:out value="${user.getEmail()}" /></td>
+								<td></td>
 							</tr>
 							<tr>
 								<th>Статус блокировки</th>
 								<td><c:out value="${user.isActiveBan()}" /></td>
+								<td>
+									<c:if test="${user.isActiveBan() == true}">	
+										<a href="mailto:admin@homeinternet.by?subject=Удалите бан, мой id = <c:out value="${user.getId()}" />"  title="Удалить бан">Хочу удалить бан <i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+									</c:if>
+								</td>
 							</tr>
 							<tr>
 								<th>Актуальный баланс</th>
 								<td><c:out value="${user.getBalance()}" /></td>
+								<td></td>
 							</tr>
 							<tr>
 								<th>Тарифный план</th>
 								<td><c:out value="${user.getTariff().getName()}" /></td>
+								<td>
+									<c:if test="${user.getTariff().getName() != ''}"> 
+										<a href="mailto:admin@homeinternet.by?subject=Измените тариф, мой id = <c:out value="${user.getId()}" />"  title="Изменить тариф">Хочу изменить тариф <i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+									</c:if>
+								</td>
 							</tr>
 						</tbody>
 					</table>

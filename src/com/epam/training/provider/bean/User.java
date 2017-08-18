@@ -7,10 +7,9 @@ import java.io.Serializable;
  * @author Valentina Pradun
  * @version 1.0
  */
-public class User implements Serializable {
-	private static final long serialVersionUID = -2402160618802474285L;
+public class User extends Entity implements Serializable {
+	private static final long serialVersionUID = 4933598474348743805L;
 	
-	private int id;
 	private String login;
 	private String password;
 	private String role;
@@ -26,28 +25,20 @@ public class User implements Serializable {
 	}
 
 	public User(int id, String login, String password, String name, String role) {
+		super(id);
 		this.login = login;
 		this.password = password;
 		this.name = name;
 		this.role = role;
-		this.id = id;
 	}
 
 	public User(int id, String login, String name, String email, double balance, double traffic) {
-		this.id = id;
+		super(id);
 		this.login = login;
 		this.name = name;
 		this.email = email;
 		this.balance = balance;
 		this.traffic = traffic;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public double getBalance() {
@@ -133,13 +124,12 @@ public class User implements Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + (activeBan ? 1231 : 1237);
 		long temp;
 		temp = Double.doubleToLongBits(balance);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + id;
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + numberContract;
@@ -155,7 +145,7 @@ public class User implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -168,8 +158,6 @@ public class User implements Serializable {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
-			return false;
-		if (id != other.id)
 			return false;
 		if (login == null) {
 			if (other.login != null)
@@ -205,8 +193,8 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + ", name=" + name
-				+ ", email=" + email + ", balance=" + balance + ", traffic=" + traffic + ", activeBan=" + activeBan
+		return "User [login=" + login + ", password=" + password + ", role=" + role + ", name=" + name + ", email="
+				+ email + ", balance=" + balance + ", traffic=" + traffic + ", activeBan=" + activeBan
 				+ ", numberContract=" + numberContract + ", tariff=" + tariff + "]";
 	}
 

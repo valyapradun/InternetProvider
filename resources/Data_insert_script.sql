@@ -35,6 +35,24 @@ INSERT INTO `provider`.`transaction` (`type`, `ammount`, `date`, `user_id`) VALU
 INSERT INTO `provider`.`event` (`title`) VALUES ('Нет оплаты');
 
 
+ALTER TABLE `provider`.`user_to_tariff` 
+DROP FOREIGN KEY `fk_tariff_has_user_user1`;
+ALTER TABLE `provider`.`user_to_tariff` 
+ADD CONSTRAINT `fk_tariff_has_user_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `provider`.`user` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
+
+
+ALTER TABLE `provider`.`transaction` 
+DROP FOREIGN KEY `fk_transaction_user1`;
+ALTER TABLE `provider`.`transaction` 
+ADD CONSTRAINT `fk_transaction_user1`
+  FOREIGN KEY (`user_id`)
+  REFERENCES `provider`.`user` (`id`)
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
 
 
 

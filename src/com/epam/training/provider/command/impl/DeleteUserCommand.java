@@ -43,6 +43,7 @@ public class DeleteUserCommand implements Command {
 			logger.log(Level.INFO, "User (id: " + id + ") has been deleted by the admin (session id:" + request.getSession(false).getId() + ")");
 			request.setAttribute(REDIRECT_PARAMETER, "Yes");
 			page = request.getServletPath() + ACTION_DISPLAY_USERS;
+			request.getSession(false).setAttribute(INFO_MESSAGE, "The user " + id + " had successfully deleted!");
 			
 		} catch (ServiceException | ValidateException e) {
 			

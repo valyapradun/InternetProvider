@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
 
 			dao.delete(id);
 		} catch (DAOException e) {
-			throw new ServiceException("Deleting the user wasn't executed!" + e.getMessage(), e);
+			throw new ServiceException("Deleting the user wasn't executed! " + e, e);
 		}
 	}
 	

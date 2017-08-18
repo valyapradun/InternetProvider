@@ -30,6 +30,14 @@
 			</div>
             <div class="container">
 				<div class="row">
+				
+				<c:if test="${info!=null}"> 
+							<div class="alert alert-info fade in">
+    							<a href="#" class="close" data-dismiss="alert">&times;</a>
+    							<strong>Note! </strong> <c:out value="${info}" />
+							</div>
+				</c:if>
+				
 					<h2>Администрирование тарифов</h2>
 					<table class="table table-hover">
 						<thead class="thead-inverse">

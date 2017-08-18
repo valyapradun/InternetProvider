@@ -8,7 +8,7 @@ public class Validate {
 	private static final String LATIN_SYMBOL_PATTERN = "^[A-Za-z0-9_-]{3,15}$";
 	private static final String DIFFICULT_PASSWORD_PATTERN = "((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,20})";
 	private static final String VALID_EMAIL_PATTERN = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-	private static final String TARIFF_NAME_PATTERN = "^[A-Za-zА-Яа-я0-9_-\\s]{3,45}$";
+	private static final String TARIFF_NAME_PATTERN = "^[A-Za-zА-Яа-я0-9_-]{3,45}$";
 	private static final String DIGIT_PATTERN = "^[ 0-9]+$";
 
 	private final static String ERROR_LATIN_SYMBOL = "- Your login has to contain Latin symbols, digits, hyphens and underlinings from 3 to 15 symbols long! ";

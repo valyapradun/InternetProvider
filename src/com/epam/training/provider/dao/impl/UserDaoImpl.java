@@ -402,7 +402,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (ConnectionPoolException e) {
 			throw new DAOException("ConnectionPoolException. ", e);
 		} catch (SQLException e) {
-			throw new DAOException("Cannot delete the user. ", e);
+			throw new DAOException("Cannot delete the user. " + e.getMessage(), e);
 		} finally {
 			try {
 				statement.close();

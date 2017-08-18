@@ -70,11 +70,11 @@ public interface TariffService {
 	 * Calculation of the count of tariffs with current name. 
 	 * Throw ValidateException if count > 0.
 	 * 
-	 * @param nameTariff - {@link Tariff#name}
+	 * @param tariff - {@link Tariff}
 	 * @return String of errors
 	 * @throws ServiceException Exception from the DAO-level
 	 * @throws ValidateException Validations errors        
 	 */
-	public String checkUniqueTariff(String nameTariff) throws ServiceException, ValidateException;
+	public String checkUniqueTariff(Tariff tariff) throws ServiceException, ValidateException;
 	
 }

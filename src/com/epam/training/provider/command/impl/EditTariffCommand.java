@@ -36,6 +36,32 @@ public class EditTariffCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
+		Tariff tariff = getTariffFromRequest(request);
+		
+		try {
+			service.editTariff(tariff);
+			logger.log(Level.INFO, "Tariff (id: " + tariff.getId() + ") has been edited by the admin (session id:" + request.getSession(false).getId() + ")");
+			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
+			request.getSession(false).setAttribute(INFO_MESSAGE, "The tarif " + tariff.getId() + " is successfully edited.");
+			
+		} catch (ServiceException e) {
+			request.setAttribute(ERROR_MESSAGE, "It is impossible to edit tariff's card! ");
+			logger.log(Level.ERROR, e);
+			page = ERROR_PAGE;
+			
+		} catch (ValidateException e) {
+			logger.log(Level.ERROR, e);
+			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
+			request.getSession(false).setAttribute(INFO_MESSAGE, "The tarif " + tariff.getId() + " hasn't been edited because: " + e.getMessage());
+			
+		}
+		return page;
+	}
+
+	
+	private Tariff getTariffFromRequest(HttpServletRequest request){
 		
 		int id = Integer.parseInt(request.getParameter(TARIFF_ID));
 
@@ -43,7 +69,7 @@ public class EditTariffCommand implements Command {
 		byte[] bytes = name.getBytes(StandardCharsets.ISO_8859_1);
 		name = new String(bytes, StandardCharsets.UTF_8);
 
-		double price = Double.parseDouble(request.getParameter(TARIFF_PRICE));
+		double price = Double.parseDouble(normalize(request.getParameter(TARIFF_PRICE)));
 		double size = Double.parseDouble(normalize(request.getParameter(TARIFF_SIZE)));
 		int speed = Integer.parseInt(normalize(request.getParameter(TARIFF_SPEED)));
 		TariffType type = TariffType.valueOf(request.getParameter(TARIFF_TYPE).toUpperCase());
@@ -54,21 +80,7 @@ public class EditTariffCommand implements Command {
 		
 		Tariff tariff = new Tariff(id, name, type, price, size, speed, picture);
 
-		try {
-			
-			service.editTariff(tariff);
-			logger.log(Level.INFO, "Tariff (id: " + tariff.getId() + ") has been edited by the admin (session id:" + request.getSession(false).getId() + ")");
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
-			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
-			
-		} catch (ServiceException | ValidateException e) {
-			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to edit tariff's card! ");
-			logger.log(Level.ERROR, e);
-			page = ERROR_PAGE;
-			
-		}
-		return page;
+		return tariff;
 	}
 	
 	

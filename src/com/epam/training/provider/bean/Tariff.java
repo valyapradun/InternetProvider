@@ -7,22 +7,22 @@ import java.io.Serializable;
  * @author Valentina Pradun
  * @version 1.0
  */
-public class Tariff implements Serializable {
-
-	private static final long serialVersionUID = 1509353325974972944L;
+public class Tariff extends Entity implements Serializable {
+	private static final long serialVersionUID = -3554253448127674416L;
+	
 	private String name;
 	private TariffType type;
 	private double price;
 	private double size;
 	private int speed;
 	private String picture;
-	private int id;
+
 
 	public Tariff() {
 	}
 
 	public Tariff(int id, String name, TariffType type, double price, double size, int speed, String picture) {
-		this.id = id;
+		super(id);
 		this.name = name;
 		this.type = type;
 		this.price = price;
@@ -38,14 +38,6 @@ public class Tariff implements Serializable {
 		this.size = size;
 		this.speed = speed;
 		this.picture = picture;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -99,8 +91,7 @@ public class Tariff implements Serializable {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
+		int result = super.hashCode();
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
 		long temp;
@@ -117,13 +108,11 @@ public class Tariff implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Tariff other = (Tariff) obj;
-		if (id != other.id)
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -148,9 +137,6 @@ public class Tariff implements Serializable {
 	@Override
 	public String toString() {
 		return "Tariff [name=" + name + ", type=" + type + ", price=" + price + ", size=" + size + ", speed=" + speed
-				+ ", picture=" + picture + ", id=" + id + "]";
+				+ ", picture=" + picture + "]";
 	}
-
-
-
 }

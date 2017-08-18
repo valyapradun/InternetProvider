@@ -116,9 +116,9 @@ public class TariffServiceImpl implements TariffService {
 	
 
 	@Override
-	public String checkUniqueTariff(String nameTariff) throws ServiceException, ValidateException {
-		if (nameTariff == null) {
-			throw new ValidateException("The tariff's name is equal to null!");
+	public String checkUniqueTariff(Tariff tariff) throws ServiceException, ValidateException {
+		if (tariff == null) {
+			throw new ValidateException("The tariff is equal to null! ");
 		}
 		
 		String result = "";
@@ -126,7 +126,7 @@ public class TariffServiceImpl implements TariffService {
 			DAOFactory daoObjectFactory = DAOFactory.getInstance();
 			TariffDAO dao = daoObjectFactory.getTariffDAO();
 
-			int count = dao.uniqueTariff(nameTariff);
+			int count = dao.uniqueTariff(tariff);
 			if (count > 0) {
 				result = "- Such tariff's name already exists! ";
 			}
@@ -137,7 +137,8 @@ public class TariffServiceImpl implements TariffService {
 		
 		return result;
 	}
-		
+	
+	
 	
 	/**
 	 * Method for validating of tariff.
@@ -167,8 +168,8 @@ public class TariffServiceImpl implements TariffService {
 		buffer.append(Validate.checkRequiredDoubleField(TARIFF_PRICE, tariff.getPrice()));
 		buffer.append(Validate.checkRequiredStringField(TARIFF_TYPE, tariff.getType().toString()));
 		buffer.append(Validate.checkTariffName(tariff.getName()));
-		buffer.append(checkUniqueTariff(tariff.getName()));
-		
+		buffer.append(checkUniqueTariff(tariff));
+
 		return buffer.toString();
 
 	}

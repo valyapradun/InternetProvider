@@ -18,6 +18,7 @@ import com.epam.training.provider.service.TariffService;
 import com.epam.training.provider.service.exception.ServiceException;
 import com.epam.training.provider.service.exception.ValidateException;
 import com.epam.training.provider.service.factory.ServiceFactory;
+
 /**
  * Class for implementation of the command 'Add the tariff' by administrator.
  * 
@@ -37,15 +38,43 @@ public class AddTariffCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
+		Tariff tariff = getTariffFromRequest(request);
 		
+		try {
+
+			service.addTariff(tariff);
+			logger.log(Level.INFO, "Tariff (" + tariff + ") has been addeted by the admin (session id:"	+ request.getSession(false).getId() + ")");
+			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
+			request.getSession(false).setAttribute(INFO_MESSAGE, "The tarif is successfully added.");
+
+		} catch (ServiceException e) {
+			request.setAttribute(ERROR_MESSAGE, "Adding a tariff wasn't executed! ");
+			logger.log(Level.ERROR, e);
+			page = ERROR_PAGE;
+
+		} catch (ValidateException e) {
+			logger.log(Level.ERROR, e);
+			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
+			request.getSession(false).setAttribute(INFO_MESSAGE, "The tarif hasn't been added because: " + e.getMessage());
+
+		}
+		
+		
+		return page;
+	}
+
+	
+	private Tariff getTariffFromRequest(HttpServletRequest request) {
+
 		String name = request.getParameter(TARIFF_NAME);
 		byte[] bytes = name.getBytes(StandardCharsets.ISO_8859_1);
 		name = new String(bytes, StandardCharsets.UTF_8);
 
-		double price = Double.parseDouble(request.getParameter(TARIFF_PRICE));
+		double price = Double.parseDouble(normalize(request.getParameter(TARIFF_PRICE)));
 		double size = Double.parseDouble(normalize(request.getParameter(TARIFF_SIZE)));
 		int speed = Integer.parseInt(normalize(request.getParameter(TARIFF_SPEED)));
-
 		TariffType type = TariffType.valueOf(request.getParameter(TARIFF_TYPE).toUpperCase());
 
 		String picture = request.getParameter(TARIFF_PICTURE);
@@ -54,23 +83,10 @@ public class AddTariffCommand implements Command {
 
 		Tariff tariff = new Tariff(name, type, price, size, speed, picture);
 
-		try {
-			
-			service.addTariff(tariff);
-			logger.log(Level.INFO, "Tariff (" + tariff + ") has been addeted by the admin (session id:" + request.getSession(false).getId() + ")");
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
-			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
-			
-		} catch (ServiceException | ValidateException e) {
-			
-			request.setAttribute(ERROR_MESSAGE, "Adding a tariff wasn't executed! ");
-			logger.log(Level.ERROR, e);
-			page = ERROR_PAGE;
-			
-		}
-		return page;
+		return tariff;
 	}
 
+	
 	private String normalize(String parameter) {
 		if (parameter.equals("")) {
 			parameter = "0";
