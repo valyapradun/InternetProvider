@@ -14,6 +14,13 @@ import static com.epam.training.provider.util.Permanent.*;
  */
 public class ChooseLanguageCommand implements Command {
 
+	/**
+	 * Method for processing of action of the user - 'Choose a language'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}          
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -22,7 +29,7 @@ public class ChooseLanguageCommand implements Command {
 
 		HttpSession session = request.getSession(false);
 		session.setAttribute(LANGUAGE, language);
-		request.setAttribute(REDIRECT_PARAMETER, "Yes");
+		request.setAttribute(REDIRECT_PARAMETER, OK);
 
 		String backPage = request.getHeader(REFERER);
 

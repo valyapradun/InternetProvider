@@ -36,10 +36,18 @@ public class EditTariffCommand implements Command {
 		service = serviceObjectFactory.getTariffService();
 	}
 
+	
+	/**
+	 * Method for processing of action of the administrator - 'Edit the tariff'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}          
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
-		Tariff tariff = getTariffFromRequest(request);
+		Tariff tariff = createTariffFromRequest(request);
 		
 		try {
 			service.editTariff(tariff);
@@ -47,21 +55,17 @@ public class EditTariffCommand implements Command {
 			request.setAttribute(REDIRECT_PARAMETER, OK);
 			request.getSession(false).setAttribute(INFO_MESSAGE, SUCCESS + tariff.getId());
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
-			
 			logger.log(Level.INFO, "Tariff (id: " + tariff.getId() + ") has been edited by the admin (session id:" + request.getSession(false).getId() + ")");
 			
 		} catch (ServiceException e) {
 			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
-			
 			logger.log(Level.ERROR, e);
 			
 		} catch (ValidateException e) {
-			
 			request.setAttribute(REDIRECT_PARAMETER, OK);
 			request.getSession(false).setAttribute(INFO_MESSAGE, UNSUCCESS_VALIDATION + e.getMessage());
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
-			
 			logger.log(Level.ERROR, e);
 			
 		}
@@ -77,7 +81,7 @@ public class EditTariffCommand implements Command {
 	 * @return Tariff {@link Tariff}
 	 *           
 	 */
-	private Tariff getTariffFromRequest(HttpServletRequest request){
+	private Tariff createTariffFromRequest(HttpServletRequest request){
 		
 		int id = Integer.parseInt(request.getParameter(TARIFF_ID));
 

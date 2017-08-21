@@ -26,6 +26,16 @@ import static com.epam.training.provider.util.Permanent.*;
 public class UserServiceImpl implements UserService {
 	private static final String NO_PAYMENT = "no payment";
 	
+	
+	/**
+	 * Method for authorization of user.
+	 * 
+	 * @param login - {@link User#login}
+	 * @param password - {@link User#password}
+	 * @return user - {@link User}
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors     
+	 */
 	@Override
 	public User authorize(String login, String password) throws ServiceException, ValidateException {		
 		String errors = validateLoginPassword(login, password);
@@ -48,6 +58,13 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
+	/**
+	 * Method for registration of user.
+	 * 
+	 * @param newUser - {@link User}
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors          
+	 */
 	@Override
 	public void registration(User newUser) throws ServiceException, ValidateException {
 		String errors = validateUser(newUser);
@@ -68,6 +85,14 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
+	/**
+	 * Method for searching of user by id.
+	 * 
+	 * @param id - {@link User#id}
+	 * @return user - {@link User}
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors     
+	 */
 	@Override
 	public User userById(int id) throws ServiceException, ValidateException {
 		if (id <= 0) {
@@ -95,6 +120,16 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
+	/**
+	 * Method for checking of uniqueness of a login of user.
+	 * Calculation of the count of users with current login.
+	 * Throw ValidateException if count > 0. 
+	 * 
+	 * @param login - {@link User#login}
+	 * @return String of errors
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors         
+	 */
 	@Override
 	public String checkUniqueLogin(String login) throws ServiceException, ValidateException {
 		if (login == null) {
@@ -118,6 +153,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	
+	/**
+	 * Method for checking of uniqueness of a email of user.
+	 * Calculation of the count of users with current email. 
+	 * Throw ValidateException if count > 0.
+	 * 
+	 * @param email - {@link User#email}
+	 * @return String of errors
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors        
+	 */
 	@Override
 	public String checkUniqueEmail(String email) throws ServiceException, ValidateException {
 		if (email == null) {
@@ -141,7 +186,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	
+	/**
+	 * Method for searching of all users.
+	 * 
+	 * @return list of users - {@link List}
+	 * @throws ServiceException Exception from the DAO-level      
+	 */
 	@Override
 	public List<User> listUsersWithParameters() throws ServiceException {
 		List<User> users = null;
@@ -156,7 +206,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	
-
+	/**
+	 * Method for deleting of user by id.
+	 * 
+	 * @param id - {@link User#id} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors   
+	 */
 	@Override
 	public void deleteUser(int id) throws ServiceException, ValidateException {
 		if (id <= 0) {
@@ -176,10 +232,15 @@ public class UserServiceImpl implements UserService {
 	
 	/**
 	 * Method for putting of bans.
+	 * 
 	 * <ol>
 	 *   <li>Search users with a negative balance</li>
 	 *   <li>For these users add new row in table 'ban' with a reason 'no payment'</li>
-	 * </ol>         
+	 * </ol> 
+	 * 
+	 * @param adminId - {@link User#id} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors        
 	 */
 	@Override
 	public void putBan(int adminId) throws ServiceException, ValidateException {
@@ -288,6 +349,16 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	
+	/**
+	 * Method for checking of active ban at the current user.
+	 * Calculation of the count of active ban. Return 'true' if count > 0.
+	 * 
+	 * @param userID - {@link User#id}
+	 * @return true or false
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors       
+	 */
 	@Override
 	public boolean checkActiveBan(int userID) throws ValidateException, ServiceException {
 		if (userID <= 0) {
@@ -319,14 +390,18 @@ public class UserServiceImpl implements UserService {
 	 *   <li>Check of the active ban at the current user</li>
 	 *   <li>Check of the negative balance at the current user</li>
 	 *   <li>Change the date of end of ban's on current date</li>
-	 * </ol>       
+	 * </ol>
+	 * 
+	 * @param adminId - {@link User#id} 
+	 * @param userId - {@link User#id} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors         
 	 */
 	@Override
 	public void removeBan(int adminId, int userId) throws ServiceException, ValidateException {
 		if ((adminId <= 0) || (userId <= 0)) {
 			throw new ValidateException("ID of administrator is less or is equal to 0!");
 		}
-		
 		
 		DAOFactory daoObjectFactory = DAOFactory.getInstance();
 		UserDAO daoUser = daoObjectFactory.getUserDAO();
@@ -351,7 +426,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
-
+	/**
+	 * Method for checking of negative balance at the current user.
+	 * Return 'true' if balance at the current user < 0.
+	 * 
+	 * @param userID - {@link User#id} 
+	 * @return true or false
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors         
+	 */
 	@Override
 	public boolean checkNegativeBalance(int userID) throws ValidateException, ServiceException {
 		if (userID <= 0) {
@@ -376,7 +459,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	
-	
+	/**
+	 * Method for ending of the active tariff of the current user.
+	 * 
+	 * @param userId - {@link User#id} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors         
+	 */
 	@Override
 	public void endTariff(int userId) throws ServiceException, ValidateException {
 		if (userId <= 0) {
@@ -406,7 +495,16 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
-
+	
+	/**
+	 * Method for checking of active tariff at the current user.
+	 * Calculation of the count of active tariff. Return 'true' if count > 0.
+	 * 
+	 * @param userID - {@link User#id}
+	 * @return true or false
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors       
+	 */
 	@Override
 	public boolean checkActiveTariff(int userID) throws ValidateException, ServiceException {
 		if (userID <= 0) {

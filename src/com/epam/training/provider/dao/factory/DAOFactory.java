@@ -37,7 +37,7 @@ public final class DAOFactory {
 
 	/** Method for returning a DAOFactory instance 
 	 * 
-	 * @return instance - {@link instance}
+	 * @return instance - {@link DAOFactory}
 	 */
 	public static DAOFactory getInstance() {
 		return instance;

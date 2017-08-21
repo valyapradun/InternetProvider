@@ -28,6 +28,7 @@ import static com.epam.training.provider.util.Permanent.*;
 public class DisplayTariffsCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(DisplayTariffsCommand.class.getName());
 	private static final String LIST_TARIFFS = "tariffs";
+	private final static String UNSUCCESS = "It is impossible to display tariffs!";
 
 	private final TariffService service;
 
@@ -36,6 +37,14 @@ public class DisplayTariffsCommand implements Command {
 		service = serviceObjectFactory.getTariffService();
 	}
 
+	
+	/**
+	 * Method for processing of action of the administrator - 'Display tariffs'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}          
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -55,16 +64,16 @@ public class DisplayTariffsCommand implements Command {
 			request.setAttribute(TARIFF_TYPE, typeTariff);
 			request.setAttribute(ACTION, action);
 			
-			logger.log(Level.INFO, "Administrator (id session: " + request.getSession(false).getId() + ") displayed tarifs.");
-			page = LIST_TARIFFS_PAGE;
-			
 			HttpSession session = request.getSession(false);
 			request.setAttribute(INFO_MESSAGE, session.getAttribute(INFO_MESSAGE));
 			session.setAttribute(INFO_MESSAGE, null);
 			
+			page = LIST_TARIFFS_PAGE;
+			logger.log(Level.INFO, "Administrator (id session: " + request.getSession(false).getId() + ") displayed tarifs.");
+		
 		} catch (ServiceException | ValidateException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to display tariffs!");
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			

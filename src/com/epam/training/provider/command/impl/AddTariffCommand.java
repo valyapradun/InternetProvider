@@ -27,6 +27,9 @@ import com.epam.training.provider.service.factory.ServiceFactory;
  */
 public class AddTariffCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(AddTariffCommand.class.getName());
+	private final static String UNSUCCESS = "Adding a tariff wasn't executed! ";
+	private final static String SUCCESS = "The tarif is successfully added.";
+	private final static String UNSUCCESS_INFO = "The tarif hasn't been added because: ";
 
 	private final TariffService service;
 
@@ -35,30 +38,40 @@ public class AddTariffCommand implements Command {
 		service = serviceObjectFactory.getTariffService();
 	}
 
+	
+	/**
+	 * Method for processing of action of the user - 'Add the tariff'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}          
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
-		Tariff tariff = getTariffFromRequest(request);
+		Tariff tariff = createTariffFromRequest(request);
 		
 		try {
 
 			service.addTariff(tariff);
-			logger.log(Level.INFO, "Tariff (" + tariff + ") has been addeted by the admin (session id:"	+ request.getSession(false).getId() + ")");
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			
+			request.setAttribute(REDIRECT_PARAMETER, OK);
+			request.getSession(false).setAttribute(INFO_MESSAGE, SUCCESS);
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
-			request.getSession(false).setAttribute(INFO_MESSAGE, "The tarif is successfully added.");
+			logger.log(Level.INFO, "Tariff (" + tariff + ") has been addeted by the admin (session id:"	+ request.getSession(false).getId() + ")");
 
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR_MESSAGE, "Adding a tariff wasn't executed! ");
-			logger.log(Level.ERROR, e);
+			
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
+			logger.log(Level.ERROR, e);
 
 		} catch (ValidateException e) {
-			logger.log(Level.ERROR, e);
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
-			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
-			request.getSession(false).setAttribute(INFO_MESSAGE, "The tarif hasn't been added because: " + e.getMessage());
 
+			request.setAttribute(REDIRECT_PARAMETER, OK);
+			request.getSession(false).setAttribute(INFO_MESSAGE, UNSUCCESS_INFO + e.getMessage());
+			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
+			logger.log(Level.ERROR, e);
 		}
 		
 		
@@ -66,7 +79,13 @@ public class AddTariffCommand implements Command {
 	}
 
 	
-	private Tariff getTariffFromRequest(HttpServletRequest request) {
+	/**
+	 * Method for creatinging of tariff from the request.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @return tariff {@link Tariff}         
+	 */
+	private Tariff createTariffFromRequest(HttpServletRequest request) {
 
 		String name = request.getParameter(TARIFF_NAME);
 		byte[] bytes = name.getBytes(StandardCharsets.ISO_8859_1);
@@ -87,6 +106,12 @@ public class AddTariffCommand implements Command {
 	}
 
 	
+	/**
+	 * Method for normalization of the empty parameter.
+	 * 
+	 * @param parameter {@link String}
+	 * @return parameter {@link String}         
+	 */
 	private String normalize(String parameter) {
 		if (parameter.equals("")) {
 			parameter = "0";

@@ -26,7 +26,8 @@ import static com.epam.training.provider.util.Permanent.*;
 public class DisplayUsersCommand implements Command {
 	private static final String LIST_USERS = "users";
 	private final static Logger logger = LogManager.getLogger(DisplayUsersCommand.class.getName());
-
+	private final static String UNSUCCESS = "It is impossible to display users! ";
+			
 	private final UserService service;
 
 	{
@@ -34,6 +35,14 @@ public class DisplayUsersCommand implements Command {
 		service = serviceObjectFactory.getUserService();
 	}
 
+	
+	/**
+	 * Method for processing of action of the administrator - 'Display users'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}          
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -46,15 +55,17 @@ public class DisplayUsersCommand implements Command {
 			users = service.listUsersWithParameters();
 			request.setAttribute(LIST_USERS, users);
 			request.setAttribute(ACTION, action);
-			logger.log(Level.INFO, "Administrator (id session: " + request.getSession(false).getId() + ") displayed users.");
-			page = LIST_USERS_PAGE;
+
 			HttpSession session = request.getSession(false);
 			request.setAttribute(INFO_MESSAGE, session.getAttribute(INFO_MESSAGE));
 			session.setAttribute(INFO_MESSAGE, null);
 			
+			page = LIST_USERS_PAGE;
+			logger.log(Level.INFO, "Administrator (id session: " + request.getSession(false).getId() + ") displayed users.");
+		
 		} catch (ServiceException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to display users! ");
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			

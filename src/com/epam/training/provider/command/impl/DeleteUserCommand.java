@@ -22,6 +22,7 @@ import com.epam.training.provider.service.factory.ServiceFactory;
  */
 public class DeleteUserCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(DeleteUserCommand.class.getName());
+	private final static String SUCCESS = "The user had successfully deleted - id: ";
 
 	private final UserService service;
 
@@ -31,6 +32,14 @@ public class DeleteUserCommand implements Command {
 				
 	}
 
+	
+	/**
+	 * Method for processing of action of the administrator - 'Delete the user'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}          
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -40,10 +49,10 @@ public class DeleteUserCommand implements Command {
 		try {
 			
 			service.deleteUser(id);
-			logger.log(Level.INFO, "User (id: " + id + ") has been deleted by the admin (session id:" + request.getSession(false).getId() + ")");
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			request.setAttribute(REDIRECT_PARAMETER, OK);
+			request.getSession(false).setAttribute(INFO_MESSAGE, SUCCESS + id);
 			page = request.getServletPath() + ACTION_DISPLAY_USERS;
-			request.getSession(false).setAttribute(INFO_MESSAGE, "The user " + id + " had successfully deleted!");
+			logger.log(Level.INFO, "User (id: " + id + ") has been deleted by the admin (session id:" + request.getSession(false).getId() + ")");
 			
 		} catch (ServiceException | ValidateException e) {
 			

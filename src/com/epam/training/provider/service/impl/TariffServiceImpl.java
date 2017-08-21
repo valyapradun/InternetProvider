@@ -19,7 +19,14 @@ import static com.epam.training.provider.util.Permanent.*;
  * @version 1.0
  */
 public class TariffServiceImpl implements TariffService {
-
+	
+	/**
+	 * Method for adding of tariff.
+	 * 
+	 * @param tariff {@link Tariff} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors   
+	 */
 	@Override
 	public void addTariff(Tariff tariff) throws ServiceException, ValidateException {
 		String errors = validateTariff(tariff);
@@ -36,7 +43,13 @@ public class TariffServiceImpl implements TariffService {
 		}
 	}
 	
-	
+	/**
+	 * Method for editing of tariff.
+	 * 
+	 * @param tariff {@link Tariff} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors      
+	 */
 	@Override
 	public void editTariff(Tariff tariff) throws ServiceException, ValidateException {
 		String errors = validateTariff(tariff);
@@ -54,6 +67,14 @@ public class TariffServiceImpl implements TariffService {
 	}
 	
 	
+	/**
+	 * Method for searching of tariff by id.
+	 * 
+	 * @param id - {@link Tariff#id} 
+	 * @return tariff - {@link Tariff} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors         
+	 */
 	@Override
 	public Tariff tariffById(int id) throws ServiceException, ValidateException {
 		if (id <= 0) {
@@ -78,6 +99,13 @@ public class TariffServiceImpl implements TariffService {
 	}
 
 	
+	/**
+	 * Method for deleting of tariff by id.
+	 * 
+	 * @param id - {@link Tariff#id} 
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors  
+	 */
 	@Override
 	public void deleteTariff(int id) throws ServiceException, ValidateException {
 		if (id <= 0) {
@@ -94,7 +122,14 @@ public class TariffServiceImpl implements TariffService {
 	}
 
 	
-	
+	/**
+	 * Method for searching of tariff by criteria.
+	 * 
+	 * @param criteria - {@link Map}
+	 * @return list of tariffs - {@link List}
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors       
+	 */
 	@Override
 	public List<Tariff> listTariffsWithCriteria(Map<String, String> criteria) throws ServiceException, ValidateException {
 		if (criteria.isEmpty()) {
@@ -114,7 +149,16 @@ public class TariffServiceImpl implements TariffService {
 	}
 	
 	
-
+	/**
+	 * Method for checking of uniqueness of a name of tariff.
+	 * Calculation of the count of tariffs with current name. 
+	 * Throw ValidateException if count > 0.
+	 * 
+	 * @param tariff - {@link Tariff}
+	 * @return String of errors
+	 * @throws ServiceException Exception from the DAO-level
+	 * @throws ValidateException Validations errors        
+	 */
 	@Override
 	public String checkUniqueTariff(Tariff tariff) throws ServiceException, ValidateException {
 		if (tariff == null) {

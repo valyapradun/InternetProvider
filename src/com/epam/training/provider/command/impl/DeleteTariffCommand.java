@@ -32,6 +32,13 @@ public class DeleteTariffCommand implements Command {
 		service = serviceObjectFactory.getTariffService();
 	}
 
+	/**
+	 * Method for processing of action of the administrator - 'Delete the tariff'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}          
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -45,14 +52,12 @@ public class DeleteTariffCommand implements Command {
 			request.setAttribute(REDIRECT_PARAMETER, OK);
 			request.getSession(false).setAttribute(INFO_MESSAGE, SUCCESS + id);
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
-			
 			logger.log(Level.INFO, "Tariff (id: " + id + ") has been deleted by the admin (session id:" + request.getSession(false).getId() + ")");
 			
 		} catch (ServiceException | ValidateException e) {
 			
 			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
-			
 			logger.log(Level.ERROR, e);
 			
 		}

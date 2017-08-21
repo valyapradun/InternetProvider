@@ -34,6 +34,13 @@ public class BuyTariffCommand implements Command {
 
 	}
 
+	/**
+	 * Method for processing of action of the user - 'Buy the tariff'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}          
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -55,17 +62,12 @@ public class BuyTariffCommand implements Command {
 		} catch (ServiceException e) {
 			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
-			
 			logger.log(Level.ERROR, e);
 			
 		} catch (ValidateException e) {
-		//	request.setAttribute(ERROR_MESSAGE, e.getMessage());
 			request.setAttribute(REDIRECT_PARAMETER, OK);
-			page = request.getServletPath() + ACTION_SHOW_USER_TARIFFS;
-			//page = ERROR_PAGE;
 			request.getSession(false).setAttribute(INFO_MESSAGE, e.getMessage());
-			
-			
+			page = request.getServletPath() + ACTION_SHOW_USER_TARIFFS;
 			logger.log(Level.ERROR, e);
 		}
 
