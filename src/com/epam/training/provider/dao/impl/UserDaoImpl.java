@@ -19,40 +19,103 @@ import com.epam.training.provider.dao.UserDAO;
 import com.epam.training.provider.dao.connectionPool.ConnectionPool;
 import com.epam.training.provider.dao.connectionPool.ConnectionPoolException;
 import com.epam.training.provider.dao.exception.DAOException;
-
+/**
+ * Class-implementation of DAO for the operations with a user.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class UserDAOImpl implements UserDAO {
 	private final static Logger logger = LogManager.getLogger(UserDAOImpl.class.getName());
+	
+	/** Salt for MD5 (for hashing of the password) */
 	private static String salt = ResourceBundle.getBundle("config").getString("salt");
 
+	
+	/** Default SQL request for authorization of the user */
 	private final static String SQL_LOGIN = "SELECT user.id, user.login, user.password, user.name, 'user' AS role FROM provider.user WHERE (login =? AND password=MD5(?)) UNION ALL SELECT administrator.id, administrator.login, administrator.password, 'Administrator' AS name, 'admin' AS role FROM provider.administrator WHERE (login =? AND password=MD5(?))";
+	
+	/** Default SQL request for checking of the unique login */
 	private final static String SQL_UNIQUE_LOGIN = "SELECT count(user.login) AS count FROM provider.user WHERE user.login = ?";
+	
+	/** Default SQL request for checking of the unique email */
 	private final static String SQL_UNIQUE_EMAIL = "SELECT count(user.email) AS count FROM provider.user WHERE user.email = ?";
+	
+	/** Default SQL request for adding new user */
 	private final static String SQL_NEW_USER = "INSERT INTO user (`login`, `password`, `name`, `email`) VALUES (?, MD5(?), ?, ?)";
+	
+	/** Default SQL request for searching all users */
 	private final static String SQL_ALL_USERS = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user";
+	
+	/** Default SQL request for searching one user */
 	private final static String SQL_ONE_USER = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user WHERE user.id = ?";
+	
+	/** Default SQL request for checking of the unique tariff of the user */
 	private final static String SQL_UNIQUE_TARIFF = "SELECT count(user_to_tariff.tariff_id) AS count FROM provider.user_to_tariff WHERE user_to_tariff.user_id = ? AND user_to_tariff.end IS NULL";
+	
+	/** Default SQL request for checking of the unique ban of the user*/
 	private final static String SQL_UNIQUE_BAN = "SELECT count(ban.user_id) AS count FROM provider.ban WHERE ban.user_id = ? AND ban.end_date IS NULL";
+	
+	/** Default SQL request for searching of the active tariff of the user */
 	private final static String SQL_ACTIVE_TARIFF = "SELECT tariff.name FROM provider.tariff JOIN provider.user_to_tariff ON tariff.id = user_to_tariff.tariff_id WHERE user_to_tariff.user_id = ? AND user_to_tariff.end IS NULL";
+	
+	/** Default SQL request for deleting of the user */
 	private final static String SQL_DELETE_USER = "DELETE FROM provider.user WHERE user.id = ?";		
+	
+	/** Default SQL request for searching of users with the negative balance */
 	private final static String SQL_NEGATIVE_BALANCE = "SELECT user.id, user.login, user.name, user.email, user.balance, user.traffic_used FROM provider.user WHERE user.balance < 0";
+	
+	/** Default SQL request for searching of the unlim tariffs which more than 30 days */
 	private final static String SQL_USERS_WITH_UNLIM_MORE_30_DAYS = "SELECT user_to_tariff.id AS contract_id, user_to_tariff.user_id AS id, user_to_tariff.tariff_id, tariff.name, tariff.price FROM provider.user_to_tariff JOIN provider.tariff ON user_to_tariff.tariff_id = tariff.id WHERE tariff.tariff_type_id = 1 AND user_to_tariff.end is NULL AND user_to_tariff.begin <= CURDATE() - INTERVAL 30 DAY";
+	
+	/** Default SQL request for searching of the contract's number of the user */
 	private final static String SQL_CONTRACT_USER = "SELECT user_to_tariff.id AS contract_id FROM provider.user_to_tariff WHERE user_to_tariff.end is NULL AND user_to_tariff.user_id = ?";
 	
+	
+	/** Default title of column from result  */
 	private final static String USER_ID = "id";
+	
+	/** Default title of column from result  */
 	private final static String USER_LOGIN = "login";
+	
+	/** Default title of column from result  */
 	private final static String USER_PASSWORD = "password";
+	
+	/** Default title of column from result  */
 	private final static String USER_NAME = "name";
+	
+	/** Default title of column from result  */
 	private final static String USER_ROLE = "role";
+	
+	/** Default title of column from result  */
 	private final static String USER_EMAIL = "email";
+	
+	/** Default title of column from result  */
 	private final static String USER_BALANCE = "balance";
+	
+	/** Default title of column from result  */
 	private final static String USER_TRAFFIC = "traffic_used";
+	
+	/** Default title of column from result  */
 	private final static String USER_COUNT = "count";
+	
+	/** Default title of column from result  */
 	private final static String TARIFF_ID = "tariff_id";
+	
+	/** Default title of column from result  */
 	private final static String TARIFF_NAME = "name";
+	
+	/** Default title of column from result  */
 	private final static String TARIFF_PRICE = "price";
+	
+	/** Default title of column from result  */
 	private final static String NUMBER_CONTRACT = "contract_id";
 	
+	
+	/** Connection Pool from where take and return connection */
 	private final static ConnectionPool connectionPool;
+	
+	/** Initialization connectionPool - receiving instance of class 'ConnectionPool' */
 	static {
 		try {
 			connectionPool = ConnectionPool.getInstance();
@@ -62,6 +125,15 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
+	
+	/**
+	 * Method for authorization of the user.
+	 * 
+	 * @param login - {@link String}
+	 * @param password - {@link String}
+	 * @return User - {@link User}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public User signIn(String login, String password) throws DAOException {
 		Connection connection = null;
@@ -109,6 +181,13 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 	}
 
+	
+	/**
+	 * Method for registration of the new user.
+	 * 
+	 * @param newUser - {@link User}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public void registration(User newUser) throws DAOException {
 		Connection connection = null;
@@ -141,6 +220,14 @@ public class UserDAOImpl implements UserDAO {
 
 	}
 
+	
+	/**
+	 * Method for checking of the unique login of the user.
+	 * 
+	 * @param login - {@link String}
+	 * @return count of login
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public int uniqueLogin(String login) throws DAOException {
 		int count = 0;
@@ -180,6 +267,13 @@ public class UserDAOImpl implements UserDAO {
 		return count;
 	}
 
+	/**
+	 * Method for checking of the unique email of the user.
+	 * 
+	 * @param email - {@link String}
+	 * @return count of login
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public int uniqueEmail(String email) throws DAOException {
 		int count = 0;
@@ -219,6 +313,13 @@ public class UserDAOImpl implements UserDAO {
 		return count;
 	}
 
+	
+	/**
+	 * Method for searching with parameters of the users.
+	 * 
+	 * @return List of the users - {@link List}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public List<User> searchWithParameters() throws DAOException {
 		Connection connection = null;
@@ -265,6 +366,13 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	
+	/**
+	 * Method for searching of the user by id.
+	 * 
+	 * @param id - {@link User#id}
+	 * @return User - {@link User}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public User searchById(int id) throws DAOException {
 		Connection connection = null;
@@ -311,6 +419,14 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 	}
 
+	
+	/**
+	 * Method for calculation of active tariffs at the user.
+	 * 
+	 * @param userID - {@link User#id}
+	 * @return count of active tariffs
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public int countActiveTariffs(int userID) throws DAOException {
 		int count = 0;
@@ -350,6 +466,14 @@ public class UserDAOImpl implements UserDAO {
 		return count;
 	}
 
+	
+	/**
+	 * Method for searching of the name of the active tariff at the user.
+	 * 
+	 * @param userID - {@link User#id}
+	 * @return name of active tariff - {@link String}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public String searchActiveTariff(int userID) throws DAOException {
 		String tariffName = "";
@@ -389,6 +513,13 @@ public class UserDAOImpl implements UserDAO {
 		return tariffName;
 	}
 	
+	
+	/**
+	 * Method for deleting of the user by id.
+	 * 
+	 * @param id - {@link User#id}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public void delete(int id) throws DAOException {
 		Connection connection = null;
@@ -413,6 +544,12 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
+	/**
+	 * Method for searching of users with the negative balance.
+	 * 
+	 * @return List of the users - {@link List}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public List<User> negativeBalance() throws DAOException {
 		Connection connection = null;
@@ -458,6 +595,14 @@ public class UserDAOImpl implements UserDAO {
 		return users;
 	}
 
+	
+	/**
+	 * Method for calculation of active bans at the user.
+	 * 
+	 * @param userID - {@link User#id}
+	 * @return count of active bans
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public int countActiveBan(int userID) throws DAOException {
 		int count = 0;
@@ -497,6 +642,13 @@ public class UserDAOImpl implements UserDAO {
 		return count;
 	}
 
+	
+	/**
+	 * Method for searching of users with unlim tariffs which more than 30 days.
+	 * 
+	 * @return List of the users - {@link List}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public List<User> usersWithUnlimMore30Days() throws DAOException {
 		Connection connection = null;
@@ -548,7 +700,15 @@ public class UserDAOImpl implements UserDAO {
 
 		return users;
 	}
-
+	
+	
+	/**
+	 * Method for searching of the contract's number of the user 
+	 * 
+	 * @param userID - {@link User#id}
+	 * @return number of contract
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public int searchContractId(int userID) throws DAOException {
 		int contract = 0;

@@ -22,6 +22,8 @@ import com.epam.training.provider.service.factory.ServiceFactory;
  */
 public class DeleteTariffCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(DeleteTariffCommand.class.getName());
+	private final static String SUCCESS = "The tarif is successfully deleted, id - ";
+	private final static String UNSUCCESS = "It is impossible to delete the tariff!";
 
 	private final TariffService service;
 
@@ -39,15 +41,19 @@ public class DeleteTariffCommand implements Command {
 		try {
 			
 			service.deleteTariff(id);
-			logger.log(Level.INFO, "Tariff (id: " + id + ") has been deleted by the admin (session id:" + request.getSession(false).getId() + ")");
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			
+			request.setAttribute(REDIRECT_PARAMETER, OK);
+			request.getSession(false).setAttribute(INFO_MESSAGE, SUCCESS + id);
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
+			
+			logger.log(Level.INFO, "Tariff (id: " + id + ") has been deleted by the admin (session id:" + request.getSession(false).getId() + ")");
 			
 		} catch (ServiceException | ValidateException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to delete the tariff!");
-			logger.log(Level.ERROR, e);
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
+			
+			logger.log(Level.ERROR, e);
 			
 		}
 		return page;

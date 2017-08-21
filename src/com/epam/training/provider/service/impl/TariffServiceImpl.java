@@ -89,7 +89,7 @@ public class TariffServiceImpl implements TariffService {
 			TariffDAO dao = daoObjectFactory.getTariffDAO();
 			dao.delete(id);
 		} catch (DAOException e) {
-			throw new ServiceException("Deleting a tariff wasn't executed!" + e.getMessage(), e);
+			throw new ServiceException("Deleting a tariff wasn't executed! " + e.getMessage(), e);
 		}
 	}
 

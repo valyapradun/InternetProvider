@@ -1,5 +1,10 @@
 package com.epam.training.provider.dao.exception;
-
+/**
+ * Class DAOException.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class DAOException extends Exception {
 	private static final long serialVersionUID = 6522552330779658380L;
 

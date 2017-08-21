@@ -21,21 +21,50 @@ import com.epam.training.provider.dao.connectionPool.ConnectionPoolException;
 import com.epam.training.provider.dao.exception.DAOException;
 import com.epam.training.provider.dao.exception.DAORuntimeException;
 
+/**
+ * Class-implementation of DAO for the operations with a payment.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class PaymentDAOImpl implements PaymentDAO {
 	private final static Logger logger = LogManager.getLogger(PaymentDAOImpl.class.getName());
 	
+	/** Default SQL request for searching all payments */
 	private final static String SQL_ALL_PAYMENTS = "SELECT transaction.id, transaction.type, transaction.ammount, transaction.date FROM provider.transaction";
+	
+	/** Default SQL request for adding new payment */ 
 	private final static String SQL_NEW_PAYMENT = "INSERT INTO provider.transaction (type, ammount, date, user_id) VALUES (?, ?, ?, ?)";
+	
+	/** Default SQL request for updating the balance of user */ 
 	private final static String SQL_UPDATE_BALANCE = "UPDATE provider.user SET user.balance = user.balance + ? WHERE user.id = ?";
+	
+	/** Default SQL request for adding the tariff to the user (to buy a tariff) */ 
 	private final static String SQL_ADD_TARIFF = "INSERT INTO provider.user_to_tariff (user_id, tariff_id, begin) VALUES (?, ?, ?)";
 	
+	
+	
+	/** Default title of column from table 'transaction'  */
 	private final static String PAYMENT_ID = "id";
+	
+	/** Default title of column from table 'transaction'  */
 	private final static String PAYMENT_TYPE = "type";
+	
+	/** Default title of column from table 'transaction'  */
 	private final static String PAYMENT_AMOUNT = "ammount";
+	
+	/** Default title of column from table 'transaction'  */
 	private final static String PAYMENT_DATE = "date";
+	
+	/** Default title of column from table 'transaction'  */
 	private final static String PAYMENT_USER_ID = "userId";
 
+	
+	
+	/** Connection Pool from where take and return connection */
 	private final static ConnectionPool connectionPool;
+	
+	/** Initialization connectionPool - receiving instance of class 'ConnectionPool' */
 	static {
 		try {
 			connectionPool = ConnectionPool.getInstance();
@@ -45,6 +74,15 @@ public class PaymentDAOImpl implements PaymentDAO {
 		}
 	}
 
+	
+	
+	/**
+	 * Method for searching with parameters of the payments.
+	 * 
+	 * @param parameters - {@link Map}
+	 * @return List of the payments - {@link List}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public List<Payment> searchWithParameters(Map<String, String> parameters) throws DAOException {
 		Connection connection = null;
@@ -58,6 +96,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 			connection = connectionPool.takeConnection();
 			statement = connection.prepareStatement(SQL_ALL_PAYMENTS);
 		
+			// checking of parameters and their use in section WHERE 
 			if (!parameters.isEmpty() && (parameters.get(PAYMENT_USER_ID) != null)) {
 				where = " WHERE transaction.user_id = " + parameters.get(PAYMENT_USER_ID);
 			}
@@ -99,7 +138,12 @@ public class PaymentDAOImpl implements PaymentDAO {
 	}
 
 
-
+	/**
+	 * Method-transaction for adding a new payment and updating the balance of user.
+	 * 
+	 * @param payment - {@link Payment}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public void addNew(Payment payment) throws DAOException {
 		Connection connection = null;
@@ -153,7 +197,13 @@ public class PaymentDAOImpl implements PaymentDAO {
 	}
 
 
-
+	/**
+	 * Method-transaction for buying a new tariff and updating the balance of user.
+	 * 
+	 * @param payment - {@link Payment}
+	 * @param idTariff - {@link Tariff#id}
+	 * @throws DAOException Exception from the SQLException or ConnectionPoolException  
+	 */
 	@Override
 	public void buyNewTariff(Payment payment, int idTariff) throws DAOException {
 		Connection connection = null;
@@ -212,7 +262,6 @@ public class PaymentDAOImpl implements PaymentDAO {
 			connectionPool.freeConnection(connection);
 		}
 
-		
 	}
 
 }

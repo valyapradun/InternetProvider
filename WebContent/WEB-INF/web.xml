@@ -39,5 +39,5 @@
         <filter-name>checkAuthorization</filter-name>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> 
 </web-app>

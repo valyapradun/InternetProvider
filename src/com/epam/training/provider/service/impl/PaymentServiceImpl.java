@@ -124,7 +124,7 @@ public class PaymentServiceImpl implements PaymentService {
 		try {
 			countActiveTariffs = daoUser.countActiveTariffs(userID);
 			if (countActiveTariffs > 0) {
-				throw new ValidateException("You already have an active tariff! Finish its action, having sent the request in the section Contacts.");
+				throw new ValidateException("You already have an active tariff! Finish its action, having sent the request in your main page.");
 			}
 		} catch (DAOException e) {
 			throw new ServiceException("Сan't count active tariffs! " + e.getMessage(), e);

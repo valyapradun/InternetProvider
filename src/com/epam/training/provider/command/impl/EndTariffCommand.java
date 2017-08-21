@@ -45,7 +45,7 @@ public class EndTariffCommand implements Command {
 			
 			service.endTariff(userId);
 			logger.log(Level.INFO, "Admin (session id:" + adminId + ") has ended the tariff of the user (id user:  " + userId + ")");
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			request.setAttribute(REDIRECT_PARAMETER, OK);
 			page = request.getServletPath() + ACTION_DISPLAY_USERS;
 			session.setAttribute(INFO_MESSAGE, "The tariff of the user " + userId + " had successfully ended!");
 			

@@ -1,5 +1,10 @@
 package com.epam.training.provider.dao.exception;
-
+/**
+ * Class DAORuntimeException.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class DAORuntimeException extends RuntimeException {
 
 	private static final long serialVersionUID = 5162263907178353424L;

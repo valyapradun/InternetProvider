@@ -28,15 +28,25 @@ import java.util.concurrent.Executor;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-
-
+/**
+ * Class-implementation ConnectionPool.
+ * 
+ * @author Valentina Pradun
+ * @version 1.0
+ */
 public class ConnectionPool {
 	private final static Logger logger = LogManager.getLogger(ConnectionPool.class.getName());
 
+	/** Single instance of the class ConnectionPool */
 	private static volatile ConnectionPool instance = null;
+	
+	/** Collection for free connections */
 	private static BlockingQueue<Connection> freePool;
+	
+	/** Collection for used connections */
 	private static BlockingQueue<Connection> usedPool;
+	
+	/** Size of pool */
 	private static int poolSize = 5;
 
 	private ConnectionPool() throws ConnectionPoolException {
@@ -57,9 +67,13 @@ public class ConnectionPool {
 				PooledConnection pooledConnection = new PooledConnection(connection);
 				freePool.add(pooledConnection);
 				
-			} catch (ClassNotFoundException e) {
+			}
+			
+			catch (ClassNotFoundException e) {
 				throw new ConnectionPoolException("Can't find database driver class. ", e);
-			} catch (SQLException e) {
+			}
+			
+			catch (SQLException e) {
 				throw new ConnectionPoolException("SQLException in ConnectionPool. ", e);
 			}
 		}
@@ -116,6 +130,9 @@ public class ConnectionPool {
 	}
 
 	
+	
+	
+	/**  Inner-class PooledConnection (implements Connection) for safety ConnectionPool	 */
 	private class PooledConnection implements Connection {
 
 		private Connection connection;

@@ -24,6 +24,8 @@ import com.epam.training.provider.service.factory.ServiceFactory;
  */
 public class BuyTariffCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(BuyTariffCommand.class.getName());
+	private final static String UNSUCCESS = "It is impossible to buy of tariff! ";
+	
 	private final PaymentService service;
 
 	{
@@ -38,29 +40,33 @@ public class BuyTariffCommand implements Command {
 
 		HttpSession session = request.getSession(false);
 		User user = (User) session.getAttribute(USER);
+		
 		int userID = user.getId();
-
 		int tariffID = Integer.parseInt(request.getParameter(TARIFF_ID));
+		
 		logger.log(Level.INFO, "Purchase of a tariff: ID user - " + userID + ", ID tariff - " + tariffID);
 
 		try {
 
 			service.buyTariff(userID, tariffID);
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			request.setAttribute(REDIRECT_PARAMETER, OK);
 			page = request.getServletPath() + ACTION_SHOW_USER_PAGE;
 
 		} catch (ServiceException e) {
-
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to buy of Tariff! ");
-			logger.log(Level.ERROR, e);
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
-
+			
+			logger.log(Level.ERROR, e);
+			
 		} catch (ValidateException e) {
+		//	request.setAttribute(ERROR_MESSAGE, e.getMessage());
+			request.setAttribute(REDIRECT_PARAMETER, OK);
+			page = request.getServletPath() + ACTION_SHOW_USER_TARIFFS;
+			//page = ERROR_PAGE;
+			request.getSession(false).setAttribute(INFO_MESSAGE, e.getMessage());
 			
-			request.setAttribute(ERROR_MESSAGE, e.getMessage());
+			
 			logger.log(Level.ERROR, e);
-			page = ERROR_PAGE;
-			
 		}
 
 		return page;

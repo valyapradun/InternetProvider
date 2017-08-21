@@ -1,10 +1,13 @@
 ﻿<%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
 <!DOCTYPE html>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <html lang="ru">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<fmt:setLocale value = "${lang}" />
+<fmt:setBundle basename = "com.epam.training.provider.util.data" var = "data"/>
 <title>Домашний Интернет - Регистрация</title>
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/font-awesome.css" rel="stylesheet">
@@ -89,21 +92,27 @@
 				<div class="row">
 					<div class="col-md-6 col-lg-6 col-sm-6">
 						<ul class="list-unstyled social-link">
-							<li><a href="http://vk.com/" target="_blank"><img src="images/vk.png" title="ВКонтакте" alt="ВКонтакте"></a></li>
-							<li><a href="http://twitter.com/" target="_blank"><img src="images/twitter.png" title="Twitter" alt="Twitter"></a></li>
-							<li><a href="http://www.facebook.com/" target="_blank"><img src="images/facebook.png" title="Facebook" alt="Facebook"></a></li>
-							<li><a href="http://odnoklassniki.ru/" target="_blank"><img	src="images/odnokl.png" title="Одноклассники" alt="Одноклассники"></a></li>
-							<li><a href="http://instagram.com/" target="_blank"><img src="images/instagram.png" title="Instagram" alt="Instagram"></a></li>
+							<li><a href="http://vk.com/" target="_blank"><img
+									src="images/vk.png" title="ВКонтакте" alt="ВКонтакте"></a></li>
+							<li><a href="http://twitter.com/" target="_blank"><img
+									src="images/twitter.png" title="Twitter" alt="Twitter"></a></li>
+							<li><a href="http://www.facebook.com/" target="_blank"><img
+									src="images/facebook.png" title="Facebook" alt="Facebook"></a></li>
+							<li><a href="http://odnoklassniki.ru/" target="_blank"><img
+									src="images/odnokl.png" title="Одноклассники"
+									alt="Одноклассники"></a></li>
+							<li><a href="http://instagram.com/" target="_blank"><img
+									src="images/instagram.png" title="Instagram" alt="Instagram"></a></li>
 						</ul>
 					</div>
 					<div class="col-md-6 col-lg-6 col-sm-6">
 						<ul class="list-unstyled info">
-							<li><a href="#">Контакты</a></li>
-							<li><a href="#">Карта сайта</a></li>
-							<li><a href="#">Полезная информация</a></li>
+							<li><a href="#"><fmt:message key = "footer.contacts" bundle = "${data}"/></a></li>
+							<li><a href="#"><fmt:message key = "footer.map" bundle = "${data}"/></a></li>
+							<li><a href="#"><fmt:message key = "footer.info" bundle = "${data}"/></a></li>
 						</ul>
 						<br>
-						<p class="footer-p">&copy; 2017 «Домашний Интернет»</p>
+						<p class="footer-p">&copy; <fmt:message key = "footer.title" bundle = "${data}"/></p>
 					</div>
 				</div>
 			</div>
@@ -114,33 +123,40 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button class="close" type="button" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Авторизация</h4>
+						<h4 class="modal-title"><fmt:message key = "title.signin.page" bundle = "${data}"/></h4>
 					</div>
 					<form role="form" action="Controller" method="POST">
 						<div class="modal-body">
 							<div class="row">
 								<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3"></div>
 								<div class="col-xs-8 col-sm-8 col-md-8 col-lg-6 login-box">
+
 									<input type="hidden" name="action" value="sign_in" />
 									<div class="input-group">
-										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span> 
-										<input type="text" name="login" class="form-control" placeholder="Ваш логин" required autofocus />
+										<span class="input-group-addon"><span
+											class="glyphicon glyphicon-user"></span></span> <input type="text"
+											name="login" class="form-control" placeholder=<fmt:message key = "placeholder.login" bundle = "${data}"/>
+											required autofocus />
 									</div>
 									<div class="input-group">
-										<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span> 
-										<input type="password" name="password" class="form-control" placeholder="Ваш пароль" required />
+										<span class="input-group-addon"><span
+											class="glyphicon glyphicon-lock"></span></span> <input
+											type="password" name="password" class="form-control"
+											placeholder=<fmt:message key = "placeholder.password" bundle = "${data}"/> required />
 									</div>
-									Нет аккаунта? <a href="Controller?action=registration">Регистрация</a>
+									<fmt:message key = "placeholder.question" bundle = "${data}"/> <a href="Controller?action=registration"><fmt:message key = "title.registration.page" bundle = "${data}"/></a>
 								</div>
 								<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3"></div>
 							</div>
 						</div>
 						<div class="modal-footer">
 							<button type="submit" class="btn btn-labeled btn-success">
-								<span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span>Вход
+								<span class="btn-label"><i class="glyphicon glyphicon-ok"></i></span><fmt:message key = "button.signin.small" bundle = "${data}"/>
 							</button>
-							<button type="button" class="btn btn-labeled btn-danger" data-dismiss="modal">
-								<span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Отмена
+							<button type="button" class="btn btn-labeled btn-danger"
+								data-dismiss="modal">
+								<span class="btn-label"><i
+									class="glyphicon glyphicon-remove"></i></span><fmt:message key = "button.cancel" bundle = "${data}"/>
 							</button>
 						</div>
 					</form>

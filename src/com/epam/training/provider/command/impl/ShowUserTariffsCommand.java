@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -55,6 +56,11 @@ public class ShowUserTariffsCommand implements Command {
 			request.setAttribute(TARIFF_TYPE, typeTariff);
 			request.setAttribute(ACTION, action);
 			page = USER_TARIFFS_PAGE;
+			
+
+			HttpSession session = request.getSession(false);
+			request.setAttribute(INFO_MESSAGE, session.getAttribute(INFO_MESSAGE));
+			session.setAttribute(INFO_MESSAGE, null);
 
 		} catch (ServiceException | ValidateException e) {
 

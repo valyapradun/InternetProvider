@@ -25,6 +25,9 @@ import java.nio.charset.StandardCharsets;
  */
 public class EditTariffCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(EditTariffCommand.class.getName());
+	private final static String SUCCESS = "The tarif is successfully edited, id - ";
+	private final static String UNSUCCESS = "It is impossible to edit tariff's card! ";
+	private final static String UNSUCCESS_VALIDATION = "The tarif hasn't been edited because: ";
 
 	private final TariffService service;
 
@@ -40,27 +43,40 @@ public class EditTariffCommand implements Command {
 		
 		try {
 			service.editTariff(tariff);
-			logger.log(Level.INFO, "Tariff (id: " + tariff.getId() + ") has been edited by the admin (session id:" + request.getSession(false).getId() + ")");
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			
+			request.setAttribute(REDIRECT_PARAMETER, OK);
+			request.getSession(false).setAttribute(INFO_MESSAGE, SUCCESS + tariff.getId());
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
-			request.getSession(false).setAttribute(INFO_MESSAGE, "The tarif " + tariff.getId() + " is successfully edited.");
+			
+			logger.log(Level.INFO, "Tariff (id: " + tariff.getId() + ") has been edited by the admin (session id:" + request.getSession(false).getId() + ")");
 			
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to edit tariff's card! ");
-			logger.log(Level.ERROR, e);
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
 			
-		} catch (ValidateException e) {
 			logger.log(Level.ERROR, e);
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			
+		} catch (ValidateException e) {
+			
+			request.setAttribute(REDIRECT_PARAMETER, OK);
+			request.getSession(false).setAttribute(INFO_MESSAGE, UNSUCCESS_VALIDATION + e.getMessage());
 			page = request.getServletPath() + ACTION_DISPLAY_TARIFFS;
-			request.getSession(false).setAttribute(INFO_MESSAGE, "The tarif " + tariff.getId() + " hasn't been edited because: " + e.getMessage());
+			
+			logger.log(Level.ERROR, e);
 			
 		}
 		return page;
 	}
 
 	
+	
+	/**
+	 * Method for creation of a tariff from request parameters.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @return Tariff {@link Tariff}
+	 *           
+	 */
 	private Tariff getTariffFromRequest(HttpServletRequest request){
 		
 		int id = Integer.parseInt(request.getParameter(TARIFF_ID));
@@ -84,6 +100,13 @@ public class EditTariffCommand implements Command {
 	}
 	
 	
+	/**
+	 * Method for normalization of empty value of parameter.
+	 * 
+	 * @param parameter {@link String}
+	 * @return normalized parameter {@link String}
+	 *           
+	 */
 	private String normalize(String parameter) {
 		if (parameter.equals("")) {
 			parameter = "0";

@@ -90,8 +90,8 @@ public class Controller extends HttpServlet {
 	
 		Command command = provider.getCommand(action);
 		String page = command.execute(request, response);
-		
 		logger.log(Level.INFO, "page: " + page);
+		
 		if (request.getAttribute(REDIRECT_PARAMETER) == null) {
 			forward(request, response, page);
 		} else {

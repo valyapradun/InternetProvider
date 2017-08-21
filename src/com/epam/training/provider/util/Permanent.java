@@ -10,6 +10,7 @@ public final class Permanent {
 	public static final String ACTION_SHOW_USER_PAGE = "?action=show_user_page";
 	public static final String ACTION_REGISTRATION = "?action=sign_in";
 	public static final String ACTION_SHOW_INDEX_PAGE = "show_index_page";
+	public static final String ACTION_SHOW_USER_TARIFFS = "?action=show_user_tariffs";
 
 	/* for attribute/parameters of jsp-page */
 	public final static String ERROR_MESSAGE = "error";
@@ -18,6 +19,7 @@ public final class Permanent {
 	public static final String REDIRECT_PARAMETER = "redirectTo";
 	public static final String LANGUAGE = "lang";
 	public static final String REFERER = "referer";
+	public static final String OK = "Yes";
 	
 	/* for user */
 	public final static String USER_ID = "id";
