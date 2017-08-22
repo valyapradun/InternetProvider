@@ -24,6 +24,7 @@ import com.epam.training.provider.service.factory.ServiceFactory;
  */
 public class ShowUserPageCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(ShowUserPageCommand.class.getName());
+	private final static String UNSUCCESS = "It is impossible to display user! ";
 	
 	private final UserService service;
 
@@ -32,6 +33,15 @@ public class ShowUserPageCommand implements Command {
 		service = serviceObjectFactory.getUserService();
 	}
 
+	
+	/**
+	 * Method for processing of action of the user - 'To show user page after authentication'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -53,7 +63,7 @@ public class ShowUserPageCommand implements Command {
 			
 		} catch (ServiceException | ValidateException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to display user! ");
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			

@@ -20,6 +20,15 @@ import static com.epam.training.provider.util.Permanent.*;
 public class ShowIndexPageCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(ShowIndexPageCommand.class.getName());
 
+	
+	/**
+	 * Method for processing of action of the user - 'Show index-page'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		

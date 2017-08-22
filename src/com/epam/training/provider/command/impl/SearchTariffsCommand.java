@@ -27,6 +27,7 @@ import static com.epam.training.provider.util.Permanent.*;
 public class SearchTariffsCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(SearchTariffsCommand.class.getName());
 	private static final String LIST_TARIFFS = "tariffs";
+	private final static String UNSUCCESS = "It is impossible to display tariffs!";
 
 	private final TariffService service;
 
@@ -35,6 +36,15 @@ public class SearchTariffsCommand implements Command {
 		service = serviceObjectFactory.getTariffService();
 	}
 
+	
+	/**
+	 * Method for processing of action of the user - 'Search all tariffs'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -54,7 +64,7 @@ public class SearchTariffsCommand implements Command {
 			
 		} catch (ServiceException | ValidateException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to display tariffs!");
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			

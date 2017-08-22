@@ -24,6 +24,8 @@ import com.epam.training.provider.service.factory.ServiceFactory;
  */
 public class RemoveBanCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(RemoveBanCommand.class.getName());
+	private final static String UNSUCCESS = "It is impossible to remove the ban!";
+	private final static String SUCCESS = "The ban had successfully removed!";
 
 	private final UserService service;
 
@@ -33,6 +35,15 @@ public class RemoveBanCommand implements Command {
 				
 	}
 
+	
+	/**
+	 * Method for processing of action of the administrator - 'Remove Ban for user who has paid'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -44,14 +55,15 @@ public class RemoveBanCommand implements Command {
 		
 		try {
 			service.removeBan(adminId, userId);
+			
 			logger.log(Level.INFO, "Admin (session id:" + request.getSession(false).getId() + ") has removed the ban");
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			request.setAttribute(REDIRECT_PARAMETER, OK);
+			session.setAttribute(INFO_MESSAGE, SUCCESS);
 			page = request.getServletPath() + ACTION_DISPLAY_USERS;
-			session.setAttribute(INFO_MESSAGE, "The ban had successfully removed!");
 			
 		} catch (ServiceException | ValidateException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to remove the ban!");
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			

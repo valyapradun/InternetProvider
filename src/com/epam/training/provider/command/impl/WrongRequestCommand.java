@@ -19,6 +19,14 @@ import com.epam.training.provider.command.Command;
 public class WrongRequestCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(WrongRequestCommand.class.getName());
 
+	/**
+	 * Method for wrong command of the user.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		logger.log(Level.INFO, "User (session id:" + request.getSession(false).getId() + ") sent wrong request.");

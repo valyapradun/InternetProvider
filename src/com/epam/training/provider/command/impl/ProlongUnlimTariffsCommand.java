@@ -21,6 +21,8 @@ import com.epam.training.provider.service.factory.ServiceFactory;
  */
 public class ProlongUnlimTariffsCommand implements Command{
 	private final static Logger logger = LogManager.getLogger(ProlongUnlimTariffsCommand.class.getName());
+	private final static String UNSUCCESS = "Prolonging unlim tariffs wasn't executed! ";
+	private final static String SUCCESS = "The unlim tariffs had successfully prolonged!";
 	
 	private final PaymentService service;
 
@@ -30,21 +32,30 @@ public class ProlongUnlimTariffsCommand implements Command{
 
 	}
 
+	/**
+	 * Method for processing of action of the administrator - 'To prolong unlim tariffs which have been bought more than 30 days ago'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
 		
 		try {
 			service.prolongUnlimTariffs();
-			logger.log(Level.INFO, "Admin (session id:" + request.getSession(false).getId() + ") has prolonged unlim tariffs");
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+			
+			request.setAttribute(REDIRECT_PARAMETER, OK);
+			request.getSession(false).setAttribute(INFO_MESSAGE, SUCCESS);
 			page = request.getServletPath() + ACTION_DISPLAY_USERS;
-			request.getSession(false).setAttribute(INFO_MESSAGE, "The unlim tariffs had successfully prolonged!");
+			logger.log(Level.INFO, "Admin (session id:" + request.getSession(false).getId() + ") has prolonged unlim tariffs");
 			
 		} catch (ServiceException e) {
-			request.setAttribute(ERROR_MESSAGE, "Prolonging unlim tariffs wasn't executed! ");
-			logger.log(Level.ERROR, e);
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
+			logger.log(Level.ERROR, e);
 		}
 		
 		return page;

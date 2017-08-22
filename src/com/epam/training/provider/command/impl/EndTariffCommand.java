@@ -24,6 +24,8 @@ import static com.epam.training.provider.util.Permanent.*;
  */
 public class EndTariffCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(EndTariffCommand.class.getName());
+	private final static String UNSUCCESS = "It is impossible to end the tariff of the user! ";
+	private final static String SUCCESS = "The tariff had successfully ended, userID: ";
 
 	private final UserService service;
 
@@ -32,6 +34,15 @@ public class EndTariffCommand implements Command {
 		service = serviceObjectFactory.getUserService();
 	}
 
+	
+	/**
+	 * Method for processing of action of the administrator - 'End of the tariff of the user'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -44,16 +55,16 @@ public class EndTariffCommand implements Command {
 		try {
 			
 			service.endTariff(userId);
-			logger.log(Level.INFO, "Admin (session id:" + adminId + ") has ended the tariff of the user (id user:  " + userId + ")");
+			
 			request.setAttribute(REDIRECT_PARAMETER, OK);
+			session.setAttribute(INFO_MESSAGE, SUCCESS + userId);
 			page = request.getServletPath() + ACTION_DISPLAY_USERS;
-			session.setAttribute(INFO_MESSAGE, "The tariff of the user " + userId + " had successfully ended!");
+			logger.log(Level.INFO, "Admin (session id:" + adminId + ") has ended the tariff of the user (id user:  " + userId + ")");
 			
 		} catch (ServiceException | ValidateException e) {
-			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to end the tariff of the user! ");
-			logger.log(Level.ERROR, e);
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
+			logger.log(Level.ERROR, e);
 			
 		}
 		return page;

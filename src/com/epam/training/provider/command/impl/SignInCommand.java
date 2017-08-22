@@ -27,6 +27,8 @@ import static com.epam.training.provider.util.Permanent.*;
 public class SignInCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(SignInCommand.class.getName());
 	private Map<String, String> currentPage = new HashMap<>();
+	private final static String UNSUCCESS_SIGNIN = "Such user or password doesn't exist! Try again!";
+	private final static String UNSUCCESS = "It is impossible to sign in!";
 
 	private final UserService service;
 
@@ -40,6 +42,15 @@ public class SignInCommand implements Command {
 		currentPage.put("user", ACTION_SHOW_USER_PAGE);
 	}
 
+	
+	/**
+	 * Method for processing of action of the user - 'Sign In'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -55,7 +66,7 @@ public class SignInCommand implements Command {
 			
 			if (user == null) {
 				
-				request.setAttribute(ERROR_MESSAGE, "Such user or password doesn't exist! Try again!");
+				request.setAttribute(ERROR_MESSAGE, UNSUCCESS_SIGNIN);
 				logger.log(Level.ERROR, "Unsuccessful attempt to sign in: such user or password doesn't exist!");
 				page = ERROR_PAGE;
 				
@@ -66,13 +77,13 @@ public class SignInCommand implements Command {
 				String role = user.getRole();
 				logger.log(Level.INFO, "Successful attempt to sign in - session: " + session.getId() + ", user role: " + user.getRole() + ", user ID: " + user.getId());
 						
-				request.setAttribute(REDIRECT_PARAMETER, "Yes");
+				request.setAttribute(REDIRECT_PARAMETER, OK);
 				page = request.getServletPath() + currentPage.get(role);
 			}
 
 		} catch (ServiceException | ValidateException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to sign in!");
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			logger.log(Level.ERROR, "It is impossible to sign in!" + e);
 			page = ERROR_PAGE;
 			

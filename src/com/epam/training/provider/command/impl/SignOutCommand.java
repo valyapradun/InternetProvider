@@ -20,6 +20,15 @@ import static com.epam.training.provider.util.Permanent.*;
 public class SignOutCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(SignOutCommand.class.getName());
 
+	
+	/**
+	 * Method for processing of action of the user - 'Sign Out'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = INDEX_PAGE;

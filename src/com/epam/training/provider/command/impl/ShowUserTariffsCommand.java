@@ -29,6 +29,7 @@ import com.epam.training.provider.service.factory.ServiceFactory;
 public class ShowUserTariffsCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(ShowUserTariffsCommand.class.getName());
 	private static final String LIST_TARIFFS = "tariffs";
+	private final static String UNSUCCESS = "It is impossible to display tariffs!";
 
 	private final TariffService service;
 
@@ -37,6 +38,15 @@ public class ShowUserTariffsCommand implements Command {
 		service = serviceObjectFactory.getTariffService();
 	}
 
+	
+	/**
+	 * Method for processing of action of the user - 'Show tariffs with criteria (type)'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -55,16 +65,16 @@ public class ShowUserTariffsCommand implements Command {
 			request.setAttribute(LIST_TARIFFS, tariffs);
 			request.setAttribute(TARIFF_TYPE, typeTariff);
 			request.setAttribute(ACTION, action);
-			page = USER_TARIFFS_PAGE;
 			
-
 			HttpSession session = request.getSession(false);
 			request.setAttribute(INFO_MESSAGE, session.getAttribute(INFO_MESSAGE));
 			session.setAttribute(INFO_MESSAGE, null);
+			
+			page = USER_TARIFFS_PAGE;
 
 		} catch (ServiceException | ValidateException e) {
 
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to display tariffs!");
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 

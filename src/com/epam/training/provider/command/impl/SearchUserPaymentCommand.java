@@ -31,6 +31,7 @@ public class SearchUserPaymentCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(SearchUserPaymentCommand.class.getName());
 	private static final String USER_ID = "userId";
 	private static final String LIST_PAYMENTS = "transactions";
+	private final static String UNSUCCESS = "It is impossible to display transactions!";
 	
 	private final PaymentService service;
 	
@@ -40,6 +41,15 @@ public class SearchUserPaymentCommand implements Command {
 
 	}
 
+	
+	/**
+	 * Method for processing of action of the user - 'Search all payments of user'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -64,7 +74,7 @@ public class SearchUserPaymentCommand implements Command {
 			
 		} catch (ServiceException | ValidateException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to display transactions!");
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			logger.log(Level.ERROR, e);
 			page = ERROR_PAGE;
 			

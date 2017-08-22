@@ -25,6 +25,7 @@ import com.epam.training.provider.service.factory.ServiceFactory;
 public class SearchOneTariffCommand implements Command{
 	private final static Logger logger = LogManager.getLogger(SearchOneTariffCommand.class.getName());
 	private final static String TARIFF = "tariff";
+	private final static String UNSUCCESS = "It is impossible to show a tariff card";
 	
 	private final TariffService service;
 
@@ -33,6 +34,15 @@ public class SearchOneTariffCommand implements Command{
 		service = serviceObjectFactory.getTariffService();
 	}
 
+	
+	/**
+	 * Method for processing of action of the administrator - 'Search the tariff'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -49,8 +59,8 @@ public class SearchOneTariffCommand implements Command{
 			
 		} catch (ServiceException | ValidateException e ) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to show a tariff card");
 			logger.log(Level.ERROR, e);
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
 			
 		}

@@ -25,6 +25,8 @@ import com.epam.training.provider.service.factory.ServiceFactory;
  */
 public class PutBanCommand implements Command {
 	private final static Logger logger = LogManager.getLogger(PutBanCommand.class.getName());
+	private final static String UNSUCCESS = "It is impossible to put the ban!";
+	private final static String SUCCESS = "The bans had successfully added!";
 
 	private final UserService service;
 
@@ -34,6 +36,15 @@ public class PutBanCommand implements Command {
 				
 	}
 
+	
+	/**
+	 * Method for processing of action of the administrator - 'Put Ban for users who have negative balance'.
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @return jsp-page {@link String}
+	 *           
+	 */
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String page = null;
@@ -44,16 +55,17 @@ public class PutBanCommand implements Command {
 		
 		try {
 			service.putBan(adminId);
-			logger.log(Level.INFO, "Admin (session id:" + request.getSession(false).getId() + ") has put the ban");
-			request.setAttribute(REDIRECT_PARAMETER, "Yes");
+		
+			request.setAttribute(REDIRECT_PARAMETER, OK);
+			session.setAttribute(INFO_MESSAGE, SUCCESS);
 			page = request.getServletPath() + ACTION_DISPLAY_USERS;
-			session.setAttribute(INFO_MESSAGE, "The bans had successfully added!");
+			logger.log(Level.INFO, "Admin (session id:" + request.getSession(false).getId() + ") has put the ban");
 			
 		} catch (ServiceException | ValidateException e) {
 			
-			request.setAttribute(ERROR_MESSAGE, "It is impossible to put the ban!");
-			logger.log(Level.ERROR, e);
+			request.setAttribute(ERROR_MESSAGE, UNSUCCESS);
 			page = ERROR_PAGE;
+			logger.log(Level.ERROR, e);
 			
 		}
 		return page;
